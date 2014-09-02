@@ -1,17 +1,16 @@
 <idea-plugin version="2">
-  <id>com.yourcompany.unique.plugin.id</id>
-  <name>Plugin display name here</name>
-  <version>1.0</version>
-  <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
+  <id>anton_dev_ua.PipeTableFormatter</id>
+  <name>Pipe Table Formatter</name>
+  <version>0.1</version>
+  <vendor email="" url=""></vendor>
 
   <description><![CDATA[
-      Enter short description for your plugin here.<br>
-      <em>most HTML tags may be used</em>
+      Small plugin to format text tables where columns delimited by pipe "|".
+      For example, can be used to format JBehave examples table.
     ]]></description>
 
   <change-notes><![CDATA[
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>
+      Very first variant of plugin.
     ]]>
   </change-notes>
 
