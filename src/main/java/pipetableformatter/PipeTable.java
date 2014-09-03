@@ -33,7 +33,7 @@ public class PipeTable {
     }
 
     private void parseLine(String line, String endOfLine) {
-        String[] columns = line.trim().replaceAll("(^\\|\\s*)|(\\s*\\|$)", "").split("\\s*\\|\\s*");
+        String[] columns = line.trim().replaceAll("(^\\|\\s*)|(\\s*\\|$)", "").split("\\s*(\\||,)\\s*");
         PipeTableRow row = new PipeTableRow(columns, endOfLine);
         rememberMaxLength(row.size());
         table.add(row);

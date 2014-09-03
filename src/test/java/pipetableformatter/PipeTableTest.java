@@ -52,4 +52,12 @@ public class PipeTableTest {
         assertThat(pipeTable.rows()[2].endOfLine(), is(""));
     }
 
+    @Test
+    public void parsesTableDelimitedByComma(){
+        PipeTable pipeTable = new PipeTable(",column1,column2");
+        assertThat(pipeTable.getValue(0, 0), is(""));
+        assertThat(pipeTable.getValue(0, 1), is("column1"));
+        assertThat(pipeTable.getValue(0, 2), is("column2"));
+    }
+
 }
