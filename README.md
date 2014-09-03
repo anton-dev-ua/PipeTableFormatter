@@ -32,5 +32,5 @@ Installation
 Usage
 -----
 
-1. Select text that should formatted.
-2. Choose action Pipe Table Formatter in menu Code.
+1. Select text that should be formatted.
+2. Choose action Pipe Table Formatter in Code menu.
