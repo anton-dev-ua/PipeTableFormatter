@@ -13,6 +13,13 @@ text like:
 |val1|val2|
 </pre>
 
+or like:
+
+<pre>
+Header 1,Header 2
+val1,val2
+</pre>
+
 is formatted to:
 
 <pre>
