@@ -1,6 +1,7 @@
 package pipetableformatter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class PipeTable {
@@ -33,10 +34,28 @@ public class PipeTable {
     }
 
     private void parseLine(String line, String endOfLine) {
-        String[] columns = line.trim().replaceAll("(^\\|\\s*)|(\\s*\\|$)", "").split("\\s*(\\||,)\\s*");
+        String clearedLine = line.trim().replaceAll("(^\\|\\s*)|(\\s*\\|$)", "");
+
+        List<String> columns = splitForColumns(clearedLine);
+
         PipeTableRow row = new PipeTableRow(columns, endOfLine);
         rememberMaxLength(row.size());
         table.add(row);
+    }
+
+    private List<String> splitForColumns(String clearedLine) {
+        String[] quoted = clearedLine.split("\"");
+
+        List<String> columns = new ArrayList<String>();
+        for (int index = clearedLine.startsWith("\"") ? 1 : 0; index < quoted.length; index++) {
+            if (index % 2 == 0) {
+                String subColumns = index > 0 ? quoted[index].trim().replaceAll("(^\\|)|(^,)", "") : quoted[index];
+                columns.addAll(Arrays.asList(subColumns.split("\\s*(\\||,)\\s*")));
+            } else {
+                columns.add(quoted[index]);
+            }
+        }
+        return columns;
     }
 
     private void rememberMaxLength(int size) {

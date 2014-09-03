@@ -60,4 +60,18 @@ public class PipeTableTest {
         assertThat(pipeTable.getValue(0, 2), is("column2"));
     }
 
+    @Test
+    public void ignoresCommasInsideDoubleQuotes(){
+        PipeTable pipeTable = new PipeTable(" \"col1val1,col1val2\",column2");
+        assertThat(pipeTable.getValue(0,0), is("col1val1,col1val2"));
+        assertThat(pipeTable.getValue(0,1), is("column2"));
+    }
+
+    @Test
+    public void ignoresPipeInsideDoubleQuotes(){
+        PipeTable pipeTable = new PipeTable(" |\"col1val1|col1val2\"|column2|");
+        assertThat(pipeTable.getValue(0,0), is("col1val1|col1val2"));
+        assertThat(pipeTable.getValue(0,1), is("column2"));
+    }
+
 }

@@ -8,9 +8,9 @@ public class PipeTableRow {
     List<String> row;
     private String endOfLine;
 
-    public PipeTableRow(String[] columns, String endOfLine) {
+    public PipeTableRow(List<String> columns, String endOfLine) {
         this.endOfLine = endOfLine != null ? endOfLine : "";
-        row = new ArrayList<String>(Arrays.asList(columns));
+        row = new ArrayList<String>(columns);
     }
 
     public int size() {
