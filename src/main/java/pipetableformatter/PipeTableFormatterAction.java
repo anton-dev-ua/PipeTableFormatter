@@ -26,6 +26,7 @@ public class PipeTableFormatterAction extends EditorAction {
     private static class MyHandler extends EditorActionHandler {
 
         PipeTableFormatter pipeTableFormatter = new PipeTableFormatter();
+        TableDetector tableDetector = new TableDetector();
 
         @Override
         public void execute(final Editor editor, final DataContext dataContext) {
@@ -37,7 +38,15 @@ public class PipeTableFormatterAction extends EditorAction {
                             SelectionModel selectionModel = editor.getSelectionModel();
 
                             if (!selectionModel.hasSelection()) {
-                                selectionModel.selectLineAtCaret();
+
+                                int currentPosition = editor.getCaretModel().getOffset();
+                                String text = editor.getDocument().getText();
+                                Range tableRange = tableDetector.findTableRange(text, currentPosition);
+
+                                if (Range.EMPTY != tableRange) {
+                                    selectionModel.setSelection(tableRange.getStart(), tableRange.getEnd());
+                                }
+
                             }
 
                             final String text = selectionModel.getSelectedText();

@@ -39,5 +39,5 @@ Installation
 Usage
 -----
 
-1. Select text that should be formatted.
+1. Select text that should be formatted or just put caret somewhere inside a table.
 2. Choose action Pipe Table Formatter in Code menu.

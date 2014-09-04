@@ -1,7 +1,7 @@
 <idea-plugin version="2">
   <id>anton_dev_ua.PipeTableFormatter</id>
   <name>Pipe Table Formatter</name>
-  <version>0.2</version>
+  <version>0.2.1</version>
   <vendor email="" url=""></vendor>
 
   <description><![CDATA[
@@ -16,6 +16,10 @@
     ]]></description>
 
   <change-notes><![CDATA[
+        <h4>Version 0.2.1</h4>
+        <ul>
+            <li>Autoselect table around caret position</li>
+        </ul>
         <h4>Version 0.2</h4>
         <ul>
             <li>Support for comma delimited tables (converting to pipe delimited)</li>
