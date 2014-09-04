@@ -53,7 +53,7 @@ public class PipeTableTest {
     }
 
     @Test
-    public void parsesTableDelimitedByComma(){
+    public void splitsLineForColumnsByComma(){
         PipeTable pipeTable = new PipeTable(",column1,column2");
         assertThat(pipeTable.getValue(0, 0), is(""));
         assertThat(pipeTable.getValue(0, 1), is("column1"));
@@ -72,6 +72,12 @@ public class PipeTableTest {
         PipeTable pipeTable = new PipeTable(" |\"col1val1|col1val2\"|column2|");
         assertThat(pipeTable.getValue(0,0), is("col1val1|col1val2"));
         assertThat(pipeTable.getValue(0,1), is("column2"));
+    }
+
+    @Test
+    public void treatsTwoDoubleQuotesInsideQuotesAsOne(){
+        PipeTable pipeTable = new PipeTable(" |\"val1\"\"val2\"|column2|");
+        assertThat(pipeTable.getValue(0,0), is("val1\"val2"));
     }
 
 }

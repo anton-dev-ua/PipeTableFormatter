@@ -1,7 +1,6 @@
 package pipetableformatter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class PipeTable {
@@ -34,26 +33,17 @@ public class PipeTable {
     }
 
     private void parseLine(String line, String endOfLine) {
-        String clearedLine = line.trim().replaceAll("(^\\|\\s*)|(\\s*\\|$)", "");
-
-        List<String> columns = splitForColumns(clearedLine);
-
-        PipeTableRow row = new PipeTableRow(columns, endOfLine);
+        PipeTableRow row = new PipeTableRow(splitForColumns(line), endOfLine);
         rememberMaxLength(row.size());
         table.add(row);
     }
 
-    private List<String> splitForColumns(String clearedLine) {
-        String[] quoted = clearedLine.split("\"");
-
+    private List<String> splitForColumns(String line) {
         List<String> columns = new ArrayList<String>();
-        for (int index = clearedLine.startsWith("\"") ? 1 : 0; index < quoted.length; index++) {
-            if (index % 2 == 0) {
-                String subColumns = index > 0 ? quoted[index].trim().replaceAll("(^\\|)|(^,)", "") : quoted[index];
-                columns.addAll(Arrays.asList(subColumns.split("\\s*(\\||,)\\s*")));
-            } else {
-                columns.add(quoted[index]);
-            }
+
+        ColumnSplitter columnSplitter = new ColumnSplitter(line);
+        while(columnSplitter.hasValue()) {
+            columns.add(columnSplitter.nextValue().trim());
         }
         return columns;
     }
@@ -80,48 +70,4 @@ public class PipeTable {
         return maxRowSize;
     }
 
-    private static class LineSplitter {
-        private String notFormattedText;
-        private int startIndex;
-        private int endIndex;
-        private String endOfLine;
-
-        public LineSplitter(String notFormattedText) {
-            this.notFormattedText = notFormattedText;
-            startIndex = 0;
-            endIndex = 0;
-            endOfLine = "";
-        }
-
-        public String getEndOfLine() {
-            return endOfLine;
-        }
-
-        public String nextLine() {
-
-
-            int winEof = notFormattedText.indexOf(WIN_EOF, startIndex);
-            int linuxEof = notFormattedText.indexOf(LINUX_EOF, startIndex);
-
-            if (winEof < 0 && linuxEof < 0) {
-                endIndex = notFormattedText.length();
-                endOfLine = "";
-            } else if (winEof > 0 && winEof < linuxEof) {
-                endIndex = winEof;
-                endOfLine = WIN_EOF;
-            } else {
-                endIndex = linuxEof;
-                endOfLine = LINUX_EOF;
-            }
-
-            String line = notFormattedText.substring(startIndex, endIndex);
-            startIndex = endIndex + endOfLine.length();
-
-            return line;
-        }
-
-        public boolean hasMoreLines() {
-            return startIndex < notFormattedText.length();
-        }
-    }
 }
