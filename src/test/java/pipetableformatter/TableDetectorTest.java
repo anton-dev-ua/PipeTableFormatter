@@ -15,6 +15,13 @@ public class TableDetectorTest {
             "|value 11|value 12|value 13|\n" +
             "|value 21|value 22|value 33|\n";
 
+    public static final String TEXT_WITH_TABLE_NO_LAST_EOL = "" +
+            "this line not in table\n" +
+            "\n" +
+            "|header 1|header 2|header 3|\n" +
+            "|value 11|value 12|value 13|\n" +
+            "|value 21|value 22|value 33|";
+
     public static final String TEXT_WITH_TABLE_COMMA = "" +
             "this line not in table\n" +
             "\n" +
@@ -82,6 +89,13 @@ public class TableDetectorTest {
 
         assertThat(range.getStart(), is(0));
         assertThat(range.getEnd(), is(60));
+    }
+
+    @Test
+    public void canDetectTableIfNoLastEOL(){
+        Range range = tableDetector.findTableRange(TEXT_WITH_TABLE_NO_LAST_EOL, 67);
+
+        assertThat(range.getEnd(), is(110));
     }
 
 }

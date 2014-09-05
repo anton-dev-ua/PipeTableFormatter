@@ -24,6 +24,7 @@ public class TableDetector {
         while (delimiterCount == delimiterCountEtalon && endLineIndex < text.length() - 1) {
             int startIndex = endLineIndex;
             endLineIndex = text.indexOf("\n", endLineIndex + 1);
+            if(endLineIndex<0) endLineIndex = text.length();
             delimiterCount = delimitersCount(text, startIndex, endLineIndex);
             if (delimiterCount != delimiterCountEtalon) endLineIndex = startIndex;
         }
