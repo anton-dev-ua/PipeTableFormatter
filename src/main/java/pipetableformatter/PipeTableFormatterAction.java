@@ -41,7 +41,7 @@ public class PipeTableFormatterAction extends EditorAction {
 
                                 int currentPosition = editor.getCaretModel().getOffset();
                                 String text = editor.getDocument().getText();
-                                Range tableRange = tableDetector.findTableRange(text, currentPosition);
+                                Range tableRange = tableDetector.find(text, currentPosition);
 
                                 if (Range.EMPTY != tableRange) {
                                     selectionModel.setSelection(tableRange.getStart(), tableRange.getEnd());

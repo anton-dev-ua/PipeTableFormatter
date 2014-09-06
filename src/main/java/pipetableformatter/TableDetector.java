@@ -2,61 +2,99 @@ package pipetableformatter;
 
 public class TableDetector {
 
-    public static final String DELIMITERS = "|,";
+    public static final char PIPE = '|';
+    public static final char COMMA = ',';
 
-    public Range findTableRange(String text, int position) {
+    public Range find(String text, int position) {
 
         text = "\n" + text;
-        int endLineIndex = text.indexOf("\n", position);
-        int startLineIndex = text.lastIndexOf("\n", position);
+        int lineEndIndex = text.indexOf("\n", position);
+        int lineStartIndex = text.lastIndexOf("\n", position);
 
-        int delimiterCountEtalon = delimitersCount(text, startLineIndex, endLineIndex);
-        if (delimiterCountEtalon == 0) return Range.EMPTY;
+        DelimitersCount delimitersCount = calcDelimitersCount(text, lineEndIndex, lineStartIndex);
+        
+        if (delimitersCount.isZero()) return Range.EMPTY;
 
-        startLineIndex = findStartOfTable(text, startLineIndex, delimiterCountEtalon);
-        endLineIndex = findEndOfTable(text, endLineIndex, delimiterCountEtalon);
+        lineStartIndex = findStartOfTable(text, lineStartIndex, delimitersCount);
+        lineEndIndex = findEndOfTable(text, lineEndIndex, delimitersCount);
 
-        return new Range(startLineIndex, endLineIndex - 1);
+        return new Range(lineStartIndex, lineEndIndex - 1);
     }
 
-    private int findEndOfTable(String text, int endLineIndex, int delimiterCountEtalon) {
-        int delimiterCount = delimiterCountEtalon;
-        while (delimiterCount == delimiterCountEtalon && endLineIndex < text.length() - 1) {
+    private DelimitersCount calcDelimitersCount(String text, int lineEndIndex, int lineStartIndex) {
+        return new DelimitersCount(
+                charCount(text, PIPE, lineStartIndex, lineEndIndex), 
+                charCount(text, COMMA, lineStartIndex, lineEndIndex)
+        );
+    }
+
+    private int findEndOfTable(String text, int endLineIndex, DelimitersCount delimitersCountEtalon) {
+
+        DelimitersCount delimitersCount = delimitersCountEtalon;
+
+        while (delimitersCountEtalon.isSameCount(delimitersCount) && endLineIndex < text.length() - 1) {
             int startIndex = endLineIndex;
             endLineIndex = text.indexOf("\n", endLineIndex + 1);
             if(endLineIndex<0) endLineIndex = text.length();
-            delimiterCount = delimitersCount(text, startIndex, endLineIndex);
-            if (delimiterCount != delimiterCountEtalon) endLineIndex = startIndex;
+            delimitersCount = calcDelimitersCount(text, endLineIndex, startIndex);
+            if (delimitersCountEtalon.isDifferentCount(delimitersCount)) endLineIndex = startIndex;
         }
         return endLineIndex;
     }
 
-    private int findStartOfTable(String text, int startLineIndex, int delimiterCountEtalon) {
-        int delimiterCount = delimiterCountEtalon;
-        while (delimiterCount == delimiterCountEtalon && startLineIndex > 0) {
+    private int findStartOfTable(String text, int startLineIndex, DelimitersCount delimitersCountEtalon) {
+        DelimitersCount delimitersCount = delimitersCountEtalon;
+
+        while (delimitersCountEtalon.isSameCount(delimitersCount) && startLineIndex > 0) {
             int endIndex = startLineIndex;
             startLineIndex = text.lastIndexOf("\n", startLineIndex - 1);
-            delimiterCount = delimitersCount(text, startLineIndex, endIndex);
-            if (delimiterCount != delimiterCountEtalon) startLineIndex = endIndex;
+            delimitersCount = calcDelimitersCount(text, endIndex, startLineIndex);
+            if (delimitersCountEtalon.isDifferentCount(delimitersCount)) startLineIndex = endIndex;
         }
         return startLineIndex;
     }
 
-    private int delimitersCount(String text, int start, int end) {
+    private int charCount(String text, char delimiter, int start, int end) {
         boolean quoted = false;
         int count = 0;
         for (int index = start; index < end; index++) {
             if (text.charAt(index) == '"') {
                 quoted = !quoted;
             }
-            if (!quoted && isDelimiter(text.charAt(index))) {
+            if (!quoted && text.charAt(index) == delimiter) {
                 count++;
             }
         }
         return count;
     }
 
-    private boolean isDelimiter(char ch) {
-        return DELIMITERS.indexOf(ch) >= 0;
+    private static class DelimitersCount {
+        private int pipe;
+        private int comma;
+
+        public DelimitersCount(int pipeCount, int commaCount) {
+            pipe = pipeCount;
+            comma = commaCount;
+        }
+
+        public int getPipe() {
+            return pipe;
+        }
+
+        public int getComma() {
+            return comma;
+        }
+
+        public boolean isSameCount(DelimitersCount count){
+            return (pipe == count.getPipe() && pipe > 0) || (comma == count.getComma() && comma > 0);
+        }
+
+        public boolean isZero() {
+            return pipe == 0 && comma == 0;
+        }
+
+        public boolean isDifferentCount(DelimitersCount delimitersCount) {
+            return !isSameCount(delimitersCount);
+        }
     }
 }

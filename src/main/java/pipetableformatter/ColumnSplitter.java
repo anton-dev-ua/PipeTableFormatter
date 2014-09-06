@@ -1,22 +1,24 @@
 package pipetableformatter;
 
 public class ColumnSplitter {
-    public static final String DELIMITERS = "|,";
+    public static final String PIPE = "|";
     private String line;
     private int startIndex = 0;
     private int length = 0;
     private boolean insideQuoted = false;
     private boolean quoted = false;
+    private Character delimiter;
 
-    public ColumnSplitter(String line) {
+    public ColumnSplitter(String line, Character delimiter) {
+        this.delimiter = delimiter;
         this.line = line.trim();
         init();
     }
 
     private void init() {
         length = line.length();
-        if (line.startsWith("|")) startIndex = 1;
-        if (line.endsWith("|")) length--;
+        if (line.startsWith(PIPE)) startIndex = 1;
+        if (line.endsWith(PIPE)) length--;
     }
 
     public String nextValue() {
@@ -34,7 +36,7 @@ public class ColumnSplitter {
     }
 
     private boolean notDelimiter(int index) {
-        return insideQuoted || !(DELIMITERS.indexOf(line.charAt(index)) >= 0);
+        return insideQuoted || line.charAt(index) != delimiter;
     }
 
     private void detectQuoted(int index) {

@@ -80,4 +80,18 @@ public class PipeTableTest {
         assertThat(pipeTable.getValue(0,0), is("val1\"val2"));
     }
 
+    @Test
+    public void doesNotTreatCommaAsDelimiterInPipeDelimitedTable(){
+        PipeTable pipeTable = new PipeTable("|value 1|value 2.1, value 2.2|");
+        assertThat(pipeTable.getColumnCount(), is(2));
+        assertThat(pipeTable.getValue(0,1), is("value 2.1, value 2.2"));
+    }
+
+    @Test
+    public void doesNotTreatPipeAsDelimiterInCommaDelimitedTable(){
+        PipeTable pipeTable = new PipeTable("value 1, value 2.1| value 2.2, value 3");
+        assertThat(pipeTable.getColumnCount(), is(3));
+        assertThat(pipeTable.getValue(0,1), is("value 2.1| value 2.2"));
+    }
+
 }

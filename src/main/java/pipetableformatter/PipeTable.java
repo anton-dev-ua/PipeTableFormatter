@@ -1,5 +1,7 @@
 package pipetableformatter;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,22 +28,27 @@ public class PipeTable {
     private void parseText(String notFormattedText) {
 
         LineSplitter lineSplitter = new LineSplitter(notFormattedText);
+        Character delimiter = detectDelimiter(notFormattedText);
 
         do {
-            parseLine(lineSplitter.nextLine(), lineSplitter.getEndOfLine());
+            parseLine(lineSplitter.nextLine(), delimiter, lineSplitter.getEndOfLine());
         } while (lineSplitter.hasMoreLines());
     }
 
-    private void parseLine(String line, String endOfLine) {
-        PipeTableRow row = new PipeTableRow(splitForColumns(line), endOfLine);
+    private Character detectDelimiter(String text) {
+        return StringUtils.countMatches(text,"|") > StringUtils.countMatches(text,",") ? '|' : ',';
+    }
+
+    private void parseLine(String line, Character delimiter, String endOfLine) {
+        PipeTableRow row = new PipeTableRow(splitForColumns(line, delimiter), endOfLine);
         rememberMaxLength(row.size());
         table.add(row);
     }
 
-    private List<String> splitForColumns(String line) {
+    private List<String> splitForColumns(String line, Character delimiter) {
         List<String> columns = new ArrayList<String>();
 
-        ColumnSplitter columnSplitter = new ColumnSplitter(line);
+        ColumnSplitter columnSplitter = new ColumnSplitter(line, delimiter);
         while(columnSplitter.hasValue()) {
             columns.add(columnSplitter.nextValue().trim());
         }
