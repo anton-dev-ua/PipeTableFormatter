@@ -1,7 +1,7 @@
 <idea-plugin version="2" url="https://github.com/anton-dev-ua/PipeTableFormatter">
   <id>anton_dev_ua.PipeTableFormatter</id>
   <name>Pipe Table Formatter</name>
-  <version>0.2.1</version>
+  <version>0.2.2</version>
   <vendor email="" url="https://github.com/anton-dev-ua/PipeTableFormatter"></vendor>
 
   <description><![CDATA[
@@ -17,6 +17,11 @@
     ]]></description>
 
   <change-notes><![CDATA[
+        <h4>Version 0.2.2</h4>
+        <ul>
+            <li>Don't mix delimiters when detecting and parsing table, i.e. if table delimiter is pipe then comma is not treated as a delimiter.</li>
+        </ul>
+
         <h4>Version 0.2.1</h4>
         <ul>
             <li>Autoselect table around caret position</li>

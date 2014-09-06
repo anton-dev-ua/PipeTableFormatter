@@ -8,6 +8,7 @@ public class TableDetector {
     public Range find(String text, int position) {
 
         text = "\n" + text;
+
         int lineEndIndex = text.indexOf("\n", position);
         int lineStartIndex = text.lastIndexOf("\n", position);
 
