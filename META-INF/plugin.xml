@@ -1,4 +1,4 @@
-<idea-plugin version="2">
+<idea-plugin version="2" url="https://github.com/anton-dev-ua/PipeTableFormatter">
   <id>anton_dev_ua.PipeTableFormatter</id>
   <name>Pipe Table Formatter</name>
   <version>0.2.1</version>
@@ -10,8 +10,9 @@
             Small plugin to format text tables delimited by pipe (|) or comma.
             For example, can be used to format JBehave examples table.
         </p>
+
         <h2>Usage</h2>
-        <p> Select text in the editor and run action "Format Pipe Table" in Code menu.
+        <p> Select text in the editor or place caret inside a table and choose action "Format Pipe Table" in Code menu.
         </p>
     ]]></description>
 
@@ -20,11 +21,13 @@
         <ul>
             <li>Autoselect table around caret position</li>
         </ul>
+
         <h4>Version 0.2</h4>
         <ul>
             <li>Support for comma delimited tables (converting to pipe delimited)</li>
             <li>Support for quoted values</li>
         </ul>
+
         <h4>Version 0.1</h4>
         <ul>
             <li>Formatting pipe delimited table to human readable representation</li>
