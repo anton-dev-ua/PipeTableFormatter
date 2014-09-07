@@ -125,6 +125,13 @@ public class TableDetectorTest {
     }
 
     @Test
+    public void canDetectTableIfNoLastEOLAndCaretAtLastLine(){
+        Range range = tableDetector.find(TEXT_WITH_TABLE_NO_LAST_EOL, 98);
+
+        assertThat(range.getEnd(), is(110));
+    }
+
+    @Test
     public void ignoresCommaInsidePipeTable() {
         Range range = tableDetector.find(PIPE_TABLE_CONTAINS_VALUE_WITH_COMMA, 37);
 

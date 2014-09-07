@@ -51,9 +51,10 @@ public class PipeTableFormatterAction extends EditorAction {
 
                             final String text = selectionModel.getSelectedText();
 
-                            String formattedText = pipeTableFormatter.format(text);
-
-                            editor.getDocument().replaceString(selectionModel.getSelectionStart(), selectionModel.getSelectionEnd(), formattedText);
+                            if (text != null) {
+                                String formattedText = pipeTableFormatter.format(text);
+                                editor.getDocument().replaceString(selectionModel.getSelectionStart(), selectionModel.getSelectionEnd(), formattedText);
+                            }
                         }
 
                     });
