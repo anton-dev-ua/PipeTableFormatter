@@ -31,6 +31,13 @@ public class PipeTableTest {
     }
 
     @Test
+    public void splitsLineForColumnsByTab() {
+        PipeTable pipeTable = new PipeTable("column1\tcolumn2");
+        assertThat(pipeTable.getValue(0, 0), is("column1"));
+        assertThat(pipeTable.getValue(0, 1), is("column2"));
+    }
+
+    @Test
     public void removesLeadingAndTrailingSpacesOfValues() {
         PipeTable pipeTable = new PipeTable("| column1    | column2   |  column3   |");
         assertThat(pipeTable.getValue(0, 0), is("column1"));

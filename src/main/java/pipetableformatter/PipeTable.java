@@ -36,7 +36,7 @@ public class PipeTable {
     }
 
     private Character detectDelimiter(String text) {
-        return StringUtils.countMatches(text,"|") > StringUtils.countMatches(text,",") ? '|' : ',';
+        return new DelimitersCount(text).mostFrequent();
     }
 
     private void parseLine(String line, Character delimiter, String endOfLine) {

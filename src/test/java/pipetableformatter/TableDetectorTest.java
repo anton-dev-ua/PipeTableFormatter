@@ -29,6 +29,13 @@ public class TableDetectorTest {
             "value 11,value 12,value 13\n" +
             "value 21,value 22,value 33\n";
 
+    public static final String TEXT_WITH_TABLE_TAB = "" +
+            "this line not in table\n" +
+            "\n" +
+            "header 1\theader 2\theader 3\n" +
+            "value 11\tvalue 12\tvalue 13\n" +
+            "value 21\tvalue 22\tvalue 33\n";
+
     public static final String TEXT_WITH_COMMA_INSIDE_QUOTES = "" +
             "header 1,header 2,header 3\n" +
             "value 11,\"val1,val2\",value 13\n";
@@ -75,6 +82,21 @@ public class TableDetectorTest {
     @Test
     public void detectsEndOfTheTableDelimitedWithComma(){
         Range range = tableDetector.find(TEXT_WITH_TABLE_COMMA, 67);
+
+        assertThat(range.getEnd(), is(104));
+    }
+
+    @Test
+    public void detectsStartOfTheTableDelimitedWithTab() {
+
+        Range range = tableDetector.find(TEXT_WITH_TABLE_TAB, 67);
+
+        assertThat(range.getStart(), is(24));
+    }
+
+    @Test
+    public void detectsEndOfTheTableDelimitedWithTab(){
+        Range range = tableDetector.find(TEXT_WITH_TABLE_TAB, 67);
 
         assertThat(range.getEnd(), is(104));
     }
