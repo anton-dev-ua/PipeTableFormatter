@@ -1,7 +1,7 @@
 <idea-plugin version="2" url="https://github.com/anton-dev-ua/PipeTableFormatter">
     <id>anton_dev_ua.PipeTableFormatter</id>
     <name>Pipe Table Formatter</name>
-    <version>0.2.2</version>
+    <version>0.2.3.SNAPSHOT</version>
     <vendor email="" url="https://github.com/anton-dev-ua/PipeTableFormatter"></vendor>
 
     <description><![CDATA[
