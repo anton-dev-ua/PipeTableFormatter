@@ -9,9 +9,9 @@ Features
 --------
 
 - Formats block of text that represents a table: width of a column becomes constant from top to bottom by adjusting it to most wide value in the column. 
-- Supported delimiters: pipe, comma, tab
+- Supported delimiters: pipe, comma, tab.
 - Any of supported delimiters, when formatting, are converted to pipe.
-- If text is not selected explicitly - autodetects start and end of the table around a caret
+- If text is not selected explicitly - autodetects start and end of the table around a caret.
 
 Example
 -------
