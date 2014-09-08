@@ -3,9 +3,15 @@ PipeTableFormatter
 
 Small IDEA plugin for formatting text blocks that represents a table delimited by pipe (|). For example, can be used to format JBehave examples table.
 
-Thanks to Idris Ahmed ([idrisahmed251] (https://github.com/idrisahmed251)) for an idea to treat comma as delimiter too. This makes possible easily convert csv tables (e.g. exported from excel) to JBehave examples tables.  
+Thanks to Idris Ahmed ([idrisahmed251] (https://github.com/idrisahmed251)) and to Jesse Kuhnert ([jkuhnert] (https://github.com/jkuhnert)) for ideas to use comma and tab as delimeters.  
 
-Supported delimiters: pipe, comma, tab. When formatting any of supported delimiters are converted to pipe.
+Features
+--------
+
+- Formats block of text that represents a table: width of a column becomes constant from top to bottom by adjusting it to most wide value in the column. 
+- Supported delimiters: pipe, comma, tab
+- Any of supported delimiters, when formatting, are converted to pipe.
+- If text is not selected explicitly - autodetects start and end of the table around a caret
 
 Example
 -------
