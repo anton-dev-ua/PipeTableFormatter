@@ -5,7 +5,6 @@
     <vendor email="" url="https://github.com/anton-dev-ua/PipeTableFormatter"></vendor>
 
     <description><![CDATA[
-        <h1>Pipe Table Formatter</h1>
         Small plugin for formatting text blocks that represents a table delimited by pipe (|).
         For example, can be used to format JBehave examples table.<br>
         <br>
