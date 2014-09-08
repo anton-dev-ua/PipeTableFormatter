@@ -34,11 +34,7 @@ is formatted to:
 Installation
 -----------
 
-1. [Download jar file] (https://raw.githubusercontent.com/anton-dev-ua/PipeTableFormatter/master/PipeTableFormatter.jar) with plugin.
-2. Go to Preferences/Plugins (Settings/Plugins).
-3. Choose "Install plugin from disk".
-4. Select downloaded file.
-5. Restart IDEA.
+From Plugin Repository: http://plugins.jetbrains.com/plugin/7550
 
 Usage
 -----
