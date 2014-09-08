@@ -12,7 +12,7 @@ import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
 public class PipeTableFormatterAction extends EditorAction {
 
     public PipeTableFormatterAction() {
-        super(new MyHandler());
+        super(new FormatActionHandler());
     }
 
     @Override
@@ -23,7 +23,7 @@ public class PipeTableFormatterAction extends EditorAction {
         }
     }
 
-    private static class MyHandler extends EditorActionHandler {
+    private static class FormatActionHandler extends EditorActionHandler {
 
         PipeTableFormatter pipeTableFormatter = new PipeTableFormatter();
         TableDetector tableDetector = new TableDetector();
@@ -38,22 +38,28 @@ public class PipeTableFormatterAction extends EditorAction {
                             SelectionModel selectionModel = editor.getSelectionModel();
 
                             if (!selectionModel.hasSelection()) {
-
-                                int currentPosition = editor.getCaretModel().getOffset();
-                                String text = editor.getDocument().getText();
-                                Range tableRange = tableDetector.find(text, currentPosition);
-
-                                if (Range.EMPTY != tableRange) {
-                                    selectionModel.setSelection(tableRange.getStart(), tableRange.getEnd());
-                                }
-
+                                autoselectTable(selectionModel);
                             }
 
                             final String text = selectionModel.getSelectedText();
 
                             if (text != null) {
                                 String formattedText = pipeTableFormatter.format(text);
-                                editor.getDocument().replaceString(selectionModel.getSelectionStart(), selectionModel.getSelectionEnd(), formattedText);
+                                editor.getDocument().replaceString(
+                                        selectionModel.getSelectionStart(),
+                                        selectionModel.getSelectionEnd(),
+                                        formattedText
+                                );
+                            }
+                        }
+
+                        private void autoselectTable(SelectionModel selectionModel) {
+                            int currentPosition = editor.getCaretModel().getOffset();
+                            String text = editor.getDocument().getText();
+                            Range tableRange = tableDetector.find(text, currentPosition);
+
+                            if (Range.EMPTY != tableRange) {
+                                selectionModel.setSelection(tableRange.getStart(), tableRange.getEnd());
                             }
                         }
 
