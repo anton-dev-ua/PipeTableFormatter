@@ -25,13 +25,14 @@ public class PipeTableFormatterAction extends EditorAction {
 
     private static class FormatActionHandler extends EditorActionHandler {
 
-        PipeTableFormatter pipeTableFormatter = new PipeTableFormatter();
-        TableDetector tableDetector = new TableDetector();
+        private PipeTableFormatter pipeTableFormatter = new PipeTableFormatter();
+        private TableDetector tableDetector = new TableDetector();
 
         @Override
         public void execute(final Editor editor, final DataContext dataContext) {
             ApplicationManager.getApplication().runWriteAction(
                     new Runnable() {
+
                         @Override
                         public void run() {
 
@@ -41,15 +42,8 @@ public class PipeTableFormatterAction extends EditorAction {
                                 autoselectTable(selectionModel);
                             }
 
-                            final String text = selectionModel.getSelectedText();
-
-                            if (text != null) {
-                                String formattedText = pipeTableFormatter.format(text);
-                                editor.getDocument().replaceString(
-                                        selectionModel.getSelectionStart(),
-                                        selectionModel.getSelectionEnd(),
-                                        formattedText
-                                );
+                            if (selectionModel.hasSelection()) {
+                                formatTable(selectionModel);
                             }
                         }
 
@@ -61,6 +55,16 @@ public class PipeTableFormatterAction extends EditorAction {
                             if (Range.EMPTY != tableRange) {
                                 selectionModel.setSelection(tableRange.getStart(), tableRange.getEnd());
                             }
+                        }
+
+                        private void formatTable(SelectionModel selectionModel) {
+                            String text = selectionModel.getSelectedText();
+                            String formattedText = pipeTableFormatter.format(text);
+                            editor.getDocument().replaceString(
+                                    selectionModel.getSelectionStart(),
+                                    selectionModel.getSelectionEnd(),
+                                    formattedText
+                            );
                         }
 
                     });
