@@ -1,9 +1,11 @@
 PipeTableFormatter
 ==================
 
-Small plugin for Intellij IDEA to format table delimited by pipe "|". For example, can be used to format JBehave examples table.
+Small IDEA plugin for formatting text blocks that represents a table delimited by pipe (|). For example, can be used to format JBehave examples table.
 
 Thanks to Idris Ahmed ([idrisahmed251] (https://github.com/idrisahmed251)) for an idea to treat comma as delimiter too. This makes possible easily convert csv tables (e.g. exported from excel) to JBehave examples tables.  
+
+Supported delimiters: pipe, comma, tab. When formatting any of supported delimiters are converted to pipe.
 
 Example
 -------

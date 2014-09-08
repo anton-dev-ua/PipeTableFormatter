@@ -1,72 +1,77 @@
 <idea-plugin version="2" url="https://github.com/anton-dev-ua/PipeTableFormatter">
-  <id>anton_dev_ua.PipeTableFormatter</id>
-  <name>Pipe Table Formatter</name>
-  <version>0.2.2</version>
-  <vendor email="" url="https://github.com/anton-dev-ua/PipeTableFormatter"></vendor>
+    <id>anton_dev_ua.PipeTableFormatter</id>
+    <name>Pipe Table Formatter</name>
+    <version>0.2.2</version>
+    <vendor email="" url="https://github.com/anton-dev-ua/PipeTableFormatter"></vendor>
 
-  <description><![CDATA[
+    <description><![CDATA[
         <h1>Pipe Table Formatter</h1>
-        <p>
-            Small plugin to format text tables delimited by pipe (|) or comma.
-            For example, can be used to format JBehave examples table.
-        </p>
+        Small plugin for formatting text blocks that represents a table delimited by pipe (|).
+        For example, can be used to format JBehave examples table.<br>
+        <br>
 
-        <h2>Usage</h2>
-        <p> Select text in the editor or place caret inside a table and choose action "Format Pipe Table" in Code menu.
-        </p>
+        Supported delimiters: pipe, comma, tab.
+        When formatting any of supported delimiters are replaced with pipe.<br>
+        <br>
+
+        <b>Usage</b><br>
+        Select text in the editor or place caret inside a table
+        and choose action "Format Pipe Table" in Code menu.<br>
     ]]></description>
 
-  <change-notes><![CDATA[
-        <h4>Version 0.2.2</h4>
+    <change-notes><![CDATA[
+        <b>Version 0.2.2</b>
         <ul>
             <li>Don't mix delimiters when detecting and parsing table, i.e. if table delimiter is pipe then comma is not treated as a delimiter.</li>
+            <li>Support for tab delimiter</li>
         </ul>
 
-        <h4>Version 0.2.1</h4>
+        <b>Version 0.2.1</b>
         <ul>
             <li>Autoselect table around caret position</li>
         </ul>
 
-        <h4>Version 0.2</h4>
+        <b>Version 0.2</b>
         <ul>
             <li>Support for comma delimited tables (converting to pipe delimited)</li>
             <li>Support for quoted values</li>
         </ul>
 
-        <h4>Version 0.1</h4>
+        <b>Version 0.1</b>
         <ul>
             <li>Formatting pipe delimited table to human readable representation</li>
         </ul>
     ]]>
-  </change-notes>
+    </change-notes>
 
-  <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Build+Number+Ranges for description -->
-  <idea-version since-build="123"/>
+    <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Build+Number+Ranges for description -->
+    <idea-version since-build="123"/>
 
-  <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
-       on how to target different products -->
-  <!-- uncomment to enable plugin in all products
-  <depends>com.intellij.modules.lang</depends>
-  -->
+    <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
+         on how to target different products -->
+    <!-- uncomment to enable plugin in all products
+    <depends>com.intellij.modules.lang</depends>
+    -->
 
-  <extensions defaultExtensionNs="com.intellij">
-    <!-- Add your extensions here -->
-  </extensions>
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
 
-  <application-components>
-    <!-- Add your application components here -->
-  </application-components>
+    <application-components>
+        <!-- Add your application components here -->
+    </application-components>
 
-  <project-components>
-    <!-- Add your project components here -->
-  </project-components>
+    <project-components>
+        <!-- Add your project components here -->
+    </project-components>
 
-  <actions>
-    <!-- Add your actions here -->
-      <action id="PipeTableFormatter.Format" class="pipetableformatter.PipeTableFormatterAction" text="Format Pipe Table"
-              description="Formats table with pipe delimiters">
-          <add-to-group group-id="CodeMenu" anchor="last"/>
-      </action>
-  </actions>
+    <actions>
+        <!-- Add your actions here -->
+        <action id="PipeTableFormatter.Format" class="pipetableformatter.PipeTableFormatterAction"
+                text="Format Pipe Table"
+                description="Formats table with pipe delimiters">
+            <add-to-group group-id="CodeMenu" anchor="last"/>
+        </action>
+    </actions>
 
 </idea-plugin>
