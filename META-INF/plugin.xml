@@ -1,7 +1,7 @@
 <idea-plugin version="2" url="https://github.com/anton-dev-ua/PipeTableFormatter">
     <id>anton_dev_ua.PipeTableFormatter</id>
     <name>Pipe Table Formatter</name>
-    <version>0.2.3.SNAPSHOT</version>
+    <version>0.2.4.SNAPSHOT</version>
     <vendor email="" url="https://github.com/anton-dev-ua/PipeTableFormatter"></vendor>
 
     <description><![CDATA[
@@ -19,6 +19,10 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <b>Version 0.2.3</b>
+        <ul>
+            <li>Fixed bug: plugin crashed when column has zero width (no values in the column)</li>
+        </ul>
         <b>Version 0.2.2</b>
         <ul>
             <li>Don't mix delimiters when detecting and parsing table, i.e. if table delimiter is pipe then comma is not treated as a delimiter.</li>

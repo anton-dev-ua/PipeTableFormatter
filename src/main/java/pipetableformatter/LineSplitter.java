@@ -1,6 +1,6 @@
 package pipetableformatter;
 
-class LineSplitter {
+public class LineSplitter {
     private String notFormattedText;
     private int startIndex;
     private int endIndex;

@@ -20,7 +20,7 @@ public class PipeTableFormatter {
             buffer.append(PIPE);
             int columnIndex = 0;
             for (String value : row.columns()) {
-                String formattedValue = String.format("%-" + columnsMaxLength[columnIndex] + "s", value);
+                String formattedValue = padValue(columnsMaxLength[columnIndex], value);
                 buffer.append(" ").append(formattedValue).append(" ").append(PIPE);
                 columnIndex++;
             }
@@ -29,13 +29,21 @@ public class PipeTableFormatter {
         return buffer.toString();
     }
 
+    private String padValue(int width, String value) {
+        if (width > 0) {
+            return String.format("%-" + width + "s", value);
+        } else {
+            return "";
+        }
+    }
+
     private int[] calculateColumnsMaxLength(PipeTable table) {
         int[] columnsMaxLength = new int[table.getColumnCount()];
 
         for (PipeTableRow row : table.rows()) {
             int columnIndex = 0;
             for (String value : row.columns()) {
-                if(value.length()>columnsMaxLength[columnIndex]){
+                if (value.length() > columnsMaxLength[columnIndex]) {
                     columnsMaxLength[columnIndex] = value.length();
                 }
                 columnIndex++;

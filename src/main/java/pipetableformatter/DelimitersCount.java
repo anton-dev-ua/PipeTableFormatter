@@ -3,7 +3,7 @@ package pipetableformatter;
 import java.util.HashMap;
 import java.util.Map;
 
-class DelimitersCount {
+public class DelimitersCount {
 
     private static final char[] delimiters = new char[]{'|', ',', '\t'};
 
