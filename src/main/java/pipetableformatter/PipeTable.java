@@ -6,8 +6,12 @@ import java.util.List;
 public class PipeTable {
 
     List<Row> table;
+    private int selectedRow;
+    private int selectedColumn;
 
-    public PipeTable(List<Row> table) {
+    public PipeTable(List<Row> table, int selectedRow, int selectedColumn) {
+        this.selectedRow = selectedRow;
+        this.selectedColumn = selectedColumn;
         this.table = new ArrayList<Row>(table);
     }
 
@@ -27,6 +31,20 @@ public class PipeTable {
         return table.size() > 0 ? table.get(0).size() : 0;
     }
 
+    public int getSelectedRow() {
+        return selectedRow;
+    }
+
+    public int getSelectedColumn() {
+        return selectedColumn;
+    }
+
+    public void addColumnBeforeSelected() {
+        for (Row row : table) {
+            row.add(selectedColumn, "");
+        }
+    }
+
     static class Row {
         List<Cell> row;
         private String endOfLine;
@@ -42,6 +60,10 @@ public class PipeTable {
 
         public void add(String value) {
             row.add(new Cell(value));
+        }
+
+        public void add(int column, String value) {
+            row.add(column, new Cell(value));
         }
 
         public String get(int column) {

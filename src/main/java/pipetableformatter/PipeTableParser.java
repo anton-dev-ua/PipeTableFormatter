@@ -8,24 +8,35 @@ public class PipeTableParser {
     public static final String LINUX_EOF = "\n";
     public List<PipeTable.Row> parserTable = new ArrayList<PipeTable.Row>();
     public int maxRowSize = 0;
+    private int caretPosition;
+    private int selectedRow = -1;
+    private Character delimiter;
+    private int selectedColumn = -1;
+    private int currentLineStartIndex;
 
-    public PipeTable parse(String notFormattedText) {
-        return new PipeTable(parseText(notFormattedText));
+    public PipeTable parse(String notFormattedText, int caretPosition) {
+        this.caretPosition = caretPosition;
+        parseText(notFormattedText);
+        return new PipeTable(parserTable, selectedRow, selectedColumn);
 
     }
 
-    private List<PipeTable.Row> parseText(String notFormattedText) {
+    private void parseText(String notFormattedText) {
 
         LineSplitter lineSplitter = new LineSplitter(notFormattedText);
-        Character delimiter = detectDelimiter(notFormattedText);
+        delimiter = detectDelimiter(notFormattedText);
 
         for (String line : lineSplitter) {
-            parseLine(line, delimiter, lineSplitter.getEndOfLine());
+            boolean rowWithCaret = false;
+            if (caretPosition >= lineSplitter.currentLineStartIndex() && caretPosition <= lineSplitter.currentLineEndIndex()) {
+                selectedRow = lineSplitter.currentLineIndex();
+                currentLineStartIndex = lineSplitter.currentLineStartIndex();
+                rowWithCaret = true;
+            }
+            parseLine(line, lineSplitter.getEndOfLine(), rowWithCaret);
         }
 
         normalizeRows();
-        return parserTable;
-
     }
 
     private void normalizeRows() {
@@ -40,18 +51,21 @@ public class PipeTableParser {
         return new DelimitersCount(text).mostFrequent();
     }
 
-    private void parseLine(String line, Character delimiter, String endOfLine) {
-        PipeTable.Row row = new PipeTable.Row(splitForColumns(line, delimiter), endOfLine);
+    private void parseLine(String line, String endOfLine, boolean rowWithCaret) {
+        PipeTable.Row row = new PipeTable.Row(splitForColumns(line, rowWithCaret), endOfLine);
         rememberMaxLength(row.size());
         parserTable.add(row);
     }
 
-    private List<PipeTable.Cell> splitForColumns(String line, Character delimiter) {
+    private List<PipeTable.Cell> splitForColumns(String line, boolean rowWithCaret) {
         List<PipeTable.Cell> columns = new ArrayList<PipeTable.Cell>();
 
         ColumnSplitter columnSplitter = new ColumnSplitter(line, delimiter);
         for (String value : columnSplitter) {
             columns.add(new PipeTable.Cell(value));
+            if (rowWithCaret && caretPosition >= columnSplitter.currentColumnStartIndex() + currentLineStartIndex && caretPosition <= columnSplitter.currentColumnEndIndex() + currentLineStartIndex) {
+                selectedColumn = columnSplitter.currentColumnIndex();
+            }
         }
         return columns;
     }

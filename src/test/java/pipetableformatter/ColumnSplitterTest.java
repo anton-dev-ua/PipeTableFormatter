@@ -49,4 +49,14 @@ public class ColumnSplitterTest {
         assertThat(columnSplitter.currentColumnEndIndex(), is(9));
     }
 
+    @Test
+    public void incrementsColumnIndex() {
+        ColumnSplitter columnSplitter = new ColumnSplitter("|col1|col2|col3|", '|');
+        int index = 0;
+        for(String value : columnSplitter) {
+            assertThat(columnSplitter.currentColumnIndex(), is(index));
+            index++;
+        }
+    }
+
 }

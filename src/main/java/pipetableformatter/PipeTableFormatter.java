@@ -6,7 +6,7 @@ public class PipeTableFormatter {
 
     public String format(String notFormattedText) {
 
-        PipeTable table = new PipeTableParser().parse(notFormattedText);
+        PipeTable table = new PipeTableParser().parse(notFormattedText, 0);
 
         return formatPipeTable(table);
     }
@@ -50,5 +50,9 @@ public class PipeTableFormatter {
             }
         }
         return columnsMaxLength;
+    }
+
+    public String format(PipeTable pipeTable) {
+        return formatPipeTable(pipeTable);
     }
 }

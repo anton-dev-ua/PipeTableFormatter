@@ -11,6 +11,7 @@ public class ColumnSplitter implements Iterable<String>, Iterator<String> {
     private boolean quoted = false;
     private Character delimiter;
     private int prevStartIndex;
+    private int columnIndex;
 
     public ColumnSplitter(String line, Character delimiter) {
         this.delimiter = delimiter;
@@ -22,6 +23,7 @@ public class ColumnSplitter implements Iterable<String>, Iterator<String> {
         length = line.length();
         if (line.startsWith(PIPE)) startIndex = 1;
         if (line.endsWith(PIPE)) length--;
+        columnIndex = -1;
     }
 
     @Override
@@ -33,6 +35,7 @@ public class ColumnSplitter implements Iterable<String>, Iterator<String> {
         String value = line.substring(startIndex, endIndex);
         prevStartIndex = startIndex;
         startIndex = endIndex + 1;
+        columnIndex++;
         return openQuotes(value);
     }
 
@@ -89,5 +92,9 @@ public class ColumnSplitter implements Iterable<String>, Iterator<String> {
     @Override
     public void remove() {
         throw new UnsupportedOperationException();
+    }
+
+    public int currentColumnIndex() {
+        return columnIndex;
     }
 }

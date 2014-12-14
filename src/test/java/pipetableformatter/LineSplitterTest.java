@@ -47,5 +47,15 @@ public class LineSplitterTest {
         assertThat(lineSplitter.currentLineEndIndex(), is(9));
     }
 
+    @Test
+    public void incrementsLineIndex() {
+        LineSplitter lineSplitter = new LineSplitter("row1\nrow2\nrow3\n");
+        int index = 0;
+        for(String line : lineSplitter){
+            assertThat(lineSplitter.currentLineIndex(), is(index));
+            index++;
+        }
+    }
+
 
 }

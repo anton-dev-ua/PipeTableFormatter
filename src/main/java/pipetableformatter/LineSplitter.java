@@ -8,12 +8,14 @@ public class LineSplitter implements Iterable<String>, Iterator<String> {
     private int endIndex;
     private String endOfLine;
     private int prevStartIndex;
+    private int lineIndex;
 
     public LineSplitter(String notFormattedText) {
         this.notFormattedText = notFormattedText;
         startIndex = 0;
         endIndex = 0;
         endOfLine = "";
+        lineIndex = -1;
     }
 
     @Override
@@ -37,6 +39,7 @@ public class LineSplitter implements Iterable<String>, Iterator<String> {
         String line = notFormattedText.substring(startIndex, endIndex);
         prevStartIndex = startIndex;
         startIndex = endIndex + endOfLine.length();
+        lineIndex++;
 
         return line;
     }
@@ -66,5 +69,9 @@ public class LineSplitter implements Iterable<String>, Iterator<String> {
 
     public int currentLineEndIndex() {
         return startIndex - 1;
+    }
+
+    public int currentLineIndex() {
+        return lineIndex;
     }
 }

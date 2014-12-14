@@ -79,6 +79,10 @@
                     text="Format Pipe Table"
                     description="Formats table with pipe delimiters">
             </action>
+            <action id="PipeTableFormatter.AddColumnBefore" class="pipetableformatter.plugin.PipeTableAddColumnBeforeAction"
+                    text="Add Column Before"
+                    description="Add Column Before">
+            </action>
             <action id="PipeTableFormatter.Format2" class="pipetableformatter.plugin.PipeTableSelectAction"
                     text="Select Table"
                     description="Select table">
