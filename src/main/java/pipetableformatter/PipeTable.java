@@ -5,58 +5,10 @@ import java.util.List;
 
 public class PipeTable {
 
-    public static final String WIN_EOF = "\r\n";
-    public static final String LINUX_EOF = "\n";
-    List<PipeTableRow> table = new ArrayList<PipeTableRow>();
-    int maxRowSize = 0;
+    List<Row> table;
 
-    public PipeTable(String notFormattedText) {
-        parseText(notFormattedText);
-        normalizeRows();
-    }
-
-    private void normalizeRows() {
-        for (PipeTableRow row : table) {
-            for (int i = row.size(); i < maxRowSize; i++) {
-                row.add("");
-            }
-        }
-    }
-
-    private void parseText(String notFormattedText) {
-
-        LineSplitter lineSplitter = new LineSplitter(notFormattedText);
-        Character delimiter = detectDelimiter(notFormattedText);
-
-        do {
-            parseLine(lineSplitter.nextLine(), delimiter, lineSplitter.getEndOfLine());
-        } while (lineSplitter.hasMoreLines());
-    }
-
-    private Character detectDelimiter(String text) {
-        return new DelimitersCount(text).mostFrequent();
-    }
-
-    private void parseLine(String line, Character delimiter, String endOfLine) {
-        PipeTableRow row = new PipeTableRow(splitForColumns(line, delimiter), endOfLine);
-        rememberMaxLength(row.size());
-        table.add(row);
-    }
-
-    private List<String> splitForColumns(String line, Character delimiter) {
-        List<String> columns = new ArrayList<String>();
-
-        ColumnSplitter columnSplitter = new ColumnSplitter(line, delimiter);
-        while(columnSplitter.hasValue()) {
-            columns.add(columnSplitter.nextValue().trim());
-        }
-        return columns;
-    }
-
-    private void rememberMaxLength(int size) {
-        if (size > maxRowSize) {
-            maxRowSize = size;
-        }
+    public PipeTable(List<Row> table) {
+        this.table = new ArrayList<Row>(table);
     }
 
     public int getRowCount() {
@@ -67,12 +19,53 @@ public class PipeTable {
         return table.get(row).get(column);
     }
 
-    public PipeTableRow[] rows() {
-        return table.toArray(new PipeTableRow[table.size()]);
+    public Row[] rows() {
+        return table.toArray(new Row[table.size()]);
     }
 
     public int getColumnCount() {
-        return maxRowSize;
+        return table.size() > 0 ? table.get(0).size() : 0;
     }
 
+    static class Row {
+        List<Cell> row;
+        private String endOfLine;
+
+        public Row(List<Cell> columns, String endOfLine) {
+            this.endOfLine = endOfLine != null ? endOfLine : "";
+            row = new ArrayList<Cell>(columns);
+        }
+
+        public int size() {
+            return row.size();
+        }
+
+        public void add(String value) {
+            row.add(new Cell(value));
+        }
+
+        public String get(int column) {
+            return row.get(column).getValue();
+        }
+
+        public Cell[] columns() {
+            return row.toArray(new Cell[row.size()]);
+        }
+
+        public String endOfLine() {
+            return endOfLine;
+        }
+    }
+
+    static class Cell {
+        private String value;
+
+        public Cell(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
+    }
 }

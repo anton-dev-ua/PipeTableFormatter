@@ -20,18 +20,18 @@ public class LineSplitter {
     public String nextLine() {
 
 
-        int winEof = notFormattedText.indexOf(PipeTable.WIN_EOF, startIndex);
-        int linuxEof = notFormattedText.indexOf(PipeTable.LINUX_EOF, startIndex);
+        int winEof = notFormattedText.indexOf(PipeTableParser.WIN_EOF, startIndex);
+        int linuxEof = notFormattedText.indexOf(PipeTableParser.LINUX_EOF, startIndex);
 
         if (winEof < 0 && linuxEof < 0) {
             endIndex = notFormattedText.length();
             endOfLine = "";
         } else if (winEof > 0 && winEof < linuxEof) {
             endIndex = winEof;
-            endOfLine = PipeTable.WIN_EOF;
+            endOfLine = PipeTableParser.WIN_EOF;
         } else {
             endIndex = linuxEof;
-            endOfLine = PipeTable.LINUX_EOF;
+            endOfLine = PipeTableParser.LINUX_EOF;
         }
 
         String line = notFormattedText.substring(startIndex, endIndex);

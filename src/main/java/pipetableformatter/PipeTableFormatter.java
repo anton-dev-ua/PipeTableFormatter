@@ -6,7 +6,7 @@ public class PipeTableFormatter {
 
     public String format(String notFormattedText) {
 
-        PipeTable table = new PipeTable(notFormattedText);
+        PipeTable table = new PipeTableParser().parse(notFormattedText);
 
         return formatPipeTable(table);
     }
@@ -16,11 +16,11 @@ public class PipeTableFormatter {
         int[] columnsMaxLength = calculateColumnsMaxLength(table);
 
         StringBuffer buffer = new StringBuffer();
-        for (PipeTableRow row : table.rows()) {
+        for (PipeTable.Row row : table.rows()) {
             buffer.append(PIPE);
             int columnIndex = 0;
-            for (String value : row.columns()) {
-                String formattedValue = padValue(columnsMaxLength[columnIndex], value);
+            for (PipeTable.Cell cell : row.columns()) {
+                String formattedValue = padValue(columnsMaxLength[columnIndex], cell.getValue());
                 buffer.append(" ").append(formattedValue).append(" ").append(PIPE);
                 columnIndex++;
             }
@@ -40,11 +40,11 @@ public class PipeTableFormatter {
     private int[] calculateColumnsMaxLength(PipeTable table) {
         int[] columnsMaxLength = new int[table.getColumnCount()];
 
-        for (PipeTableRow row : table.rows()) {
+        for (PipeTable.Row row : table.rows()) {
             int columnIndex = 0;
-            for (String value : row.columns()) {
-                if (value.length() > columnsMaxLength[columnIndex]) {
-                    columnsMaxLength[columnIndex] = value.length();
+            for (PipeTable.Cell cell : row.columns()) {
+                if (cell.getValue().length() > columnsMaxLength[columnIndex]) {
+                    columnsMaxLength[columnIndex] = cell.getValue().length();
                 }
                 columnIndex++;
             }
