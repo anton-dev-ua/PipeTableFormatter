@@ -1,4 +1,4 @@
-package pipetableformatter;
+package pipetableformatter.plugin;
 
 import com.intellij.openapi.actionSystem.ActionPlaces;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -8,6 +8,9 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.openapi.editor.actionSystem.EditorAction;
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
+import pipetableformatter.PipeTableFormatter;
+import pipetableformatter.Range;
+import pipetableformatter.TableDetector;
 
 public class PipeTableFormatterAction extends EditorAction {
 

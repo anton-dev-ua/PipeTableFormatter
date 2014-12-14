@@ -74,7 +74,7 @@
 
     <actions>
         <!-- Add your actions here -->
-        <action id="PipeTableFormatter.Format" class="pipetableformatter.PipeTableFormatterAction"
+        <action id="PipeTableFormatter.Format" class="pipetableformatter.plugin.PipeTableFormatterAction"
                 text="Format Pipe Table"
                 description="Formats table with pipe delimiters">
             <add-to-group group-id="CodeMenu" anchor="last"/>
