@@ -2,13 +2,11 @@ package pipetableformatter.plugin;
 
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.SelectionModel;
-import pipetableformatter.PipeTableFormatter;
 import pipetableformatter.Range;
 import pipetableformatter.TableDetector;
 
 public class Select implements Runnable {
 
-    private TableDetector tableDetector = new TableDetector();
     private Editor editor;
 
 
@@ -24,7 +22,7 @@ public class Select implements Runnable {
     private void autoselectTable(SelectionModel selectionModel) {
         int currentPosition = editor.getCaretModel().getOffset();
         String text = editor.getDocument().getText();
-        Range tableRange = tableDetector.find(text, currentPosition);
+        Range tableRange = new TableDetector(text).find(currentPosition);
 
         if (Range.EMPTY != tableRange) {
             selectionModel.setSelection(tableRange.getStart(), tableRange.getEnd());

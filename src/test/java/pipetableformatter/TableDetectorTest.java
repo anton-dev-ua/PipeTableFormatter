@@ -55,25 +55,17 @@ public class TableDetectorTest {
     public static final int TAB_TABLE_START_POS = 24;
     public static final int TAB_TABLE_END_POS = 104;
 
-    private TableDetector tableDetector;
-
-    @Before
-    public void setUp() {
-        tableDetector = new TableDetector();
-
-    }
-
     @Test
     public void detectsStartOfTheTableDelimitedWithPipe() {
 
-        Range range = tableDetector.find(TEXT_WITH_TABLE_PIPE, 67);
+        Range range = new TableDetector(TEXT_WITH_TABLE_PIPE).find(67);
 
         assertThat(range.getStart(), is(PIPE_TABLE_START_POS));
     }
 
     @Test
     public void detectsEndOfTheTableDelimitedWithPipe(){
-        Range range = tableDetector.find(TEXT_WITH_TABLE_PIPE, 67);
+        Range range = new TableDetector(TEXT_WITH_TABLE_PIPE).find(67);
 
         assertThat(range.getEnd(), is(PIPE_TABLE_END_POS));
     }
@@ -81,14 +73,14 @@ public class TableDetectorTest {
     @Test
     public void detectsStartOfTheTableDelimitedWithComma() {
 
-        Range range = tableDetector.find(TEXT_WITH_TABLE_COMMA, 67);
+        Range range = new TableDetector(TEXT_WITH_TABLE_COMMA).find(67);
 
         assertThat(range.getStart(), is(COMMA_TABLE_START_POS));
     }
 
     @Test
     public void detectsEndOfTheTableDelimitedWithComma(){
-        Range range = tableDetector.find(TEXT_WITH_TABLE_COMMA, 67);
+        Range range = new TableDetector(TEXT_WITH_TABLE_COMMA).find(67);
 
         assertThat(range.getEnd(), is(COMMA_TABLE_END_POS));
     }
@@ -96,21 +88,21 @@ public class TableDetectorTest {
     @Test
     public void detectsStartOfTheTableDelimitedWithTab() {
 
-        Range range = tableDetector.find(TEXT_WITH_TABLE_TAB, 67);
+        Range range = new TableDetector(TEXT_WITH_TABLE_TAB).find(67);
 
         assertThat(range.getStart(), is(TAB_TABLE_START_POS));
     }
 
     @Test
     public void detectsEndOfTheTableDelimitedWithTab(){
-        Range range = tableDetector.find(TEXT_WITH_TABLE_TAB, 67);
+        Range range = new TableDetector(TEXT_WITH_TABLE_TAB).find(67);
 
         assertThat(range.getEnd(), is(TAB_TABLE_END_POS));
     }
 
     @Test
     public void ignoresCommasInsideQuotes() {
-        Range range = tableDetector.find(TEXT_WITH_COMMA_INSIDE_QUOTES, 37);
+        Range range = new TableDetector(TEXT_WITH_COMMA_INSIDE_QUOTES).find(37);
 
         assertThat(range.getStart(), is(0));
         assertThat(range.getEnd(), is(TEXT_WITH_COMMA_INSIDE_QUOTES.length()-1));
@@ -118,7 +110,7 @@ public class TableDetectorTest {
 
     @Test
     public void ignoresPipeInsideQuotes() {
-        Range range = tableDetector.find(TEXT_WITH_PIPE_INSIDE_QUOTES, 37);
+        Range range = new TableDetector(TEXT_WITH_PIPE_INSIDE_QUOTES).find(37);
 
         assertThat(range.getStart(), is(0));
         assertThat(range.getEnd(), is(TEXT_WITH_PIPE_INSIDE_QUOTES.length()-1));
@@ -126,21 +118,21 @@ public class TableDetectorTest {
 
     @Test
     public void canDetectTableIfNoLastEOL(){
-        Range range = tableDetector.find(TEXT_WITH_TABLE_NO_LAST_EOL, 67);
+        Range range = new TableDetector(TEXT_WITH_TABLE_NO_LAST_EOL).find(67);
 
         assertThat(range.getEnd(), is(TEXT_WITH_TABLE_NO_LAST_EOL.length()));
     }
 
     @Test
     public void canDetectTableIfNoLastEOLAndCaretAtLastLine(){
-        Range range = tableDetector.find(TEXT_WITH_TABLE_NO_LAST_EOL, 98);
+        Range range = new TableDetector(TEXT_WITH_TABLE_NO_LAST_EOL).find(98);
 
         assertThat(range.getEnd(), is(TEXT_WITH_TABLE_NO_LAST_EOL.length()));
     }
 
     @Test
     public void ignoresCommaInsidePipeTable() {
-        Range range = tableDetector.find(PIPE_TABLE_CONTAINS_VALUE_WITH_COMMA, 37);
+        Range range = new TableDetector(PIPE_TABLE_CONTAINS_VALUE_WITH_COMMA).find(37);
 
         assertThat(range.getStart(), is(0));
         assertThat(range.getEnd(), is(PIPE_TABLE_CONTAINS_VALUE_WITH_COMMA.length()-1));

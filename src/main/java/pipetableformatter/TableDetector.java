@@ -2,7 +2,13 @@ package pipetableformatter;
 
 public class TableDetector {
 
-    public Range find(String text, int position) {
+    private String text;
+
+    public TableDetector(String text) {
+        this.text = text;
+    }
+
+    public Range find(int position) {
 
         text = "\n" + text;
 

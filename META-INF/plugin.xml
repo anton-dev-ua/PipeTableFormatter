@@ -78,12 +78,10 @@
             <action id="PipeTableFormatter.Format" class="pipetableformatter.plugin.PipeTableFormatAction"
                     text="Format Pipe Table"
                     description="Formats table with pipe delimiters">
-                <!--<add-to-group group-id="PipeTableFormat.Actions" anchor="last"/>-->
             </action>
             <action id="PipeTableFormatter.Format2" class="pipetableformatter.plugin.PipeTableSelectAction"
                     text="Select Table"
                     description="Select table">
-                <!--<add-to-group group-id="PipeTableFormat.Actions" anchor="last"/>-->
             </action>
             <add-to-group group-id="CodeMenu" anchor="last"/>
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>

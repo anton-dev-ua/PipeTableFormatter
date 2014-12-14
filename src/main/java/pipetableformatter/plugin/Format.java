@@ -9,7 +9,6 @@ import pipetableformatter.TableDetector;
 class Format implements Runnable {
 
     private PipeTableFormatter pipeTableFormatter = new PipeTableFormatter();
-    private TableDetector tableDetector = new TableDetector();
 
     private final Editor editor;
 
@@ -34,7 +33,7 @@ class Format implements Runnable {
     private void autoselectTable(SelectionModel selectionModel) {
         int currentPosition = editor.getCaretModel().getOffset();
         String text = editor.getDocument().getText();
-        Range tableRange = tableDetector.find(text, currentPosition);
+        Range tableRange = new TableDetector(text).find(currentPosition);
 
         if (Range.EMPTY != tableRange) {
             selectionModel.setSelection(tableRange.getStart(), tableRange.getEnd());
