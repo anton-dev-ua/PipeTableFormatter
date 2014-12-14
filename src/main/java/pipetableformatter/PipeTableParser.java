@@ -14,14 +14,6 @@ public class PipeTableParser {
 
     }
 
-    public void normalizeRows() {
-        for (PipeTable.Row row : parserTable) {
-            for (int i = row.size(); i < maxRowSize; i++) {
-                row.add("");
-            }
-        }
-    }
-
     private List<PipeTable.Row> parseText(String notFormattedText) {
 
         LineSplitter lineSplitter = new LineSplitter(notFormattedText);
@@ -36,17 +28,25 @@ public class PipeTableParser {
 
     }
 
-    public Character detectDelimiter(String text) {
+    private void normalizeRows() {
+        for (PipeTable.Row row : parserTable) {
+            for (int i = row.size(); i < maxRowSize; i++) {
+                row.add("");
+            }
+        }
+    }
+
+    private Character detectDelimiter(String text) {
         return new DelimitersCount(text).mostFrequent();
     }
 
-    public void parseLine(String line, Character delimiter, String endOfLine) {
+    private void parseLine(String line, Character delimiter, String endOfLine) {
         PipeTable.Row row = new PipeTable.Row(splitForColumns(line, delimiter), endOfLine);
         rememberMaxLength(row.size());
         parserTable.add(row);
     }
 
-    public List<PipeTable.Cell> splitForColumns(String line, Character delimiter) {
+    private List<PipeTable.Cell> splitForColumns(String line, Character delimiter) {
         List<PipeTable.Cell> columns = new ArrayList<PipeTable.Cell>();
 
         ColumnSplitter columnSplitter = new ColumnSplitter(line, delimiter);
@@ -56,7 +56,7 @@ public class PipeTableParser {
         return columns;
     }
 
-    public void rememberMaxLength(int size) {
+    private void rememberMaxLength(int size) {
         if (size > maxRowSize) {
             maxRowSize = size;
         }
