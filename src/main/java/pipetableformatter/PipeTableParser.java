@@ -9,7 +9,7 @@ public class PipeTableParser {
     public List<PipeTable.Row> parserTable = new ArrayList<PipeTable.Row>();
     public int maxRowSize = 0;
 
-    public PipeTable parse(String notFormattedText){
+    public PipeTable parse(String notFormattedText) {
         return new PipeTable(parseText(notFormattedText));
 
     }
@@ -19,9 +19,9 @@ public class PipeTableParser {
         LineSplitter lineSplitter = new LineSplitter(notFormattedText);
         Character delimiter = detectDelimiter(notFormattedText);
 
-        do {
-            parseLine(lineSplitter.nextLine(), delimiter, lineSplitter.getEndOfLine());
-        } while (lineSplitter.hasMoreLines());
+        for (String line : lineSplitter) {
+            parseLine(line, delimiter, lineSplitter.getEndOfLine());
+        }
 
         normalizeRows();
         return parserTable;
@@ -50,8 +50,8 @@ public class PipeTableParser {
         List<PipeTable.Cell> columns = new ArrayList<PipeTable.Cell>();
 
         ColumnSplitter columnSplitter = new ColumnSplitter(line, delimiter);
-        while (columnSplitter.hasValue()) {
-            columns.add(new PipeTable.Cell(columnSplitter.nextValue().trim()));
+        for (String value : columnSplitter) {
+            columns.add(new PipeTable.Cell(value));
         }
         return columns;
     }

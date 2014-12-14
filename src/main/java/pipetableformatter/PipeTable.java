@@ -61,7 +61,7 @@ public class PipeTable {
         private String value;
 
         public Cell(String value) {
-            this.value = value;
+            this.value = value != null ? value.trim() : "";
         }
 
         public String getValue() {

@@ -1,6 +1,8 @@
 package pipetableformatter;
 
-public class ColumnSplitter {
+import java.util.Iterator;
+
+public class ColumnSplitter implements Iterable<String>, Iterator<String> {
     public static final String PIPE = "|";
     private String line;
     private int startIndex = 0;
@@ -8,6 +10,7 @@ public class ColumnSplitter {
     private boolean insideQuoted = false;
     private boolean quoted = false;
     private Character delimiter;
+    private int prevStartIndex;
 
     public ColumnSplitter(String line, Character delimiter) {
         this.delimiter = delimiter;
@@ -21,12 +24,14 @@ public class ColumnSplitter {
         if (line.endsWith(PIPE)) length--;
     }
 
-    public String nextValue() {
+    @Override
+    public String next() {
         int endIndex = startIndex;
         while (hasMoreChars(endIndex) && notDelimiter(endIndex)) {
             detectQuoted(endIndex++);
         }
         String value = line.substring(startIndex, endIndex);
+        prevStartIndex = startIndex;
         startIndex = endIndex + 1;
         return openQuotes(value);
     }
@@ -63,7 +68,26 @@ public class ColumnSplitter {
         return value.replaceAll("(^ *\")|(\" *$)", "");
     }
 
-    public Boolean hasValue() {
+    public int currentColumnStartIndex() {
+        return prevStartIndex;
+    }
+
+    public int currentColumnEndIndex() {
+        return startIndex - 2;
+    }
+
+    @Override
+    public Iterator<String> iterator() {
+        return this;
+    }
+
+    @Override
+    public boolean hasNext() {
         return startIndex < length;
+    }
+
+    @Override
+    public void remove() {
+        throw new UnsupportedOperationException();
     }
 }

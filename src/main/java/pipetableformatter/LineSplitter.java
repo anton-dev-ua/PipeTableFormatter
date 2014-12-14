@@ -1,10 +1,13 @@
 package pipetableformatter;
 
-public class LineSplitter {
+import java.util.Iterator;
+
+public class LineSplitter implements Iterable<String>, Iterator<String> {
     private String notFormattedText;
     private int startIndex;
     private int endIndex;
     private String endOfLine;
+    private int prevStartIndex;
 
     public LineSplitter(String notFormattedText) {
         this.notFormattedText = notFormattedText;
@@ -13,11 +16,8 @@ public class LineSplitter {
         endOfLine = "";
     }
 
-    public String getEndOfLine() {
-        return endOfLine;
-    }
-
-    public String nextLine() {
+    @Override
+    public String next() {
 
 
         int winEof = notFormattedText.indexOf(PipeTableParser.WIN_EOF, startIndex);
@@ -35,12 +35,36 @@ public class LineSplitter {
         }
 
         String line = notFormattedText.substring(startIndex, endIndex);
+        prevStartIndex = startIndex;
         startIndex = endIndex + endOfLine.length();
 
         return line;
     }
 
-    public boolean hasMoreLines() {
+    public String getEndOfLine() {
+        return endOfLine;
+    }
+
+    @Override
+    public Iterator<String> iterator() {
+        return this;
+    }
+
+    @Override
+    public boolean hasNext() {
         return startIndex < notFormattedText.length();
+    }
+
+    @Override
+    public void remove() {
+        throw new UnsupportedOperationException();
+    }
+
+    public int currentLineStartIndex() {
+        return prevStartIndex;
+    }
+
+    public int currentLineEndIndex() {
+        return startIndex - 1;
     }
 }
