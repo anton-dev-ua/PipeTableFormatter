@@ -9,4 +9,9 @@ public class PipeTableController {
         return new PipeTableFormatter().format(pipeTable);
     }
 
+    public String format(String text) {
+        PipeTable pipeTable = new PipeTableParser(text).parse();
+        return new PipeTableFormatter().format(pipeTable);
+    }
+
 }

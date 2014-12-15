@@ -5,7 +5,7 @@ import org.junit.Test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class PipeTableFormatterTest {
+public class EndToEndTest {
 
     String notFormattedText =
             "" +
@@ -27,7 +27,7 @@ public class PipeTableFormatterTest {
 
     @Test
     public void makesPipeDelimitedTableReadable() {
-        String formattedText = new PipeTableFormatter().format(notFormattedText);
+        String formattedText = new PipeTableController().format(notFormattedText);
 
         assertThat(formattedText, is(expectedText));
 
@@ -35,7 +35,7 @@ public class PipeTableFormatterTest {
     
     @Test
     public void convertsCSVTableToPipeTable(){
-        String formattedText = new PipeTableFormatter().format(notFormattedCSVText);
+        String formattedText = new PipeTableController().format(notFormattedCSVText);
 
         assertThat(formattedText, is(expectedText));
     }

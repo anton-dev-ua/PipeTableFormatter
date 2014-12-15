@@ -4,11 +4,8 @@ public class PipeTableFormatter {
 
     public static final String PIPE = "|";
 
-    public String format(String notFormattedText) {
-
-        PipeTable table = new PipeTableParser(notFormattedText).parse();
-
-        return formatPipeTable(table);
+    public String format(PipeTable pipeTable) {
+        return formatPipeTable(pipeTable);
     }
 
     private String formatPipeTable(PipeTable table) {
@@ -50,9 +47,5 @@ public class PipeTableFormatter {
             }
         }
         return columnsMaxLength;
-    }
-
-    public String format(PipeTable pipeTable) {
-        return formatPipeTable(pipeTable);
     }
 }
