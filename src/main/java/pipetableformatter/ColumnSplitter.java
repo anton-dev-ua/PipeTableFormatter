@@ -76,7 +76,7 @@ public class ColumnSplitter implements Iterable<String>, Iterator<String> {
     }
 
     public int currentColumnEndIndex() {
-        return startIndex - 2;
+        return startIndex - 1;
     }
 
     @Override

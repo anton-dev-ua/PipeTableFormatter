@@ -23,7 +23,7 @@ public class PipeTableTest {
         rows.add(row("row11", "row12", "row13"));
         rows.add(row("row21", "row22", "row23"));
 
-        pipeTable = new PipeTable(rows, 1, 1);
+        pipeTable = new PipeTable(rows);
 
         rows = new ArrayList<PipeTable.Row>();
         rows.add(row("row11", "", "row12", "row13"));
@@ -36,7 +36,7 @@ public class PipeTableTest {
 
     @Test
     public void addsColumnBefore() {
-        pipeTable.addColumnBeforeSelected();
+        pipeTable.addColumnBefore(1);
 
         assertThat(pipeTable.getColumnCount(), is(4));
         PipeTable.Row[] rows = pipeTable.rows();

@@ -6,7 +6,7 @@ public class PipeTableFormatter {
 
     public String format(String notFormattedText) {
 
-        PipeTable table = new PipeTableParser().parse(notFormattedText, 0);
+        PipeTable table = new PipeTableParser(notFormattedText).parse();
 
         return formatPipeTable(table);
     }

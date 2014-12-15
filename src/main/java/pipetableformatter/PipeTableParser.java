@@ -8,23 +8,32 @@ public class PipeTableParser {
     public static final String LINUX_EOF = "\n";
     public List<PipeTable.Row> parserTable = new ArrayList<PipeTable.Row>();
     public int maxRowSize = 0;
-    private int caretPosition;
+    private int caretPosition = -1;
     private int selectedRow = -1;
     private Character delimiter;
     private int selectedColumn = -1;
     private int currentLineStartIndex;
+    private String notFormattedText;
 
-    public PipeTable parse(String notFormattedText, int caretPosition) {
+    public PipeTableParser(String notFormattedText) {
+        this.notFormattedText = notFormattedText;
+    }
+
+    public PipeTableParser withDetectingCellByCaretPosition(int caretPosition) {
         this.caretPosition = caretPosition;
-        parseText(notFormattedText);
-        return new PipeTable(parserTable, selectedRow, selectedColumn);
+        return this;
+    }
+
+    public PipeTable parse() {
+        parseText();
+        return new PipeTable(parserTable);
 
     }
 
-    private void parseText(String notFormattedText) {
+    private void parseText() {
 
-        LineSplitter lineSplitter = new LineSplitter(notFormattedText);
         delimiter = detectDelimiter(notFormattedText);
+        LineSplitter lineSplitter = new LineSplitter(notFormattedText);
 
         for (String line : lineSplitter) {
             boolean rowWithCaret = false;
@@ -74,5 +83,13 @@ public class PipeTableParser {
         if (size > maxRowSize) {
             maxRowSize = size;
         }
+    }
+
+    public int getSelectedRow() {
+        return selectedRow;
+    }
+
+    public int getSelectedColumn() {
+        return selectedColumn;
     }
 }

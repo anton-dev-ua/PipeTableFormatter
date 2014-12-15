@@ -46,7 +46,7 @@ public class ColumnSplitterTest {
         columnSplitter.next();
         columnSplitter.next();
 
-        assertThat(columnSplitter.currentColumnEndIndex(), is(9));
+        assertThat(columnSplitter.currentColumnEndIndex(), is(10));
     }
 
     @Test
