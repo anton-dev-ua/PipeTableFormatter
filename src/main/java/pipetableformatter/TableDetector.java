@@ -11,6 +11,7 @@ public class TableDetector {
     public Range find(int position) {
 
         text = "\n" + text;
+        position++;
 
         int lineEndIndex = findEOL(text, position);
         int lineStartIndex = findSOL(text, position);
@@ -32,7 +33,7 @@ public class TableDetector {
     }
 
     private int findSOL(String text, int position) {
-        return text.lastIndexOf("\n", position);
+        return text.lastIndexOf("\n", position-1);
     }
 
     private int findEndOfTable(String text, int endLineIndex, DelimitersCount delimitersCountEtalon) {

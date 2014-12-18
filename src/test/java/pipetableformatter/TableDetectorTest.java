@@ -138,4 +138,17 @@ public class TableDetectorTest {
         assertThat(range.getEnd(), is(PIPE_TABLE_CONTAINS_VALUE_WITH_COMMA.length()-1));
     }
 
+    @Test
+    public void detectsTableWhenCaretPlacedAtStartOfALine() {
+        Range range = new TableDetector(TEXT_WITH_TABLE_PIPE).find(53);
+
+        assertThat(range.getStart(), is(PIPE_TABLE_START_POS));
+    }
+
+    @Test
+    public void detectsTableWhenCaretPlacedAtEndOfALine() {
+        Range range = new TableDetector(TEXT_WITH_TABLE_PIPE).find(52);
+
+        assertThat(range.getStart(), is(PIPE_TABLE_START_POS));
+    }
 }

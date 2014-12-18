@@ -21,7 +21,6 @@ public class LineSplitter implements Iterable<String>, Iterator<String> {
     @Override
     public String next() {
 
-
         int winEof = notFormattedText.indexOf(PipeTableParser.WIN_EOF, startIndex);
         int linuxEof = notFormattedText.indexOf(PipeTableParser.LINUX_EOF, startIndex);
 
@@ -68,7 +67,7 @@ public class LineSplitter implements Iterable<String>, Iterator<String> {
     }
 
     public int currentLineEndIndex() {
-        return startIndex - 1;
+        return startIndex - endOfLine.length();
     }
 
     public int currentLineIndex() {

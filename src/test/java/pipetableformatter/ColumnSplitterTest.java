@@ -59,4 +59,12 @@ public class ColumnSplitterTest {
         }
     }
 
+    @Test
+    public void includesLeadingSpaceInLineWhenDeterminesColumnStartIndex() {
+        ColumnSplitter columnSplitter = new ColumnSplitter("    |col1|col2|col3|", '|');
+        columnSplitter.next();
+
+        assertThat(columnSplitter.currentColumnStartIndex(), is(5));
+    }
+
 }

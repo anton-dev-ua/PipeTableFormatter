@@ -7,11 +7,11 @@ import static org.junit.Assert.assertThat;
 
 public class PipeTableParserTest {
 
-    String table =
+    private final static String TABLE =
             "" +
-                    "| Header 1                        | Header 2 | Header 3 | Header 4 | Header 5                        |\n" +
-                    "| val 11                          | val 12   | val 13   | val 14   | val 15                          |\n" +
-                    "| some value longer then previous | val 22   | val 33   | val34    | and last value with extra space |";
+                    " | Header 1                        | Header 2 | Header 3 | Header 4 | Header 5                        | \n" +
+                    " | val 11                          | val 12   | val 13   | val 14   | val 15                          | \n" +
+                    " | some value longer then previous | val 22   | val 33   | val34    | and last value with extra space | ";
 
 
     @Test
@@ -110,7 +110,7 @@ public class PipeTableParserTest {
 
     @Test
     public void determinesRowWhereRowIsPlaced() {
-        PipeTableParser pipeTableParser = new PipeTableParser(table).withDetectingCellByCaretPosition(162);
+        PipeTableParser pipeTableParser = new PipeTableParser(TABLE).withDetectingCellByCaretPosition(167);
         pipeTableParser.parse();
 
         assertThat(pipeTableParser.getSelectedRow(), is(1));
@@ -118,18 +118,66 @@ public class PipeTableParserTest {
 
     @Test
     public void determinesColumnWhereRowIsPlaced() {
-        PipeTableParser pipeTableParser = new PipeTableParser(table).withDetectingCellByCaretPosition(162);
+        PipeTableParser pipeTableParser = new PipeTableParser(TABLE).withDetectingCellByCaretPosition(167);
         pipeTableParser.parse();
 
         assertThat(pipeTableParser.getSelectedColumn(), is(3));
     }
 
     @Test
-    public void determinesColumnIfColumnPlacedRightBeforeDelimiter() {
-        PipeTableParser pipeTableParser = new PipeTableParser(table).withDetectingCellByCaretPosition(159);
+    public void determinesColumnIfCaretPlacedRightBeforeDelimiter() {
+        PipeTableParser pipeTableParser = new PipeTableParser(TABLE).withDetectingCellByCaretPosition(159);
         pipeTableParser.parse();
 
         assertThat(pipeTableParser.getSelectedColumn(), is(2));
+    }
+
+    @Test
+    public void determinesRowIfCaretPlacedRightAfterLastDelimiter() {
+        PipeTableParser pipeTableParser = new PipeTableParser(TABLE).withDetectingCellByCaretPosition(103);
+        pipeTableParser.parse();
+
+        assertThat(pipeTableParser.getSelectedRow(), is(0));
+    }
+
+    @Test
+    public void interpretsAsExtraColumnWhenCaretPlacedRightAfterLastDelimiter() {
+        PipeTableParser pipeTableParser = new PipeTableParser(TABLE).withDetectingCellByCaretPosition(103);
+        pipeTableParser.parse();
+
+        assertThat(pipeTableParser.getSelectedColumn(), is(5));
+    }
+
+    @Test
+    public void interpretsAsExtraColumnWhenCaretPlacedAtTheEndOfLine() {
+        PipeTableParser pipeTableParser = new PipeTableParser(TABLE).withDetectingCellByCaretPosition(104);
+        pipeTableParser.parse();
+
+        assertThat(pipeTableParser.getSelectedColumn(), is(5));
+    }
+
+    @Test
+    public void interpretsAsFirstColumnIfCaretPlacedRightBeforeDelimiter() {
+        PipeTableParser pipeTableParser = new PipeTableParser(TABLE).withDetectingCellByCaretPosition(106);
+        pipeTableParser.parse();
+
+        assertThat(pipeTableParser.getSelectedColumn(), is(0));
+    }
+
+    @Test
+    public void interpretsAsFirstColumnIfCaretPlacedAtStartOfLine() {
+        PipeTableParser pipeTableParser = new PipeTableParser(TABLE).withDetectingCellByCaretPosition(105);
+        pipeTableParser.parse();
+
+        assertThat(pipeTableParser.getSelectedColumn(), is(0));
+    }
+
+    @Test
+    public void interpretsAsExtraColumnIfCaretPlacedAtEndOfLastLine() {
+        PipeTableParser pipeTableParser = new PipeTableParser(TABLE).withDetectingCellByCaretPosition(314);
+        pipeTableParser.parse();
+
+        assertThat(pipeTableParser.getSelectedColumn(), is(5));
     }
 
 }

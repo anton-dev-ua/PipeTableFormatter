@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 public class ColumnSplitter implements Iterable<String>, Iterator<String> {
     public static final String PIPE = "|";
+    private final int leadingSpaces;
     private String line;
     private int startIndex = 0;
     private int length = 0;
@@ -15,8 +16,15 @@ public class ColumnSplitter implements Iterable<String>, Iterator<String> {
 
     public ColumnSplitter(String line, Character delimiter) {
         this.delimiter = delimiter;
+        this.leadingSpaces = countLeadingSpaces(line);
         this.line = line.trim();
         init();
+    }
+
+    private int countLeadingSpaces(String line) {
+        int charCount = 0;
+        while (line.length() > charCount && line.charAt(charCount++) <= ' ') ;
+        return charCount - 1;
     }
 
     private void init() {
@@ -72,11 +80,11 @@ public class ColumnSplitter implements Iterable<String>, Iterator<String> {
     }
 
     public int currentColumnStartIndex() {
-        return prevStartIndex;
+        return prevStartIndex + leadingSpaces;
     }
 
     public int currentColumnEndIndex() {
-        return startIndex - 1;
+        return startIndex - 1 + leadingSpaces;
     }
 
     @Override

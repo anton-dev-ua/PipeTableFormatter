@@ -68,13 +68,21 @@ public class PipeTableParser {
 
     private List<PipeTable.Cell> splitForColumns(String line, boolean rowWithCaret) {
         List<PipeTable.Cell> columns = new ArrayList<PipeTable.Cell>();
+        int rowCaretPosition = caretPosition - currentLineStartIndex;
 
         ColumnSplitter columnSplitter = new ColumnSplitter(line, delimiter);
         for (String value : columnSplitter) {
             columns.add(new PipeTable.Cell(value));
-            if (rowWithCaret && caretPosition >= columnSplitter.currentColumnStartIndex() + currentLineStartIndex && caretPosition <= columnSplitter.currentColumnEndIndex() + currentLineStartIndex) {
-                selectedColumn = columnSplitter.currentColumnIndex();
+            if (rowWithCaret) {
+                if (rowCaretPosition >= columnSplitter.currentColumnStartIndex() && rowCaretPosition <= columnSplitter.currentColumnEndIndex()) {
+                    selectedColumn = columnSplitter.currentColumnIndex();
+                } else if (columnSplitter.currentColumnIndex() == 0 && rowCaretPosition < columnSplitter.currentColumnStartIndex()) {
+                    selectedColumn = 0;
+                }
             }
+        }
+        if (rowWithCaret && selectedColumn == -1) {
+            selectedColumn = columns.size();
         }
         return columns;
     }
