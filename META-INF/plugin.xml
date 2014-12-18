@@ -15,15 +15,16 @@
 
         <b>Usage</b><br>
         Select text in the editor or place caret inside a table
-        and choose action "Format Pipe Table" in Code menu.<br>
+        and choose action "Pipe Table" -> "Format" in Code menu or in editor popup menu.<br>
     ]]></description>
 
     <change-notes><![CDATA[
         <b>Version 0.3</b>
         <ul>
-            <li>Pipe Table actions have been added to popup menu</li>
-            <li>Function to add column</li>
-            <li>Select table without formatting</li>
+            <li>Pipe Table actions are added to editor popup menu</li>
+            <li>New action: add column</li>
+            <li>New action: auto-select table without formatting</li>
+            <li>Bug fixes</li>
         </ul>
         <b>Version 0.2.3</b>
         <ul>
@@ -77,7 +78,7 @@
     <actions>
         <group id="PipeTableFormat.Actions" text="Pipe Table" popup="true">
             <action id="PipeTableFormatter.Format" class="pipetableformatter.plugin.PipeTableFormatAction"
-                    text="Format Pipe Table"
+                    text="Format"
                     description="Formats table with pipe delimiters">
             </action>
             <action id="PipeTableFormatter.AddColumnBefore" class="pipetableformatter.plugin.PipeTableAddColumnBeforeAction"
