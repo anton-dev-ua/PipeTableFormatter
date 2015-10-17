@@ -12,7 +12,6 @@ import static org.junit.Assert.assertThat;
 
 public class PipeTableFormatterFunctionalTest {
 
-
     private static final String NOT_FORMATTED_TABLE = "" +
             "Story: Countries\n" +
             "\n" +
@@ -47,13 +46,12 @@ public class PipeTableFormatterFunctionalTest {
     @Before
     public void before() throws Exception {
         final IdeaTestFixtureFactory fixtureFactory = IdeaTestFixtureFactory.getFixtureFactory();
-        final TestFixtureBuilder<IdeaProjectTestFixture> testFixtureBuilder = fixtureFactory.createFixtureBuilder("PipeTableFormatter.Format");
+        final TestFixtureBuilder<IdeaProjectTestFixture> testFixtureBuilder = fixtureFactory.createFixtureBuilder("PipeTableFormatter");
         myFixture = JavaTestFixtureFactory.getFixtureFactory().createCodeInsightFixture(testFixtureBuilder.getFixture());
         final JavaModuleFixtureBuilder builder = testFixtureBuilder.addModule(JavaModuleFixtureBuilder.class);
 
         builder.addContentRoot(myFixture.getTempDirPath()).addSourceRoot("");
         builder.setMockJdkLevel(JavaModuleFixtureBuilder.MockJdkLevel.jdk15);
-
 
         myFixture.setUp();
     }
@@ -61,7 +59,6 @@ public class PipeTableFormatterFunctionalTest {
     @After
     public void after() throws Exception {
         myFixture.tearDown();
-
     }
 
     @Test
