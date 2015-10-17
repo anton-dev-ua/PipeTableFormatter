@@ -2,12 +2,21 @@ package pipetableformatter;
 
 import pipetableformatter.PipeTable.Cell;
 
+import static pipetableformatter.FormatOptions.formatOptions;
+
 public class PipeTableFormatter {
 
     public static final String PIPE = "|";
+    private FormatOptions formatOptions;
 
-    public String format(PipeTable pipeTable, FormatOptions options) {
-        return formatPipeTable(pipeTable, options);
+    private PipeTableFormatter() {
+    }
+
+    public String format(PipeTable pipeTable) {
+        return formatPipeTable(
+                pipeTable,
+                formatOptions != null ? formatOptions : formatOptions()
+        );
     }
 
     private String formatPipeTable(PipeTable table, FormatOptions options) {
@@ -63,5 +72,14 @@ public class PipeTableFormatter {
             }
         }
         return columnsMaxLength;
+    }
+
+    public static PipeTableFormatter formatter() {
+        return new PipeTableFormatter();
+    }
+
+    public PipeTableFormatter withOptions(FormatOptions options) {
+        this.formatOptions = options;
+        return this;
     }
 }

@@ -1,10 +1,9 @@
 package pipetableformatter.plugin.operation;
 
 import pipetableformatter.PipeTable;
-import pipetableformatter.PipeTableFormatter;
 import pipetableformatter.PipeTableParser;
 
-import static pipetableformatter.FormatOptions.defaultFormatOptions;
+import static pipetableformatter.PipeTableFormatter.formatter;
 
 public class AddColumnBefore implements Runnable {
 
@@ -29,7 +28,7 @@ public class AddColumnBefore implements Runnable {
             PipeTableParser pipeTableParser = new PipeTableParser(text).withDetectingCellByCaretPosition(caretPositionInSelection);
             PipeTable pipeTable = pipeTableParser.parse();
             pipeTable.addColumnBefore(pipeTableParser.getSelectedColumn());
-            String formattedText =  new PipeTableFormatter().format(pipeTable, defaultFormatOptions());
+            String formattedText =  formatter().format(pipeTable);
             utility.replaceText(formattedText);
         }
     }

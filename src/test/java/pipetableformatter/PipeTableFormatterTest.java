@@ -4,8 +4,8 @@ import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static pipetableformatter.FormatOptions.defaultFormatOptions;
 import static pipetableformatter.PipeTableBuilder.aPipeTable;
+import static pipetableformatter.PipeTableFormatter.formatter;
 
 public class PipeTableFormatterTest {
 
@@ -23,7 +23,7 @@ public class PipeTableFormatterTest {
                 .withRow("some value longer then previous", "val 22", "val 33", "val34", "and last value with extra space")
                 .build();
 
-        String formattedText = new PipeTableFormatter().format(pipeTable, defaultFormatOptions());
+        String formattedText = formatter().format(pipeTable);
 
         assertThat(formattedText, is(FORMATTED_TABLE));
     }

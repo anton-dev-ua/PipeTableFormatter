@@ -1,10 +1,9 @@
 package pipetableformatter.plugin.operation;
 
 import pipetableformatter.PipeTable;
-import pipetableformatter.PipeTableFormatter;
 import pipetableformatter.PipeTableParser;
 
-import static pipetableformatter.FormatOptions.defaultFormatOptions;
+import static pipetableformatter.PipeTableFormatter.formatter;
 
 public class Format implements Runnable {
 
@@ -25,7 +24,7 @@ public class Format implements Runnable {
         String text = utility.getSelectedText();
         if (text != null) {
             PipeTable pipeTable = new PipeTableParser(text).parse();
-            String formattedText = new PipeTableFormatter().format(pipeTable, defaultFormatOptions());
+            String formattedText = formatter().format(pipeTable);
             utility.replaceText(formattedText);
         }
     }
