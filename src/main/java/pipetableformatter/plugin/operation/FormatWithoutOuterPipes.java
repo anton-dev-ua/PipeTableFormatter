@@ -1,12 +1,13 @@
 package pipetableformatter.plugin.operation;
 
-import pipetableformatter.PipeTableController;
+import pipetableformatter.PipeTable;
+import pipetableformatter.PipeTableFormatter;
+import pipetableformatter.PipeTableParser;
 
-import static pipetableformatter.FormatOptions.formatOptions;
+import static pipetableformatter.FormatOptions.defaultFormatOptions;
 
 public class FormatWithoutOuterPipes implements Runnable  {
 
-    PipeTableController pipeTableController = new PipeTableController();
     OperationUtility utility;
 
     public FormatWithoutOuterPipes(OperationUtility anUtility) {
@@ -23,7 +24,8 @@ public class FormatWithoutOuterPipes implements Runnable  {
     private void formatTable() {
         String text = utility.getSelectedText();
         if (text != null) {
-            String formattedText = pipeTableController.format(text, formatOptions().withoutOuterPipes());
+            PipeTable pipeTable = new PipeTableParser(text).parse();
+            String formattedText = new PipeTableFormatter().format(pipeTable, defaultFormatOptions().withoutOuterPipes());
             utility.replaceText(formattedText);
         }
     }

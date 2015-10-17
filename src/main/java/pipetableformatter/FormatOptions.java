@@ -5,7 +5,7 @@ public class FormatOptions {
     private boolean outerPipes = true;
 
 
-    public static FormatOptions formatOptions() {
+    public static FormatOptions defaultFormatOptions() {
         return new FormatOptions();
     }
 
