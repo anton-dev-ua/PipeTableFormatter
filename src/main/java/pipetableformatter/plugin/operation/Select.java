@@ -1,14 +1,12 @@
 package pipetableformatter.plugin.operation;
 
-import com.intellij.openapi.editor.Editor;
-
 public class Select implements Runnable {
 
 
     private OperationUtility utility;
 
-    public Select(Editor editor) {
-        utility = new OperationUtility(editor);
+    public Select(OperationUtility anUtility) {
+        utility = anUtility;
     }
 
     @Override

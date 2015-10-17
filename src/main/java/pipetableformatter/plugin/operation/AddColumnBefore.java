@@ -1,6 +1,5 @@
 package pipetableformatter.plugin.operation;
 
-import com.intellij.openapi.editor.Editor;
 import pipetableformatter.PipeTableController;
 
 public class AddColumnBefore implements Runnable {
@@ -8,8 +7,8 @@ public class AddColumnBefore implements Runnable {
     private OperationUtility utility;
     private PipeTableController pipeTableController = new PipeTableController();
 
-    public AddColumnBefore(Editor editor) {
-        utility = new OperationUtility(editor);
+    public AddColumnBefore(OperationUtility anUtility) {
+        utility = anUtility;
     }
 
 

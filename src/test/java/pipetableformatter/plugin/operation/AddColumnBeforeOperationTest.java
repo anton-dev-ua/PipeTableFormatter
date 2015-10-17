@@ -1,10 +1,18 @@
 package pipetableformatter.plugin.operation;
 
+import org.junit.Before;
 import org.junit.Test;
 
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
-public class AddColumnBeforeOperationTest extends AbstractOperationTest {
+public class AddColumnBeforeOperationTest {
+
+    private static final String NOT_FORMATTED_TABLE = "" +
+            "|Country|Currency|Population|Area|\n" +
+            "|United States of America|US dollar|316 million|9.8 million sq km|\n" +
+            "|Canada|Canadian dollar|34.7 million|9.9 million sq km|\n" +
+            "|United Kingdom|pound sterling|62.8 million|242,514 sq km|\n" +
+            "|Republic of Poland|zloty|38.3 million|312,685 sq km|";
 
 
     protected static final String FORMATTED_TABLE_WITH_NEW_COLUMN = "" +
@@ -14,11 +22,21 @@ public class AddColumnBeforeOperationTest extends AbstractOperationTest {
             "| United Kingdom           |  | pound sterling  | 62.8 million | 242,514 sq km     |\n" +
             "| Republic of Poland       |  | zloty           | 38.3 million | 312,685 sq km     |";
 
+    OperationUtility utility;
+
+    @Before
+    public void before() {
+        utility = mock(OperationUtility.class);
+        when(utility.getSelectedText()).thenReturn(NOT_FORMATTED_TABLE);
+        when(utility.getCaretPositionInSelection()).thenReturn(64);
+    }
+
+
     @Test
     public void addsColumn() {
 
-        new AddColumnBefore(editor).run();
+        new AddColumnBefore(utility).run();
 
-        verify(document).replaceString(TABLE_START_POSITION, TABLE_END_POSITION, FORMATTED_TABLE_WITH_NEW_COLUMN);
+        verify(utility).replaceText(FORMATTED_TABLE_WITH_NEW_COLUMN);
     }
 }

@@ -1,6 +1,5 @@
 package pipetableformatter.plugin.operation;
 
-import com.intellij.openapi.editor.Editor;
 import pipetableformatter.PipeTableController;
 
 import static pipetableformatter.FormatOptions.formatOptions;
@@ -10,8 +9,8 @@ public class FormatWithoutOuterPipes implements Runnable  {
     PipeTableController pipeTableController = new PipeTableController();
     OperationUtility utility;
 
-    public FormatWithoutOuterPipes(Editor editor) {
-        utility = new OperationUtility(editor);
+    public FormatWithoutOuterPipes(OperationUtility anUtility) {
+        utility = anUtility;
     }
 
     @Override
