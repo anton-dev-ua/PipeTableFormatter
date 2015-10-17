@@ -91,7 +91,7 @@
                     text="Add Column Before"
                     description="Add Column Before">
             </action>
-            <action id="PipeTableFormatter.Format2" class="pipetableformatter.plugin.PipeTableSelectAction"
+            <action id="PipeTableFormatter.SelectTable" class="pipetableformatter.plugin.PipeTableSelectAction"
                     text="Select Table"
                     description="Select table">
             </action>

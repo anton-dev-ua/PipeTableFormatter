@@ -1,0 +1,12 @@
+Story: Countries
+
+Scenario: Country currency
+When country is <Country>
+Then currency is <Currency>
+
+Examples:
+| Country                  | Currency        | Population   | Area              |
+| United States of America | US dollar       | 316 million  | 9.8 million sq km |
+| Canada                   | Canadian dollar | 34.7 million | 9.9 million sq km |
+| United Kingdom           | pound sterling  | 62.8 million | 242,514 sq km     |
+| Republic of Poland       | zloty           | 38.3 million | 312,685 sq km     |
