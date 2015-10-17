@@ -12,7 +12,7 @@ import static org.junit.Assert.assertThat;
 
 public class PipeTableFormatterFunctionalTest {
 
-    private static final String NOT_FORMATTED_TABLE = "" +
+    private static final String TEXT_WITH_NOT_FORMATTED_TABLE = "" +
             "Story: Countries\n" +
             "\n" +
             "Scenario: Country currency\n" +
@@ -26,7 +26,7 @@ public class PipeTableFormatterFunctionalTest {
             "|United Kingdom|pound sterling|62.8 million|242,514 sq km|\n" +
             "|Republic of Poland|zloty|38.3 million|312,685 sq km|";
 
-    private static final String FORMATTED_TABLE = "" +
+    private static final String TEXT_WITH_FORMATTED_TABLE = "" +
             "Story: Countries\n" +
             "\n" +
             "Scenario: Country currency\n" +
@@ -63,17 +63,17 @@ public class PipeTableFormatterFunctionalTest {
 
     @Test
     public void formatsTableAroundCaret() throws Exception {
-        myFixture.configureByText("test.story", NOT_FORMATTED_TABLE);
+        myFixture.configureByText("test.story", TEXT_WITH_NOT_FORMATTED_TABLE);
 
         myFixture.performEditorAction("PipeTableFormatter.Format");
 
         String textAfterActionApplied = myFixture.getEditor().getDocument().getText();
-        assertThat(textAfterActionApplied, is(FORMATTED_TABLE));
+        assertThat(textAfterActionApplied, is(TEXT_WITH_FORMATTED_TABLE));
     }
 
     @Test
     public void selectsTableAroundCaret() throws Exception {
-        myFixture.configureByText("test.story", NOT_FORMATTED_TABLE);
+        myFixture.configureByText("test.story", TEXT_WITH_NOT_FORMATTED_TABLE);
 
         myFixture.performEditorAction("PipeTableFormatter.SelectTable");
 
