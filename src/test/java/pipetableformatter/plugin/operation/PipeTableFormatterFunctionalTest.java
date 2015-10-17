@@ -68,7 +68,6 @@ public class PipeTableFormatterFunctionalTest {
         myFixture.performEditorAction("PipeTableFormatter.Format");
 
         String textAfterActionApplied = myFixture.getEditor().getDocument().getText();
-
         assertThat(textAfterActionApplied, is(FORMATTED_TABLE));
     }
 
@@ -79,7 +78,6 @@ public class PipeTableFormatterFunctionalTest {
         myFixture.performEditorAction("PipeTableFormatter.SelectTable");
 
         SelectionModel selection = myFixture.getEditor().getSelectionModel();
-
         assertThat(selection.getSelectionStart(), is(110));
         assertThat(selection.getSelectionEnd(), is(380));
     }
