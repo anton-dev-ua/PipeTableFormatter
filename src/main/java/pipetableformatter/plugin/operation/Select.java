@@ -2,8 +2,7 @@ package pipetableformatter.plugin.operation;
 
 public class Select extends Operation {
 
-
-    private PipeTableEditor editor;
+    private final PipeTableEditor editor;
 
     public Select(PipeTableEditor editor) {
         this.editor = editor;

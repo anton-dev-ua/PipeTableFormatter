@@ -7,7 +7,7 @@ import static pipetableformatter.PipeTableFormatter.formatter;
 
 public class AddColumnBefore extends Operation {
 
-    private PipeTableEditor editor;
+    private final PipeTableEditor editor;
 
     public AddColumnBefore(PipeTableEditor editor) {
         this.editor = editor;

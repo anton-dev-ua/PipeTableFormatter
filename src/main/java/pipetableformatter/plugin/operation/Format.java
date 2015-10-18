@@ -9,7 +9,7 @@ import static pipetableformatter.PipeTableFormatter.formatter;
 
 public class Format extends Operation {
 
-    PipeTableEditor editor;
+    private final PipeTableEditor editor;
     private final FormatOptions options;
 
     public Format(PipeTableEditor editor) {
