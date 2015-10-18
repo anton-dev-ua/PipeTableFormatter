@@ -7,8 +7,6 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.actionSystem.EditorActionHandler;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.InvocationTargetException;
-
 abstract class PipeTableActionHandler extends EditorActionHandler {
 
     @Override
