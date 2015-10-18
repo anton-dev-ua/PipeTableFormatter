@@ -1,8 +1,10 @@
-package pipetableformatter.plugin.operation;
+package pipetableformatter.plugin;
 
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.SelectionModel;
 import pipetableformatter.Range;
+import pipetableformatter.operation.PipeTableEditor;
+import pipetableformatter.operation.TableText;
 
 public class IdeaPipeTableEditor implements PipeTableEditor {
     protected final Editor editor;

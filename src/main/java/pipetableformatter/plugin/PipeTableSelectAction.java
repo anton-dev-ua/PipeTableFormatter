@@ -1,8 +1,7 @@
 package pipetableformatter.plugin;
 
 import com.intellij.openapi.editor.Editor;
-import pipetableformatter.plugin.operation.IdeaPipeTableEditor;
-import pipetableformatter.plugin.operation.Select;
+import pipetableformatter.operation.Select;
 
 public class PipeTableSelectAction extends AbstractPipeTableFormatAction {
     public PipeTableSelectAction() {

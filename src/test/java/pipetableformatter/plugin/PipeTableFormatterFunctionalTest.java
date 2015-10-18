@@ -1,4 +1,4 @@
-package pipetableformatter.plugin.operation;
+package pipetableformatter.plugin;
 
 import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.testFramework.builders.JavaModuleFixtureBuilder;

@@ -1,4 +1,4 @@
-package pipetableformatter.plugin.operation;
+package pipetableformatter.operation;
 
 public class Select extends Operation {
 

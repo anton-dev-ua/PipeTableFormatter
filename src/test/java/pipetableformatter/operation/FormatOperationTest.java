@@ -1,4 +1,4 @@
-package pipetableformatter.plugin.operation;
+package pipetableformatter.operation;
 
 import org.junit.Before;
 import org.junit.Test;

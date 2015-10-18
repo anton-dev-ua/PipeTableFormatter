@@ -1,4 +1,4 @@
-package pipetableformatter.plugin.operation;
+package pipetableformatter.operation;
 
 import pipetableformatter.Range;
 

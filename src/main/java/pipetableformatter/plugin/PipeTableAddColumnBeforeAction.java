@@ -1,8 +1,7 @@
 package pipetableformatter.plugin;
 
 import com.intellij.openapi.editor.Editor;
-import pipetableformatter.plugin.operation.AddColumnBefore;
-import pipetableformatter.plugin.operation.IdeaPipeTableEditor;
+import pipetableformatter.operation.AddColumnBefore;
 
 public class PipeTableAddColumnBeforeAction extends AbstractPipeTableFormatAction {
     public PipeTableAddColumnBeforeAction() {
