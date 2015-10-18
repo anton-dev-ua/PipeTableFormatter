@@ -23,7 +23,7 @@ public class FormatAllTables extends Operation {
         String text = editor.getText();
         int position = 0;
         int offset = 0;
-        while (position >= 0) {
+        while (position >= 0 && position < text.length()) {
             Range tableRange = new TableDetector(text).findAround(position);
             if (tableRange.isNotEmpty()) {
                 String textToFormat = text.substring(tableRange.getStart(), tableRange.getEnd());
