@@ -17,9 +17,11 @@ import static org.junit.Assert.assertThat;
 public class PipeTableFormatterFunctionalTest {
 
     private static final String TEXT_WITH_NOT_FORMATTED_TABLE = loadFile("input/text-with-not-formatted-table.txt");
+    private static final String TEXT_WITH_A_FEW_NOT_FORMATTED_TABLE = loadFile("input/text-with-a-few-not-formatted-table.txt");
     private static final String TEXT_WITH_FORMATTED_TABLE = loadFile("expected/text-with-formatted-table.txt");
     private static final String TEXT_WITH_FORMATTED_TABLE_AND_NEW_COLUMN = loadFile("expected/text-with-formatted-table-and-new-column.txt");
-    private static final String TEXT_WITH_FORMATTED_TABLE_WITHOUT_OUTER_PIPES =  loadFile("expected/text-with-formatted-table-without-outer-pipes.txt");
+    private static final String TEXT_WITH_FORMATTED_TABLE_WITHOUT_OUTER_PIPES = loadFile("expected/text-with-formatted-table-without-outer-pipes.txt");
+    private static final String TEXT_WITH_ALL_FORMATTED_TABLES = loadFile("expected/text-with-all-formatted-table.txt");
 
     private CodeInsightTestFixture myFixture;
 
@@ -82,6 +84,16 @@ public class PipeTableFormatterFunctionalTest {
         assertThat(textAfterActionApplied, is(TEXT_WITH_FORMATTED_TABLE_WITHOUT_OUTER_PIPES));
     }
 
+    @Test
+    public void formatsAllTablesInEditor() throws Exception {
+        myFixture.configureByText("test.story", TEXT_WITH_A_FEW_NOT_FORMATTED_TABLE);
+
+        myFixture.performEditorAction("PipeTableFormatter.FormatAllTables");
+
+        String textAfterActionApplied = myFixture.getEditor().getDocument().getText();
+        assertThat(textAfterActionApplied, is(TEXT_WITH_ALL_FORMATTED_TABLES));
+    }
+
 
     private static String loadFile(String fileName) {
         InputStream inputStream = ClassLoader.getSystemResourceAsStream(fileName);
@@ -101,7 +113,7 @@ public class PipeTableFormatterFunctionalTest {
                 throw new RuntimeException(e);
             }
         }
-        
+
         return stringBuilder.toString();
     }
 

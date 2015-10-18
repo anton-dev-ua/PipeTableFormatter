@@ -83,6 +83,10 @@
                     text="Format"
                     description="Formats table with pipe delimiters">
             </action>
+            <action id="PipeTableFormatter.FormatAllTables" class="pipetableformatter.plugin.PipeTableFormatAllAction"
+                    text="Format All"
+                    description="Formats table with pipe delimiters">
+            </action>
             <action id="PipeTableFormatter.FormatWithoutOuterPipes" class="pipetableformatter.plugin.PipeTableFormatWithoutOuterPipesAction"
                     text="Format Without Outer Pipes"
                     description="Formats table with pipe delimiters, excludes outer pipes">

@@ -1,0 +1,36 @@
+Story: Countries
+
+Scenario: Country currency
+When country is <Country>
+Then currency is <Currency>
+
+Examples:
+|Country|Currency|
+|United States of America|US dollar|
+|Canada|Canadian<caret> dollar|
+|United Kingdom|pound sterling|
+|Republic of Poland|zloty|
+
+
+Scenario: Country Population
+When country is <Country>
+Then currency is <Population>
+
+Examples:
+Country,Population
+United States of America,316 million
+Canada,34.7 million
+United Kingdom,62.8 million
+Republic of Poland,38.3 million
+
+
+Scenario: Country Area
+When country is <Country>
+Then currency is <Area>
+
+Examples:
+|Country|Area|
+|United States of America|9.8 million sq km|
+|Canada|9.9 million sq km|
+|United Kingdom|242,514 sq km|
+|Republic of Poland|312,685 sq km|
