@@ -3,17 +3,17 @@ package pipetableformatter.plugin.operation;
 public class Select extends Operation {
 
 
-    private OperationUtility utility;
+    private PipeTableEditor editor;
 
-    public Select(OperationUtility anUtility) {
-        utility = anUtility;
+    public Select(PipeTableEditor editor) {
+        this.editor = editor;
     }
 
     @Override
     public void run() {
-        TableText tableText = getTextToFormat(utility);
+        TableText tableText = getTextToFormat(editor);
         if(tableText.isNotEmpty()) {
-            utility.setSelection(tableText.getRange());
+            editor.setSelection(tableText.getRange());
         }
     }
 

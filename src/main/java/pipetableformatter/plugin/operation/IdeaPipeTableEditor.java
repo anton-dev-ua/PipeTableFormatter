@@ -3,12 +3,11 @@ package pipetableformatter.plugin.operation;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.SelectionModel;
 import pipetableformatter.Range;
-import pipetableformatter.TableDetector;
 
-public class DefaultOperationUtility implements OperationUtility {
+public class IdeaPipeTableEditor implements PipeTableEditor {
     protected final Editor editor;
 
-    public DefaultOperationUtility(Editor editor) {
+    public IdeaPipeTableEditor(Editor editor) {
         this.editor = editor;
     }
 

@@ -9,15 +9,15 @@ import static pipetableformatter.PipeTableFormatter.formatter;
 
 public class Format extends Operation {
 
-    OperationUtility utility;
+    PipeTableEditor editor;
     private final FormatOptions options;
 
-    public Format(OperationUtility utility) {
-        this(utility, formatOptions());
+    public Format(PipeTableEditor editor) {
+        this(editor, formatOptions());
     }
 
-    public Format(OperationUtility utility, FormatOptions formatOptions) {
-        this.utility = utility;
+    public Format(PipeTableEditor editor, FormatOptions formatOptions) {
+        this.editor = editor;
         this.options = formatOptions;
     }
 
@@ -27,11 +27,11 @@ public class Format extends Operation {
     }
 
     private void formatTable() {
-        TableText tableText = getTextToFormat(utility);
+        TableText tableText = getTextToFormat(editor);
         if (tableText.isNotEmpty()) {
             PipeTable pipeTable = new PipeTableParser(tableText.getText()).parse();
             String formattedText = formatter().withOptions(options).format(pipeTable);
-            utility.replaceText(formattedText, tableText.getRange());
+            editor.replaceText(formattedText, tableText.getRange());
         }
     }
 

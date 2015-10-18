@@ -2,7 +2,7 @@ package pipetableformatter.plugin.operation;
 
 import pipetableformatter.Range;
 
-public interface OperationUtility {
+public interface PipeTableEditor {
     TableText getSelectedText();
     String getText();
     int getCaretPosition();

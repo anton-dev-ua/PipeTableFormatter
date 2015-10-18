@@ -1,7 +1,7 @@
 package pipetableformatter.plugin;
 
 import com.intellij.openapi.editor.Editor;
-import pipetableformatter.plugin.operation.DefaultOperationUtility;
+import pipetableformatter.plugin.operation.IdeaPipeTableEditor;
 import pipetableformatter.plugin.operation.Select;
 
 public class PipeTableSelectAction extends AbstractPipeTableFormatAction {
@@ -9,7 +9,7 @@ public class PipeTableSelectAction extends AbstractPipeTableFormatAction {
         super(new PipeTableActionHandler() {
             @Override
             protected Runnable action(Editor editor) {
-                return new Select(new DefaultOperationUtility(editor));
+                return new Select(new IdeaPipeTableEditor(editor));
             }
         });
     }

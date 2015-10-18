@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import pipetableformatter.Range;
 
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
 public class SelectOperationTest {
@@ -23,11 +22,11 @@ public class SelectOperationTest {
             "|United Kingdom|pound sterling|62.8 million|242,514 sq km|\n" +
             "|Republic of Poland|zloty|38.3 million|312,685 sq km|";
 
-    OperationUtility utility;
+    PipeTableEditor utility;
 
     @Before
     public void before() {
-        utility = mock(OperationUtility.class);
+        utility = mock(PipeTableEditor.class);
     }
 
     @Test

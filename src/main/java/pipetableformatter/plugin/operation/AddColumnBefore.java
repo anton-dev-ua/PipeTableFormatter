@@ -7,10 +7,10 @@ import static pipetableformatter.PipeTableFormatter.formatter;
 
 public class AddColumnBefore extends Operation {
 
-    private OperationUtility utility;
+    private PipeTableEditor editor;
 
-    public AddColumnBefore(OperationUtility anUtility) {
-        utility = anUtility;
+    public AddColumnBefore(PipeTableEditor editor) {
+        this.editor = editor;
     }
 
 
@@ -20,16 +20,16 @@ public class AddColumnBefore extends Operation {
     }
 
     private void addColumnAndFormat() {
-        TableText tableText = getTextToFormat(utility);
+        TableText tableText = getTextToFormat(editor);
         if (tableText.isNotEmpty()) {
-            int caretPosition = utility.getCaretPosition();
+            int caretPosition = editor.getCaretPosition();
             PipeTableParser pipeTableParser =
                     new PipeTableParser(tableText.getText())
                             .withDetectingCellByCaretPosition(caretPosition - tableText.getRange().getStart());
             PipeTable pipeTable = pipeTableParser.parse();
             pipeTable.addColumnBefore(pipeTableParser.getSelectedColumn());
             String formattedText = formatter().format(pipeTable);
-            utility.replaceText(formattedText, tableText.getRange());
+            editor.replaceText(formattedText, tableText.getRange());
         }
     }
 

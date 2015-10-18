@@ -56,11 +56,11 @@ public class FormatOperationTest {
             " Republic of Poland       | zloty           | 38.3 million | 312,685 sq km     ";
 
 
-    OperationUtility utility;
+    PipeTableEditor utility;
 
     @Before
     public void before() {
-        utility = mock(OperationUtility.class);
+        utility = mock(PipeTableEditor.class);
     }
 
     @Test
