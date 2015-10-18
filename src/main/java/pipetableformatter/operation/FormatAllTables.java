@@ -26,8 +26,8 @@ public class FormatAllTables extends Operation {
 
         Range tableRange = detectTableIn(text).around(position);
         if (tableRange.isNotEmpty()) {
-            offset = formatAndReplace(text, tableRange, offset);
-            formatNext(text, tableRange.getEnd() + 1, offset);
+            int newOffset = formatAndReplace(text, tableRange, offset);
+            formatNext(text, tableRange.getEnd() + 1, newOffset);
         } else {
             formatNext(text, text.indexOf("\n", position + 1), offset);
         }
