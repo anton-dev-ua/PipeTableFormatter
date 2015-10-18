@@ -9,7 +9,7 @@ public class Select extends Operation {
     }
 
     @Override
-    public void run() {
+    protected void perform() {
         TableText tableText = getSelectedTable(editor);
         if(tableText.isNotEmpty()) {
             editor.setSelection(tableText.getRange());

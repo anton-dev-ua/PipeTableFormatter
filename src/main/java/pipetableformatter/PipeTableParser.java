@@ -6,7 +6,7 @@ import java.util.List;
 public class PipeTableParser {
     public static final String WIN_EOF = "\r\n";
     public static final String LINUX_EOF = "\n";
-    public List<PipeTable.Row> parserTable = new ArrayList<PipeTable.Row>();
+    public List<PipeTable.Row> tableRows = new ArrayList<PipeTable.Row>();
     public int maxRowSize = 0;
     private int caretPosition = -1;
     private int selectedRow = -1;
@@ -19,15 +19,17 @@ public class PipeTableParser {
         this.notFormattedText = notFormattedText;
     }
 
-    public PipeTableParser withDetectingCellByCaretPosition(int caretPosition) {
+    public PipeTableParser detectingCellByPosition(int caretPosition) {
         this.caretPosition = caretPosition;
         return this;
     }
 
     public PipeTable parse() {
         parseText();
-        return new PipeTable(parserTable);
-
+        PipeTable pipeTable = new PipeTable(tableRows);
+        pipeTable.setSelectedRow(selectedRow);
+        pipeTable.setSelectedColumn(selectedColumn);
+        return pipeTable;
     }
 
     private void parseText() {
@@ -49,7 +51,7 @@ public class PipeTableParser {
     }
 
     private void normalizeRows() {
-        for (PipeTable.Row row : parserTable) {
+        for (PipeTable.Row row : tableRows) {
             for (int i = row.size(); i < maxRowSize; i++) {
                 row.add("");
             }
@@ -63,7 +65,7 @@ public class PipeTableParser {
     private void parseLine(String line, String endOfLine, boolean rowWithCaret) {
         PipeTable.Row row = new PipeTable.Row(splitForColumns(line, rowWithCaret), endOfLine);
         rememberMaxLength(row.size());
-        parserTable.add(row);
+        tableRows.add(row);
     }
 
     private List<PipeTable.Cell> splitForColumns(String line, boolean rowWithCaret) {
@@ -91,13 +93,5 @@ public class PipeTableParser {
         if (size > maxRowSize) {
             maxRowSize = size;
         }
-    }
-
-    public int getSelectedRow() {
-        return selectedRow;
-    }
-
-    public int getSelectedColumn() {
-        return selectedColumn;
     }
 }

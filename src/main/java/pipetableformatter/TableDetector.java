@@ -4,11 +4,15 @@ public class TableDetector {
 
     private String text;
 
-    public TableDetector(String text) {
+    private TableDetector(String text) {
         this.text = text;
     }
+    
+    public static TableDetector detectTableIn(String text) {
+        return new TableDetector(text);
+    }
 
-    public Range findAround(int position) {
+    public Range around(int position) {
 
         text = "\n" + text;
         position++;

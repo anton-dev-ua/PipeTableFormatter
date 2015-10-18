@@ -6,6 +6,8 @@ import java.util.List;
 public class PipeTable {
 
     List<Row> table;
+    private int selectedRow = -1;
+    private int selectedColumn = -1;
 
     public PipeTable(List<Row> table) {
         this.table = new ArrayList<Row>(table);
@@ -31,6 +33,22 @@ public class PipeTable {
         for (Row row : table) {
             row.add(columnIndex, "");
         }
+    }
+
+    public int getSelectedRow() {
+        return selectedRow;
+    }
+
+    public void setSelectedRow(int selectedRow) {
+        this.selectedRow = selectedRow;
+    }
+
+    public int getSelectedColumn() {
+        return selectedColumn;
+    }
+
+    public void setSelectedColumn(int selectedColumn) {
+        this.selectedColumn = selectedColumn;
     }
 
     static class Row {

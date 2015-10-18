@@ -13,24 +13,21 @@ public class AddColumnBefore extends Operation {
         this.editor = editor;
     }
 
-
     @Override
-    public void run() {
-        addColumnAndFormat();
-    }
-
-    private void addColumnAndFormat() {
+    protected void perform() {
         TableText tableText = getSelectedTable(editor);
         if (tableText.isNotEmpty()) {
-            int caretPosition = editor.getCaretPosition();
-            PipeTableParser pipeTableParser =
-                    new PipeTableParser(tableText.getText())
-                            .withDetectingCellByCaretPosition(caretPosition - tableText.getRange().getStart());
-            PipeTable pipeTable = pipeTableParser.parse();
-            pipeTable.addColumnBefore(pipeTableParser.getSelectedColumn());
+            PipeTable pipeTable = parseTable(tableText, editor.getCaretPosition());
+            pipeTable.addColumnBefore(pipeTable.getSelectedColumn());
             String formattedText = formatter().format(pipeTable);
             editor.replaceText(formattedText, tableText.getRange());
         }
+    }
+
+    private PipeTable parseTable(TableText tableText, int caretPosition) {
+        return new PipeTableParser(tableText.getText())
+                .detectingCellByPosition(caretPosition - tableText.getRange().getStart())
+                .parse();
     }
 
 }

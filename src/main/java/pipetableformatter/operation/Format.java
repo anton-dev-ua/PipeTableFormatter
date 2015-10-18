@@ -21,12 +21,7 @@ public class Format extends Operation {
         this.options = formatOptions;
     }
 
-    @Override
-    public void run() {
-        formatTable();
-    }
-
-    private void formatTable() {
+    protected void perform() {
         TableText tableText = getSelectedTable(editor);
         if (tableText.isNotEmpty()) {
             PipeTable pipeTable = new PipeTableParser(tableText.getText()).parse();
