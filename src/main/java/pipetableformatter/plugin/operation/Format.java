@@ -27,7 +27,7 @@ public class Format extends Operation {
     }
 
     private void formatTable() {
-        TableText tableText = getTextToFormat(editor);
+        TableText tableText = getSelectedTable(editor);
         if (tableText.isNotEmpty()) {
             PipeTable pipeTable = new PipeTableParser(tableText.getText()).parse();
             String formattedText = formatter().withOptions(options).format(pipeTable);

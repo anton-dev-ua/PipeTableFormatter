@@ -20,7 +20,7 @@ public class AddColumnBefore extends Operation {
     }
 
     private void addColumnAndFormat() {
-        TableText tableText = getTextToFormat(editor);
+        TableText tableText = getSelectedTable(editor);
         if (tableText.isNotEmpty()) {
             int caretPosition = editor.getCaretPosition();
             PipeTableParser pipeTableParser =

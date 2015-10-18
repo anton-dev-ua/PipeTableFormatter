@@ -4,7 +4,7 @@ import pipetableformatter.Range;
 import pipetableformatter.TableDetector;
 
 public abstract class Operation implements Runnable {
-    protected TableText getTextToFormat(PipeTableEditor editor) {
+    protected TableText getSelectedTable(PipeTableEditor editor) {
         TableText tableText = editor.getSelectedText();
         if(tableText.isEmpty()) {
             String text = editor.getText();
