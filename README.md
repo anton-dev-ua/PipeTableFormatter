@@ -12,6 +12,7 @@ Features
 - Supported delimiters: pipe, comma, tab.
 - Any of supported delimiters, when formatting, are converted to pipe.
 - If text is not selected explicitly - automatically detects start and end of a table on base of caret position.
+- All tables in the editor can be formatted by one action
 
 Example
 -------
@@ -46,4 +47,4 @@ Usage
 -----
 
 1. Select text that should be formatted or just put caret somewhere inside a table.
-2. Choose action Pipe Table Formatter in Code menu.
+2. Choose action `Pipe Table -> Format` in Code menu or popup menu.
