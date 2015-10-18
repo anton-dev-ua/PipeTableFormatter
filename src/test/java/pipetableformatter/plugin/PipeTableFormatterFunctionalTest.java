@@ -7,70 +7,21 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 public class PipeTableFormatterFunctionalTest {
 
-    private static final String TEXT_WITH_NOT_FORMATTED_TABLE = "" +
-            "Story: Countries\n" +
-            "\n" +
-            "Scenario: Country currency\n" +
-            "When country is <Country>\n" +
-            "Then currency is <Currency>\n" +
-            "\n" +
-            "Examples:\n" +
-            "|Country|Currency|Population|Area|\n" +
-            "|United States of America|US dollar|316 million|9.8 million sq km|\n" +
-            "|Canada|Canadian<caret> dollar|34.7 million|9.9 million sq km|\n" +
-            "|United Kingdom|pound sterling|62.8 million|242,514 sq km|\n" +
-            "|Republic of Poland|zloty|38.3 million|312,685 sq km|";
-
-    private static final String TEXT_WITH_FORMATTED_TABLE = "" +
-            "Story: Countries\n" +
-            "\n" +
-            "Scenario: Country currency\n" +
-            "When country is <Country>\n" +
-            "Then currency is <Currency>\n" +
-            "\n" +
-            "Examples:\n" +
-            "| Country                  | Currency        | Population   | Area              |\n" +
-            "| United States of America | US dollar       | 316 million  | 9.8 million sq km |\n" +
-            "| Canada                   | Canadian dollar | 34.7 million | 9.9 million sq km |\n" +
-            "| United Kingdom           | pound sterling  | 62.8 million | 242,514 sq km     |\n" +
-            "| Republic of Poland       | zloty           | 38.3 million | 312,685 sq km     |";
-
-    private static final String TEXT_WITH_FORMATTED_TABLE_AND_NEW_COLUMN = "" +
-            "Story: Countries\n" +
-            "\n" +
-            "Scenario: Country currency\n" +
-            "When country is <Country>\n" +
-            "Then currency is <Currency>\n" +
-            "\n" +
-            "Examples:\n" +
-            "| Country                  |  | Currency        | Population   | Area              |\n" +
-            "| United States of America |  | US dollar       | 316 million  | 9.8 million sq km |\n" +
-            "| Canada                   |  | Canadian dollar | 34.7 million | 9.9 million sq km |\n" +
-            "| United Kingdom           |  | pound sterling  | 62.8 million | 242,514 sq km     |\n" +
-            "| Republic of Poland       |  | zloty           | 38.3 million | 312,685 sq km     |";
-
-    private static final String TEXT_WITH_FORMATTED_TABLE_WITHOUT_OUTER_PIPES = "" +
-            "Story: Countries\n" +
-            "\n" +
-            "Scenario: Country currency\n" +
-            "When country is <Country>\n" +
-            "Then currency is <Currency>\n" +
-            "\n" +
-            "Examples:\n" +
-            " Country                  | Currency        | Population   | Area              \n" +
-            " United States of America | US dollar       | 316 million  | 9.8 million sq km \n" +
-            " Canada                   | Canadian dollar | 34.7 million | 9.9 million sq km \n" +
-            " United Kingdom           | pound sterling  | 62.8 million | 242,514 sq km     \n" +
-            " Republic of Poland       | zloty           | 38.3 million | 312,685 sq km     ";
-
+    private static final String TEXT_WITH_NOT_FORMATTED_TABLE = loadFile("input/text-with-not-formatted-table.txt");
+    private static final String TEXT_WITH_FORMATTED_TABLE = loadFile("expected/text-with-formatted-table.txt");
+    private static final String TEXT_WITH_FORMATTED_TABLE_AND_NEW_COLUMN = loadFile("expected/text-with-formatted-table-and-new-column.txt");
+    private static final String TEXT_WITH_FORMATTED_TABLE_WITHOUT_OUTER_PIPES =  loadFile("expected/text-with-formatted-table-without-outer-pipes.txt");
 
     private CodeInsightTestFixture myFixture;
-
 
     @Before
     public void before() throws Exception {
@@ -129,6 +80,29 @@ public class PipeTableFormatterFunctionalTest {
 
         String textAfterActionApplied = myFixture.getEditor().getDocument().getText();
         assertThat(textAfterActionApplied, is(TEXT_WITH_FORMATTED_TABLE_WITHOUT_OUTER_PIPES));
+    }
+
+
+    private static String loadFile(String fileName) {
+        InputStream inputStream = ClassLoader.getSystemResourceAsStream(fileName);
+
+        StringBuilder stringBuilder = new StringBuilder();
+        try {
+            byte[] chunk = new byte[512];
+            for (int count = inputStream.read(chunk); count >= 0; count = inputStream.read(chunk)) {
+                stringBuilder.append(new String(chunk, 0, count, Charset.defaultCharset()));
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                inputStream.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        
+        return stringBuilder.toString();
     }
 
 }
