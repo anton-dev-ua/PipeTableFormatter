@@ -1,4 +1,4 @@
-Story: Countries
+Story: Countries, currencies, etc
 
 Scenario: Country currency
 When country is <Country>

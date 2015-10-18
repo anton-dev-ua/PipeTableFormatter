@@ -57,4 +57,8 @@ public class Range {
                 ", end=" + end +
                 '}';
     }
+
+    public Range plus(int offset) {
+        return new Range(start + offset, end + offset);
+    }
 }

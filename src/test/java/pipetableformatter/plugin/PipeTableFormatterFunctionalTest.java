@@ -3,16 +3,15 @@ package pipetableformatter.plugin;
 import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.testFramework.builders.JavaModuleFixtureBuilder;
 import com.intellij.testFramework.fixtures.*;
+import org.jetbrains.annotations.NotNull;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.Charset;
+import pipetableformatter.testsupport.Utils;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static pipetableformatter.testsupport.Utils.loadFile;
 
 public class PipeTableFormatterFunctionalTest {
 
@@ -49,8 +48,7 @@ public class PipeTableFormatterFunctionalTest {
 
         myFixture.performEditorAction("PipeTableFormatter.Format");
 
-        String textAfterActionApplied = myFixture.getEditor().getDocument().getText();
-        assertThat(textAfterActionApplied, is(TEXT_WITH_FORMATTED_TABLE));
+        assertThat(textAfterActionApplied(), is(TEXT_WITH_FORMATTED_TABLE));
     }
 
     @Test
@@ -70,8 +68,7 @@ public class PipeTableFormatterFunctionalTest {
 
         myFixture.performEditorAction("PipeTableFormatter.AddColumnBefore");
 
-        String textAfterActionApplied = myFixture.getEditor().getDocument().getText();
-        assertThat(textAfterActionApplied, is(TEXT_WITH_FORMATTED_TABLE_AND_NEW_COLUMN));
+        assertThat(textAfterActionApplied(), is(TEXT_WITH_FORMATTED_TABLE_AND_NEW_COLUMN));
     }
 
     @Test
@@ -80,8 +77,7 @@ public class PipeTableFormatterFunctionalTest {
 
         myFixture.performEditorAction("PipeTableFormatter.FormatWithoutOuterPipes");
 
-        String textAfterActionApplied = myFixture.getEditor().getDocument().getText();
-        assertThat(textAfterActionApplied, is(TEXT_WITH_FORMATTED_TABLE_WITHOUT_OUTER_PIPES));
+        assertThat(textAfterActionApplied(), is(TEXT_WITH_FORMATTED_TABLE_WITHOUT_OUTER_PIPES));
     }
 
     @Test
@@ -90,31 +86,11 @@ public class PipeTableFormatterFunctionalTest {
 
         myFixture.performEditorAction("PipeTableFormatter.FormatAllTables");
 
-        String textAfterActionApplied = myFixture.getEditor().getDocument().getText();
-        assertThat(textAfterActionApplied, is(TEXT_WITH_ALL_FORMATTED_TABLES));
+        assertThat(textAfterActionApplied(), is(TEXT_WITH_ALL_FORMATTED_TABLES));
     }
 
-
-    private static String loadFile(String fileName) {
-        InputStream inputStream = ClassLoader.getSystemResourceAsStream(fileName);
-
-        StringBuilder stringBuilder = new StringBuilder();
-        try {
-            byte[] chunk = new byte[512];
-            for (int count = inputStream.read(chunk); count >= 0; count = inputStream.read(chunk)) {
-                stringBuilder.append(new String(chunk, 0, count, Charset.defaultCharset()));
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } finally {
-            try {
-                inputStream.close();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-        return stringBuilder.toString();
+    @NotNull
+    private String textAfterActionApplied() {
+        return myFixture.getEditor().getDocument().getText();
     }
-
 }
