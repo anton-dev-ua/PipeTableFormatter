@@ -57,14 +57,14 @@ public class TableDetectorTest {
     @Test
     public void detectsStartOfTheTableDelimitedWithPipe() {
 
-        Range range = new TableDetector(TEXT_WITH_TABLE_PIPE).find(67);
+        Range range = new TableDetector(TEXT_WITH_TABLE_PIPE).findAround(67);
 
         assertThat(range.getStart(), is(PIPE_TABLE_START_POS));
     }
 
     @Test
     public void detectsEndOfTheTableDelimitedWithPipe(){
-        Range range = new TableDetector(TEXT_WITH_TABLE_PIPE).find(67);
+        Range range = new TableDetector(TEXT_WITH_TABLE_PIPE).findAround(67);
 
         assertThat(range.getEnd(), is(PIPE_TABLE_END_POS));
     }
@@ -72,14 +72,14 @@ public class TableDetectorTest {
     @Test
     public void detectsStartOfTheTableDelimitedWithComma() {
 
-        Range range = new TableDetector(TEXT_WITH_TABLE_COMMA).find(67);
+        Range range = new TableDetector(TEXT_WITH_TABLE_COMMA).findAround(67);
 
         assertThat(range.getStart(), is(COMMA_TABLE_START_POS));
     }
 
     @Test
     public void detectsEndOfTheTableDelimitedWithComma(){
-        Range range = new TableDetector(TEXT_WITH_TABLE_COMMA).find(67);
+        Range range = new TableDetector(TEXT_WITH_TABLE_COMMA).findAround(67);
 
         assertThat(range.getEnd(), is(COMMA_TABLE_END_POS));
     }
@@ -87,21 +87,21 @@ public class TableDetectorTest {
     @Test
     public void detectsStartOfTheTableDelimitedWithTab() {
 
-        Range range = new TableDetector(TEXT_WITH_TABLE_TAB).find(67);
+        Range range = new TableDetector(TEXT_WITH_TABLE_TAB).findAround(67);
 
         assertThat(range.getStart(), is(TAB_TABLE_START_POS));
     }
 
     @Test
     public void detectsEndOfTheTableDelimitedWithTab(){
-        Range range = new TableDetector(TEXT_WITH_TABLE_TAB).find(67);
+        Range range = new TableDetector(TEXT_WITH_TABLE_TAB).findAround(67);
 
         assertThat(range.getEnd(), is(TAB_TABLE_END_POS));
     }
 
     @Test
     public void ignoresCommasInsideQuotes() {
-        Range range = new TableDetector(TEXT_WITH_COMMA_INSIDE_QUOTES).find(37);
+        Range range = new TableDetector(TEXT_WITH_COMMA_INSIDE_QUOTES).findAround(37);
 
         assertThat(range.getStart(), is(0));
         assertThat(range.getEnd(), is(TEXT_WITH_COMMA_INSIDE_QUOTES.length()-1));
@@ -109,7 +109,7 @@ public class TableDetectorTest {
 
     @Test
     public void ignoresPipeInsideQuotes() {
-        Range range = new TableDetector(TEXT_WITH_PIPE_INSIDE_QUOTES).find(37);
+        Range range = new TableDetector(TEXT_WITH_PIPE_INSIDE_QUOTES).findAround(37);
 
         assertThat(range.getStart(), is(0));
         assertThat(range.getEnd(), is(TEXT_WITH_PIPE_INSIDE_QUOTES.length()-1));
@@ -117,21 +117,21 @@ public class TableDetectorTest {
 
     @Test
     public void canDetectTableIfNoLastEOL(){
-        Range range = new TableDetector(TEXT_WITH_TABLE_NO_LAST_EOL).find(67);
+        Range range = new TableDetector(TEXT_WITH_TABLE_NO_LAST_EOL).findAround(67);
 
         assertThat(range.getEnd(), is(TEXT_WITH_TABLE_NO_LAST_EOL.length()));
     }
 
     @Test
     public void canDetectTableIfNoLastEOLAndCaretAtLastLine(){
-        Range range = new TableDetector(TEXT_WITH_TABLE_NO_LAST_EOL).find(98);
+        Range range = new TableDetector(TEXT_WITH_TABLE_NO_LAST_EOL).findAround(98);
 
         assertThat(range.getEnd(), is(TEXT_WITH_TABLE_NO_LAST_EOL.length()));
     }
 
     @Test
     public void ignoresCommaInsidePipeTable() {
-        Range range = new TableDetector(PIPE_TABLE_CONTAINS_VALUE_WITH_COMMA).find(37);
+        Range range = new TableDetector(PIPE_TABLE_CONTAINS_VALUE_WITH_COMMA).findAround(37);
 
         assertThat(range.getStart(), is(0));
         assertThat(range.getEnd(), is(PIPE_TABLE_CONTAINS_VALUE_WITH_COMMA.length()-1));
@@ -139,14 +139,14 @@ public class TableDetectorTest {
 
     @Test
     public void detectsTableWhenCaretPlacedAtStartOfALine() {
-        Range range = new TableDetector(TEXT_WITH_TABLE_PIPE).find(53);
+        Range range = new TableDetector(TEXT_WITH_TABLE_PIPE).findAround(53);
 
         assertThat(range.getStart(), is(PIPE_TABLE_START_POS));
     }
 
     @Test
     public void detectsTableWhenCaretPlacedAtEndOfALine() {
-        Range range = new TableDetector(TEXT_WITH_TABLE_PIPE).find(52);
+        Range range = new TableDetector(TEXT_WITH_TABLE_PIPE).findAround(52);
 
         assertThat(range.getStart(), is(PIPE_TABLE_START_POS));
     }

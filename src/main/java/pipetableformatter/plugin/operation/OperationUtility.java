@@ -1,8 +1,11 @@
 package pipetableformatter.plugin.operation;
 
+import pipetableformatter.Range;
+
 public interface OperationUtility {
-    void autoselectTableIfNotSelected();
-    void replaceText(String formattedText);
-    int getCaretPositionInSelection();
-    String getSelectedText();
+    TableText getSelectedText();
+    String getText();
+    int getCaretPosition();
+    void replaceText(String formattedText, Range tableRange);
+    void setSelection(Range range);
 }

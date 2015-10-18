@@ -8,7 +8,7 @@ public class TableDetector {
         this.text = text;
     }
 
-    public Range find(int position) {
+    public Range findAround(int position) {
 
         text = "\n" + text;
         position++;

@@ -1,6 +1,6 @@
 package pipetableformatter.plugin.operation;
 
-public class Select implements Runnable {
+public class Select extends Operation {
 
 
     private OperationUtility utility;
@@ -11,7 +11,10 @@ public class Select implements Runnable {
 
     @Override
     public void run() {
-        utility.autoselectTableIfNotSelected();
+        TableText tableText = getTextToFormat(utility);
+        if(tableText.isNotEmpty()) {
+            utility.setSelection(tableText.getRange());
+        }
     }
 
 }

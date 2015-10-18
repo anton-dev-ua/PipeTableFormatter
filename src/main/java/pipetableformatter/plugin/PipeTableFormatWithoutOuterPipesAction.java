@@ -2,7 +2,9 @@ package pipetableformatter.plugin;
 
 import com.intellij.openapi.editor.Editor;
 import pipetableformatter.plugin.operation.DefaultOperationUtility;
-import pipetableformatter.plugin.operation.FormatWithoutOuterPipes;
+import pipetableformatter.plugin.operation.Format;
+
+import static pipetableformatter.FormatOptions.formatOptions;
 
 public class PipeTableFormatWithoutOuterPipesAction extends AbstractPipeTableFormatAction {
 
@@ -10,7 +12,7 @@ public class PipeTableFormatWithoutOuterPipesAction extends AbstractPipeTableFor
         super(new PipeTableActionHandler() {
             @Override
             protected Runnable action(Editor editor) {
-                return new FormatWithoutOuterPipes(new DefaultOperationUtility(editor));
+                return new Format(new DefaultOperationUtility(editor), formatOptions().withoutOuterPipes());
             }
         });
     }

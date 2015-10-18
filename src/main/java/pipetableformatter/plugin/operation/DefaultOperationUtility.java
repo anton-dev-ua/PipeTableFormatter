@@ -12,45 +12,36 @@ public class DefaultOperationUtility implements OperationUtility {
         this.editor = editor;
     }
 
-    @Override
-    public void autoselectTableIfNotSelected() {
-        if(getSelectionModel().hasSelection()) {
-            return;
-        }
-
-        int currentPosition = editor.getCaretModel().getOffset();
-        String text = editor.getDocument().getText();
-        Range tableRange = new TableDetector(text).find(currentPosition);
-
-        if (Range.EMPTY != tableRange) {
-            getSelectionModel().setSelection(tableRange.getStart(), tableRange.getEnd());
-        }
-    }
-
     private SelectionModel getSelectionModel() {
         return editor.getSelectionModel();
     }
 
     @Override
-    public void replaceText(String formattedText) {
-        SelectionModel selectionModel = getSelectionModel();
-        editor.getDocument().replaceString(
-                selectionModel.getSelectionStart(),
-                selectionModel.getSelectionEnd(),
-                formattedText
-        );
+    public TableText getSelectedText() {
+        return new TableText(
+                getSelectionModel().getSelectedText(),
+                new Range(getSelectionModel().getSelectionStart(), getSelectionModel().getSelectionEnd())
+                );
     }
 
     @Override
-    public int getCaretPositionInSelection() {
-        SelectionModel selectionModel = getSelectionModel();
-        int currentPosition = editor.getCaretModel().getOffset();
-        int selectionStart = selectionModel.getSelectionStart();
-        return currentPosition - selectionStart;
+    public String getText() {
+        return editor.getDocument().getText();
     }
 
     @Override
-    public String getSelectedText() {
-        return getSelectionModel().getSelectedText();
+    public int getCaretPosition() {
+        return editor.getCaretModel().getOffset();
+    }
+
+    @Override
+    public void replaceText(String newText, Range tableRange) {
+        getSelectionModel().setSelection(tableRange.getStart(), tableRange.getEnd());
+        editor.getDocument().replaceString(tableRange.getStart(), tableRange.getEnd(), newText);
+    }
+
+    @Override
+    public void setSelection(Range range) {
+        getSelectionModel().setSelection(range.getStart(), range.getEnd());
     }
 }

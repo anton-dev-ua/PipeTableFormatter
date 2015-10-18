@@ -2,6 +2,7 @@ package pipetableformatter.plugin.operation;
 
 import org.junit.Before;
 import org.junit.Test;
+import pipetableformatter.Range;
 
 import static org.mockito.Mockito.*;
 
@@ -27,16 +28,15 @@ public class AddColumnBeforeOperationTest {
     @Before
     public void before() {
         utility = mock(OperationUtility.class);
-        when(utility.getSelectedText()).thenReturn(NOT_FORMATTED_TABLE);
-        when(utility.getCaretPositionInSelection()).thenReturn(64);
+        when(utility.getSelectedText()).thenReturn(new TableText(NOT_FORMATTED_TABLE, new Range(1, 200)));
+        when(utility.getCaretPosition()).thenReturn(65);
     }
 
 
     @Test
     public void addsColumn() {
-
         new AddColumnBefore(utility).run();
 
-        verify(utility).replaceText(FORMATTED_TABLE_WITH_NEW_COLUMN);
+        verify(utility).replaceText(FORMATTED_TABLE_WITH_NEW_COLUMN, new Range(1, 200));
     }
 }
