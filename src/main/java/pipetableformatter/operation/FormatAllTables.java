@@ -17,35 +17,29 @@ public class FormatAllTables extends Operation {
 
     @Override
     protected void perform() {
-        String text = editor.getText();
-        formatNext(text, 0, 0);
+        formatNext(editor.getText(), editor.getText().length() - 1);
+        editor.setSelection(new Range(0, 0));
     }
 
-    private void formatNext(String text, int position, int offset) {
-        if (noMoreToFormat(text, position)) return;
+    private void formatNext(String text, int position) {
+        if (position < 0) return;
 
         Range tableRange = detectTableIn(text).around(position);
         if (tableRange.isNotEmpty()) {
-            int newOffset = formatAndReplace(text, tableRange, offset);
-            formatNext(text, tableRange.getEnd() + 1, newOffset);
+            formatAndReplace(text, tableRange);
+            formatNext(text, tableRange.getStart() - 1);
         } else {
-            formatNext(text, text.indexOf("\n", position + 1), offset);
+            formatNext(text, text.lastIndexOf("\n", position) - 1);
         }
     }
 
-    private int formatAndReplace(String text, Range tableRange, int offset) {
+    private void formatAndReplace(String text, Range tableRange) {
         String textToFormat = text.substring(tableRange.getStart(), tableRange.getEnd());
         PipeTable pipeTable = parse(textToFormat);
         if (pipeTable.getRowCount() > 1) {
             String formattedText = formatter().format(pipeTable);
-            editor.replaceText(formattedText, tableRange.plus(offset));
-            offset += formattedText.length() - textToFormat.length();
+            editor.replaceText(formattedText, tableRange);
         }
-        return offset;
-    }
-
-    private boolean noMoreToFormat(String text, int position) {
-        return position < 0 || position >= text.length();
     }
 
     private PipeTable parse(String textToFormat) {

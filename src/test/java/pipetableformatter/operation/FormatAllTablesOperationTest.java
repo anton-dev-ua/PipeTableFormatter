@@ -87,22 +87,19 @@ public class FormatAllTablesOperationTest {
 
         new FormatAllTables(editor).run();
 
-        verify(editor).getText();
+        verify(editor, times(3)).replaceText(anyString(), any(Range.class));
         verify(editor).replaceText(FORMATTED_TABLE_1, new Range(110, 256));
-        verify(editor).replaceText(FORMATTED_TABLE_2, new Range(478, 613));
-        verify(editor).replaceText(FORMATTED_TABLE_3, new Range(784, 936));
-        verifyNoMoreInteractions(editor);
-
+        verify(editor).replaceText(FORMATTED_TABLE_2, new Range(355, 490));
+        verify(editor).replaceText(FORMATTED_TABLE_3, new Range(577, 729));
     }
 
     @Test
     public void ignoresSingleLineWithDelimiters() {
         when(editor.getText()).thenReturn(TEXT_WITH_SINGLE_LINE_WITH_DELIMITERS);
-        
+
         new FormatAllTables(editor).run();
-        
-        verify(editor).getText();
-        verifyNoMoreInteractions(editor);
+
+        verify(editor, times(0)).replaceText(anyString(), any(Range.class));
     }
 
 }
