@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class DelimitersCount {
 
-    private static final char[] delimiters = new char[]{'|', ',', '\t'};
+    private char[] delimiters = new char[]{'|', ',', '\t'};
 
     Map<Character, Integer> counters = new HashMap<Character, Integer>();
 
@@ -16,6 +16,18 @@ public class DelimitersCount {
 
     public DelimitersCount(String text) {
         this(text, 0, text.length());
+    }
+
+    public DelimitersCount(String text, Range lineRange) {
+        this(text, lineRange.getStart(), lineRange.getEnd());
+    }
+
+    public static DelimitersCount countDelimiters(String text, Range lineRange) {
+        return new DelimitersCount(text, lineRange);
+    }
+
+    public void setDelimiters(char[] delimiters) {
+        this.delimiters = delimiters;
     }
 
     private void initCounters() {
@@ -40,15 +52,11 @@ public class DelimitersCount {
         return true;
     }
 
-    public boolean isDifferentCount(DelimitersCount delimitersCount) {
-        return !isSameCount(delimitersCount);
-    }
-
     private int count(String text, int start, int end) {
         boolean quoted = false;
         int count = 0;
 
-        for (int index = start; index < end; index++) {
+        for (int index = start >= 0 ? start : 0; index < end; index++) {
             if (text.charAt(index) == '"') quoted = !quoted;
             if (quoted) continue;
             checkForDelimiter(text.charAt(index));

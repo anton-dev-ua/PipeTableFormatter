@@ -3,67 +3,70 @@ package pipetableformatter;
 public class TableDetector {
 
     private String text;
+    private DelimitersCount baseDelimitersCount;
 
     private TableDetector(String text) {
-        this.text = text;
+        this.text = "\n" + text + "\n";
     }
-    
+
     public static TableDetector detectTableIn(String text) {
         return new TableDetector(text);
     }
 
     public Range around(int position) {
-
-        text = "\n" + text;
-        position++;
-
-        int lineEndIndex = findEOL(text, position);
-        int lineStartIndex = findSOL(text, position);
-
-        DelimitersCount delimitersCount = new DelimitersCount(text, lineStartIndex, lineEndIndex);
-
-        if (delimitersCount.isZero()) return Range.EMPTY;
-
-        lineStartIndex = findStartOfTable(text, lineStartIndex, delimitersCount);
-        lineEndIndex = findEndOfTable(text, lineEndIndex, delimitersCount);
-
-        return new Range(lineStartIndex, lineEndIndex - 1);
-    }
-
-    private int findEOL(String text, int position) {
-        int lineEndIndex = text.indexOf("\n", position);
-        if (lineEndIndex < 0) lineEndIndex = text.length();
-        return lineEndIndex;
-    }
-
-    private int findSOL(String text, int position) {
-        return text.lastIndexOf("\n", position-1);
-    }
-
-    private int findEndOfTable(String text, int endLineIndex, DelimitersCount delimitersCountEtalon) {
-
-        DelimitersCount delimitersCount = delimitersCountEtalon;
-
-        while (delimitersCountEtalon.isSameCount(delimitersCount) && endLineIndex < text.length() - 1) {
-            int startIndex = endLineIndex;
-            endLineIndex = findEOL(text, endLineIndex + 1);
-            delimitersCount = new DelimitersCount(text, startIndex, endLineIndex);
-            if (delimitersCountEtalon.isDifferentCount(delimitersCount)) endLineIndex = startIndex;
+        Range baseLine = findCurrentLine(position + 1);
+        baseDelimitersCount = asIn(baseLine);
+        
+        if (baseDelimitersCount.isZero()) {
+            return Range.EMPTY;
+        } else {
+            return findTableRange(baseLine);
         }
-        return endLineIndex;
     }
 
-    private int findStartOfTable(String text, int startLineIndex, DelimitersCount delimitersCountEtalon) {
-        DelimitersCount delimitersCount = delimitersCountEtalon;
+    private Range findCurrentLine(int position) {
+        return new Range(findSOL(position), findEOL(position));
+    }
 
-        while (delimitersCountEtalon.isSameCount(delimitersCount) && startLineIndex > 0) {
-            int endIndex = startLineIndex;
-            startLineIndex = findSOL(text, startLineIndex - 1);
-            delimitersCount = new DelimitersCount(text, startLineIndex, endIndex);
-            if (delimitersCountEtalon.isDifferentCount(delimitersCount)) startLineIndex = endIndex;
+    private Range findTableRange(Range baseLine) {
+        return new Range(findStartOfTable(baseLine), findEndOfTable(baseLine) - 1);
+    }
+
+    private int findEOL(int position) {
+        return text.indexOf("\n", position);
+    }
+
+    private int findSOL(int position) {
+        return text.lastIndexOf("\n", position - 1);
+    }
+
+    private int findStartOfTable(Range currentLine) {
+        Range line = findPrevious(currentLine);
+        if(baseDelimitersCount.isSameCount(asIn(line))) {
+            return findStartOfTable(line);
+        } else {
+            return currentLine.getStart();
         }
-        return startLineIndex;
     }
 
+    private int findEndOfTable(Range currentLine) {
+        Range line = findNext(currentLine);
+        if(baseDelimitersCount.isSameCount(asIn(line))) {
+            return findEndOfTable(line);
+        } else {
+            return currentLine.getEnd();
+        }
+    }
 
+    private DelimitersCount asIn(Range currLine) {
+        return new DelimitersCount(text, currLine);
+    }
+
+    private Range findPrevious(Range prevLine) {
+        return new Range(findSOL(prevLine.getStart() - 1), prevLine.getStart());
+    }
+
+    private Range findNext(Range prevLine) {
+        return new Range(prevLine.getEnd(), findEOL(prevLine.getEnd() + 1));
+    }
 }

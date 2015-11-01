@@ -2,7 +2,6 @@ package pipetableformatter;
 
 public class Range {
 
-    @Deprecated
     public static final Range EMPTY = new Range(0, 0);
 
     private int start;
