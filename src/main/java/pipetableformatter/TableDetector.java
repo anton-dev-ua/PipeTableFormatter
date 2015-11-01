@@ -52,12 +52,12 @@ public class TableDetector {
         return new DelimitersCount(text, currLine, delimiters);
     }
 
-    private Range previous(Range prevLine) {
-        return new Range(findSOL(prevLine.getStart() - 1), prevLine.getStart());
+    private Range previous(Range line) {
+        return new Range(findSOL(line.getStart() - 1), line.getStart());
     }
 
-    private Range next(Range prevLine) {
-        return new Range(prevLine.getEnd(), findEOL(prevLine.getEnd() + 1));
+    private Range next(Range line) {
+        return new Range(line.getEnd(), findEOL(line.getEnd() + 1));
     }
     
     public TableDetector usingDelimiters(char... delimiters) {
