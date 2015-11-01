@@ -13,15 +13,15 @@ Examples:
 
 
 Scenario: Country Population
-When country is <Country>
-Then currency is <Population>
+When country is <Country>, see examples
+Then currency is <Population>, see examples
 
 Examples:
-Country,Population
-United States of America,316 million
-Canada,34.7 million
-United Kingdom,62.8 million
-Republic of Poland,38.3 million
+|Country|Population|
+|United States of America|316 million|
+|Canada|34.7 million|
+|United Kingdom|62.8 million|
+|Republic of Poland|38.3 million|
 
 
 Scenario: Country Area

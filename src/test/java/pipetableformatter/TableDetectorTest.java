@@ -84,6 +84,13 @@ public class TableDetectorTest {
 
         assertThat(range.getEnd(), is(COMMA_TABLE_END_POS));
     }
+    
+    @Test
+    public void ignoresNonPipeTablesWhenAppropriateOptionIsSpecified() {
+        Range range = detectTableIn(TEXT_WITH_TABLE_COMMA).usingDelimiters(new char[]{'|'}).around(67);
+
+        assertThat(range.isEmpty(), is(true));
+    }
 
     @Test
     public void detectsStartOfTheTableDelimitedWithTab() {

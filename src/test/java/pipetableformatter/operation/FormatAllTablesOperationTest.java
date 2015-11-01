@@ -24,15 +24,15 @@ public class FormatAllTablesOperationTest {
             "\n" +
             "\n" +
             "Scenario: Country Population\n" +
-            "When country is <Country>\n" +
-            "Then currency is <Population>\n" +
+            "When country is <Country>, see examples\n" +
+            "Then currency is <Population>, see examples\n" +
             "\n" +
             "Examples:\n" +
-            "Country,Population\n" +
-            "United States of America,316 million\n" +
-            "Canada,34.7 million\n" +
-            "United Kingdom,62.8 million\n" +
-            "Republic of Poland,38.3 million\n" +
+            "Country|Population\n" +
+            "United States of America|316 million\n" +
+            "Canada|34.7 million\n" +
+            "United Kingdom|62.8 million\n" +
+            "Republic of Poland|38.3 million\n" +
             "\n" +
             "\n" +
             "Scenario: Country Area\n" +
@@ -89,8 +89,8 @@ public class FormatAllTablesOperationTest {
 
         verify(editor, times(3)).replaceText(anyString(), any(Range.class));
         verify(editor).replaceText(FORMATTED_TABLE_1, new Range(110, 256));
-        verify(editor).replaceText(FORMATTED_TABLE_2, new Range(355, 490));
-        verify(editor).replaceText(FORMATTED_TABLE_3, new Range(577, 729));
+        verify(editor).replaceText(FORMATTED_TABLE_2, new Range(383, 518));
+        verify(editor).replaceText(FORMATTED_TABLE_3, new Range(605, 757));
     }
 
     @Test

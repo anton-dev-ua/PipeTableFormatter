@@ -13,8 +13,8 @@ Examples:
 
 
 Scenario: Country Population
-When country is <Country>
-Then currency is <Population>
+When country is <Country>, see examples
+Then currency is <Population>, see examples
 
 Examples:
 | Country                  | Population   |

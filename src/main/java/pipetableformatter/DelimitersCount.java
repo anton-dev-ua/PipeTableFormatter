@@ -5,29 +5,19 @@ import java.util.Map;
 
 public class DelimitersCount {
 
-    private char[] delimiters = new char[]{'|', ',', '\t'};
-
+    public static final char[] DEFAULT_DELIMITERS = new char[]{'|', ',', '\t'};
+    
+    private char[] delimiters;
     Map<Character, Integer> counters = new HashMap<Character, Integer>();
 
-    public DelimitersCount(String text, int startIndex, int endIndex) {
-        initCounters();
-        count(text, startIndex, endIndex);
-    }
-
     public DelimitersCount(String text) {
-        this(text, 0, text.length());
+        this(text, new Range(0, text.length()), DEFAULT_DELIMITERS);
     }
 
-    public DelimitersCount(String text, Range lineRange) {
-        this(text, lineRange.getStart(), lineRange.getEnd());
-    }
-
-    public static DelimitersCount countDelimiters(String text, Range lineRange) {
-        return new DelimitersCount(text, lineRange);
-    }
-
-    public void setDelimiters(char[] delimiters) {
+    public DelimitersCount(String text, Range lineRange, char[] delimiters) {
         this.delimiters = delimiters;
+        initCounters();
+        count(text, lineRange.getStart(), lineRange.getEnd());
     }
 
     private void initCounters() {

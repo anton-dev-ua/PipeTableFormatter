@@ -3,6 +3,7 @@ package pipetableformatter;
 public class TableDetector {
 
     private String text;
+    private char[] delimiters = DelimitersCount.DEFAULT_DELIMITERS;
     private DelimitersCount baseDelimitersCount;
 
     private TableDetector(String text) {
@@ -14,7 +15,7 @@ public class TableDetector {
     }
 
     public Range around(int position) {
-        Range baseLine = findCurrentLine(position + 1);
+        Range baseLine = findBaseLine(position + 1);
         baseDelimitersCount = asIn(baseLine);
         
         if (baseDelimitersCount.isZero()) {
@@ -24,7 +25,7 @@ public class TableDetector {
         }
     }
 
-    private Range findCurrentLine(int position) {
+    private Range findBaseLine(int position) {
         return new Range(findSOL(position), findEOL(position));
     }
 
@@ -59,7 +60,7 @@ public class TableDetector {
     }
 
     private DelimitersCount asIn(Range currLine) {
-        return new DelimitersCount(text, currLine);
+        return new DelimitersCount(text, currLine, delimiters);
     }
 
     private Range findPrevious(Range prevLine) {
@@ -68,5 +69,10 @@ public class TableDetector {
 
     private Range findNext(Range prevLine) {
         return new Range(prevLine.getEnd(), findEOL(prevLine.getEnd() + 1));
+    }
+    
+    public TableDetector usingDelimiters(char... delimiters) {
+        this.delimiters = delimiters;
+        return this;
     }
 }
