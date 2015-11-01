@@ -1,7 +1,7 @@
 <idea-plugin version="2" url="https://github.com/anton-dev-ua/PipeTableFormatter">
     <id>anton_dev_ua.PipeTableFormatter</id>
     <name>Pipe Table Formatter</name>
-    <version>0.4.1-SNAPSHOT</version>
+    <version>0.4.2-SNAPSHOT</version>
     <vendor email="" url="https://github.com/anton-dev-ua/PipeTableFormatter"></vendor>
 
     <description><![CDATA[
@@ -19,8 +19,12 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <b>Version 0.4.2</b>
+        <ul>
+        </ul>
         <b>Version 0.4.1</b>
         <ul>
+            <li>Format All Tables action formats only tables delimited with pipe, ignoring tables delimited with comma and tabulation</li>
         </ul>
         <b>Version 0.4</b>
         <ul>

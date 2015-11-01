@@ -4,7 +4,7 @@ public class TableDetector {
 
     private String text;
     private char[] delimiters = DelimitersCount.DEFAULT_DELIMITERS;
-    private DelimitersCount baseDelimitersCount;
+    private DelimitersCount baseLineDelimitersCount;
 
     private TableDetector(String text) {
         this.text = "\n" + text + "\n";
@@ -16,13 +16,8 @@ public class TableDetector {
 
     public Range around(int position) {
         Range baseLine = findBaseLine(position + 1);
-        baseDelimitersCount = asIn(baseLine);
-        
-        if (baseDelimitersCount.isZero()) {
-            return Range.EMPTY;
-        } else {
-            return findTableRange(baseLine);
-        }
+        baseLineDelimitersCount = asIn(baseLine);
+        return baseLineDelimitersCount.isZero() ? Range.EMPTY : findTableRange(baseLine);
     }
 
     private Range findBaseLine(int position) {
@@ -30,7 +25,15 @@ public class TableDetector {
     }
 
     private Range findTableRange(Range baseLine) {
-        return new Range(findStartOfTable(baseLine), findEndOfTable(baseLine) - 1);
+        return new Range(findStartOfTableOn(baseLine), findEndOfTableOn(baseLine) - 1);
+    }
+
+    private int findStartOfTableOn(Range line) {
+        return tableContains(line) ? findStartOfTableOn(previous(line)) : line.getEnd();
+    }
+
+    private int findEndOfTableOn(Range line) {
+        return tableContains(line) ? findEndOfTableOn(next(line)) : line.getStart();
     }
 
     private int findEOL(int position) {
@@ -41,33 +44,19 @@ public class TableDetector {
         return text.lastIndexOf("\n", position - 1);
     }
 
-    private int findStartOfTable(Range currentLine) {
-        Range line = findPrevious(currentLine);
-        if(baseDelimitersCount.isSameCount(asIn(line))) {
-            return findStartOfTable(line);
-        } else {
-            return currentLine.getStart();
-        }
-    }
-
-    private int findEndOfTable(Range currentLine) {
-        Range line = findNext(currentLine);
-        if(baseDelimitersCount.isSameCount(asIn(line))) {
-            return findEndOfTable(line);
-        } else {
-            return currentLine.getEnd();
-        }
+    private boolean tableContains(Range line) {
+        return baseLineDelimitersCount.isSameCount(asIn(line));
     }
 
     private DelimitersCount asIn(Range currLine) {
         return new DelimitersCount(text, currLine, delimiters);
     }
 
-    private Range findPrevious(Range prevLine) {
+    private Range previous(Range prevLine) {
         return new Range(findSOL(prevLine.getStart() - 1), prevLine.getStart());
     }
 
-    private Range findNext(Range prevLine) {
+    private Range next(Range prevLine) {
         return new Range(prevLine.getEnd(), findEOL(prevLine.getEnd() + 1));
     }
     
