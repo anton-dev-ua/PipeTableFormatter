@@ -1,5 +1,7 @@
 package pipetableformatter;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,15 +40,28 @@ public class DelimitersCount {
     }
 
     public boolean isSameCount(DelimitersCount another) {
-        if (counters.get(PIPE) > 0 || another.counters.get(PIPE) > 0) {
-            return counters.get(PIPE).equals(another.counters.get(PIPE));
+        if (pipeIsPresentInThisOr(another)) {
+            return isNumberOfPipesTheSameAsIn(another);
+        } else {
+            return isNumberOfAnyDelimiterTheSameAsIn(another);
         }
+    }
+
+    private boolean isNumberOfAnyDelimiterTheSameAsIn(DelimitersCount another) {
         for (char delimiter : counters.keySet()) {
             if (counters.get(delimiter).equals(another.counters.get(delimiter)) && counters.get(delimiter) > 0) {
                 return true;
             }
         }
         return false;
+    }
+
+    private boolean isNumberOfPipesTheSameAsIn(DelimitersCount another) {
+        return counters.get(PIPE).equals(another.counters.get(PIPE));
+    }
+
+    private boolean pipeIsPresentInThisOr(DelimitersCount another) {
+        return counters.get(PIPE) > 0 || another.counters.get(PIPE) > 0;
     }
 
     public boolean isZero() {
@@ -76,13 +91,17 @@ public class DelimitersCount {
     }
 
     public Character mostFrequent() {
+        if (atLeastTwoPipesPerLine()) {
+            return PIPE;
+        } else {
+            return findMostFrequentDelimiter();       
+        }
+    }
+
+    @NotNull
+    private Character findMostFrequentDelimiter() {
         char maxDelimiter = 0;
         int maxCount = 0;
-
-        if (text.split("\n").length * 2 <= counters.get(PIPE)) {
-            return PIPE;
-        }
-
         for (char delimiter : counters.keySet()) {
             if (counters.get(delimiter) > maxCount) {
                 maxCount = counters.get(delimiter);
@@ -91,5 +110,9 @@ public class DelimitersCount {
         }
 
         return maxDelimiter;
+    }
+
+    private boolean atLeastTwoPipesPerLine() {
+        return text.split("\n").length * 2 <= counters.get(PIPE);
     }
 }
