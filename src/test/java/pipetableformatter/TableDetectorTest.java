@@ -48,6 +48,13 @@ public class TableDetectorTest {
             "|header 1|header 2|header 3|\n" +
             "|value 11|val1,val2|value 13|\n";
 
+    public static final String TEXT_WITH_PIPES_AND_COMMAS = "" +
+            "this, line, not, in table\n" +
+            "|header, 1|header, 2|header, 3|\n" +
+            "|value, 11|value, 12|value, 13|\n" +
+            "|value, 21|value, 22|value, 33|\n" +
+            "after, the, table";
+
     public static final int PIPE_TABLE_START_POS = 24;
     public static final int PIPE_TABLE_END_POS = 110;
     public static final int COMMA_TABLE_START_POS = 24;
@@ -87,7 +94,7 @@ public class TableDetectorTest {
     
     @Test
     public void ignoresNonPipeTablesWhenAppropriateOptionIsSpecified() {
-        Range range = detectTableIn(TEXT_WITH_TABLE_COMMA).usingDelimiters(new char[]{'|'}).around(67);
+        Range range = detectTableIn(TEXT_WITH_TABLE_COMMA).usingOnlyPipe().around(67);
 
         assertThat(range.isEmpty(), is(true));
     }
@@ -157,5 +164,13 @@ public class TableDetectorTest {
         Range range = detectTableIn(TEXT_WITH_TABLE_PIPE).around(52);
 
         assertThat(range.getStart(), is(PIPE_TABLE_START_POS));
+    }
+    
+    @Test
+    public void usesPipesAsPrimaryDelimiter() {
+        Range range = detectTableIn(TEXT_WITH_PIPES_AND_COMMAS).around(53);
+
+        assertThat(range.getStart(), is(26));
+        assertThat(range.getEnd(), is(121));
     }
 }

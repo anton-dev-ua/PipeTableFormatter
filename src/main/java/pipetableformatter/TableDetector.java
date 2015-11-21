@@ -1,10 +1,12 @@
 package pipetableformatter;
 
+import static pipetableformatter.DelimitersCount.*;
+
 public class TableDetector {
 
     private String text;
-    private char[] delimiters = DelimitersCount.DEFAULT_DELIMITERS;
     private DelimitersCount baseLineDelimitersCount;
+    private boolean onlyPipe;
 
     private TableDetector(String text) {
         this.text = "\n" + text + "\n";
@@ -49,7 +51,7 @@ public class TableDetector {
     }
 
     private DelimitersCount asIn(Range currLine) {
-        return new DelimitersCount(text, currLine, delimiters);
+        return onlyPipe ? pipesCountIn(text, currLine) : delimitersCountIn(text, currLine);
     }
 
     private Range previous(Range line) {
@@ -60,8 +62,8 @@ public class TableDetector {
         return new Range(line.getEnd(), findEOL(line.getEnd() + 1));
     }
     
-    public TableDetector usingDelimiters(char... delimiters) {
-        this.delimiters = delimiters;
+    public TableDetector usingOnlyPipe() {
+        this.onlyPipe = true;
         return this;
     }
 }

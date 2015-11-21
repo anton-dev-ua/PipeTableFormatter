@@ -17,10 +17,12 @@ public class PipeTableFormatterFunctionalTest {
 
     private static final String TEXT_WITH_NOT_FORMATTED_TABLE = loadFile("input/text-with-not-formatted-table.txt");
     private static final String TEXT_WITH_A_FEW_NOT_FORMATTED_TABLE = loadFile("input/text-with-a-few-not-formatted-table.txt");
+    private static final String TEXT_WITH_A_PIPE_TABLE_WITH_A_LOT_OF_COMMAS = loadFile("input/text-with-a-pipe-table-with-a-lot-commas.txt");
     private static final String TEXT_WITH_FORMATTED_TABLE = loadFile("expected/text-with-formatted-table.txt");
     private static final String TEXT_WITH_FORMATTED_TABLE_AND_NEW_COLUMN = loadFile("expected/text-with-formatted-table-and-new-column.txt");
     private static final String TEXT_WITH_FORMATTED_TABLE_WITHOUT_OUTER_PIPES = loadFile("expected/text-with-formatted-table-without-outer-pipes.txt");
     private static final String TEXT_WITH_ALL_FORMATTED_TABLES = loadFile("expected/text-with-all-formatted-table.txt");
+    private static final String TEXT_WITH_A_FORMATTED_PIPE_TABLE_WITH_A_LOT_OF_COMMAS = loadFile("expected/text-with-a-formatted-pipe-table-with-a-lot-commas.txt");
 
     private CodeInsightTestFixture myFixture;
 
@@ -49,6 +51,16 @@ public class PipeTableFormatterFunctionalTest {
         myFixture.performEditorAction("PipeTableFormatter.Format");
 
         assertThat(textAfterActionApplied(), is(TEXT_WITH_FORMATTED_TABLE));
+    }
+
+
+    @Test
+    public void formatsPipeTableIgnoringCommas() {
+        myFixture.configureByText("test.story", TEXT_WITH_A_PIPE_TABLE_WITH_A_LOT_OF_COMMAS);
+
+        myFixture.performEditorAction("PipeTableFormatter.Format");
+
+        assertThat(textAfterActionApplied(), is(TEXT_WITH_A_FORMATTED_PIPE_TABLE_WITH_A_LOT_OF_COMMAS));
     }
 
     @Test

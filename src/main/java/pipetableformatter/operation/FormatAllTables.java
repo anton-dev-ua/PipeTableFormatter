@@ -24,7 +24,7 @@ public class FormatAllTables extends Operation {
     private void formatNext(String text, int position) {
         if (position < 0) return;
 
-        Range tableRange = detectTableIn(text).usingDelimiters('|').around(position);
+        Range tableRange = detectTableIn(text).usingOnlyPipe().around(position);
         if (tableRange.isNotEmpty()) {
             formatAndReplace(text, tableRange);
             formatNext(text, tableRange.getStart() - 1);

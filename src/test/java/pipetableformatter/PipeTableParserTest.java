@@ -109,6 +109,14 @@ public class PipeTableParserTest {
     }
 
     @Test
+    public void usesPipeAsPriorityDelimiter() {
+        PipeTable pipeTable = new PipeTableParser("|{color:red, length:10, strength:2}|{color:green, length:2, strength:5}|").parse();
+        assertThat(pipeTable.getColumnCount(), is(2));
+        assertThat(pipeTable.getValue(0, 0), is("{color:red, length:10, strength:2}"));
+        assertThat(pipeTable.getValue(0, 1), is("{color:green, length:2, strength:5}"));
+    }
+
+    @Test
     public void determinesRowWhereRowIsPlaced() {
         PipeTableParser pipeTableParser = new PipeTableParser(TABLE).detectingCellByPosition(167);
         PipeTable pipeTable = pipeTableParser.parse();

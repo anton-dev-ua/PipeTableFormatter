@@ -3,6 +3,8 @@ package pipetableformatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static pipetableformatter.DelimitersCount.*;
+
 public class PipeTableParser {
     public static final String WIN_EOF = "\r\n";
     public static final String LINUX_EOF = "\n";
@@ -59,7 +61,7 @@ public class PipeTableParser {
     }
 
     private Character detectDelimiter(String text) {
-        return new DelimitersCount(text).mostFrequent();
+        return delimitersCountIn(text).mostFrequent();
     }
 
     private void parseLine(String line, String endOfLine, boolean rowWithCaret) {

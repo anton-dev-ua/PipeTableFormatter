@@ -1,0 +1,4 @@
+| header1 | header2                              |
+| value1  | [{a:1, b:1}, {a:1, b:1}, {a:1, b:1}] |
+| value2  | [{a:2, b:2}, {a:2, b:2}, {a:2, b:2}] |
+a,s,d,f,g,h

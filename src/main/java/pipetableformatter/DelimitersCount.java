@@ -5,19 +5,30 @@ import java.util.Map;
 
 public class DelimitersCount {
 
-    public static final char[] DEFAULT_DELIMITERS = new char[]{'|', ',', '\t'};
-    
+    public static final char PIPE = '|';
+    public static final char[] DEFAULT_DELIMITERS = new char[]{PIPE, ',', '\t'};
+
+    private String text;
     private char[] delimiters;
     Map<Character, Integer> counters = new HashMap<Character, Integer>();
 
-    public DelimitersCount(String text) {
-        this(text, new Range(0, text.length()), DEFAULT_DELIMITERS);
-    }
-
-    public DelimitersCount(String text, Range lineRange, char[] delimiters) {
+    private DelimitersCount(String text, Range lineRange, char... delimiters) {
+        this.text = text;
         this.delimiters = delimiters;
         initCounters();
         count(text, lineRange.getStart(), lineRange.getEnd());
+    }
+    
+    public static DelimitersCount delimitersCountIn(String text) {
+        return new DelimitersCount(text, new Range(0, text.length()), DEFAULT_DELIMITERS);
+    }
+    
+    public static DelimitersCount delimitersCountIn(String text, Range lineRange) {
+        return new DelimitersCount(text, lineRange, DEFAULT_DELIMITERS);
+    }
+
+    public static DelimitersCount pipesCountIn(String text, Range lineRange) {
+        return new DelimitersCount(text, lineRange, PIPE);
     }
 
     private void initCounters() {
@@ -27,6 +38,9 @@ public class DelimitersCount {
     }
 
     public boolean isSameCount(DelimitersCount another) {
+        if (counters.get(PIPE) > 0 || another.counters.get(PIPE) > 0) {
+            return counters.get(PIPE).equals(another.counters.get(PIPE));
+        }
         for (char delimiter : counters.keySet()) {
             if (counters.get(delimiter).equals(another.counters.get(delimiter)) && counters.get(delimiter) > 0) {
                 return true;
@@ -64,6 +78,10 @@ public class DelimitersCount {
     public Character mostFrequent() {
         char maxDelimiter = 0;
         int maxCount = 0;
+
+        if (text.split("\n").length * 2 <= counters.get(PIPE)) {
+            return PIPE;
+        }
 
         for (char delimiter : counters.keySet()) {
             if (counters.get(delimiter) > maxCount) {
