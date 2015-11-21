@@ -1,7 +1,7 @@
 <idea-plugin version="2" url="https://github.com/anton-dev-ua/PipeTableFormatter">
     <id>anton_dev_ua.PipeTableFormatter</id>
     <name>Pipe Table Formatter</name>
-    <version>0.4.2-SNAPSHOT</version>
+    <version>0.4.3-SNAPSHOT</version>
     <vendor email="" url="https://github.com/anton-dev-ua/PipeTableFormatter"></vendor>
 
     <description><![CDATA[
@@ -19,8 +19,13 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <b>Version 0.4.3</b>
+        <ul>
+            <li></li>
+        </ul>
         <b>Version 0.4.2</b>
         <ul>
+            <li>Pipe is treated as primary delimiter - if table contains pipe any other delimiter is ignored  </li>
         </ul>
         <b>Version 0.4.1</b>
         <ul>
