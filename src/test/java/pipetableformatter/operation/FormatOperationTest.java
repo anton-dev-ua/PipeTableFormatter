@@ -30,6 +30,13 @@ public class FormatOperationTest {
             "|United Kingdom|pound sterling|62.8 million|242,514 sq km|\n" +
             "|Republic of Poland|zloty|38.3 million|312,685 sq km|";
 
+    private static final String NOT_FORMATTED_TABLE_WITHOUT_OUTER_PIPES = "" +
+            "Country|Currency|Population|Area\n" +
+            "United States of America|US dollar|316 million|9.8 million sq km\n" +
+            "Canada|Canadian dollar|34.7 million|9.9 million sq km\n" +
+            "United Kingdom|pound sterling|62.8 million|242,514 sq km\n" +
+            "Republic of Poland|zloty|38.3 million|312,685 sq km";
+
     protected static final String FORMATTED_TABLE = "" +
             "| Country                  | Currency        | Population   | Area              |\n" +
             "| United States of America | US dollar       | 316 million  | 9.8 million sq km |\n" +
@@ -49,11 +56,11 @@ public class FormatOperationTest {
             "| some value longer then previous | val 22   | val 33   | val34    | and last value with extra space |\n";
 
     protected static final String FORMATTED_TABLE_WITHOUT_OUTER_PIPES = "" +
-            " Country                  | Currency        | Population   | Area              \n" +
-            " United States of America | US dollar       | 316 million  | 9.8 million sq km \n" +
-            " Canada                   | Canadian dollar | 34.7 million | 9.9 million sq km \n" +
-            " United Kingdom           | pound sterling  | 62.8 million | 242,514 sq km     \n" +
-            " Republic of Poland       | zloty           | 38.3 million | 312,685 sq km     ";
+            "Country                  | Currency        | Population   | Area             \n" +
+            "United States of America | US dollar       | 316 million  | 9.8 million sq km\n" +
+            "Canada                   | Canadian dollar | 34.7 million | 9.9 million sq km\n" +
+            "United Kingdom           | pound sterling  | 62.8 million | 242,514 sq km    \n" +
+            "Republic of Poland       | zloty           | 38.3 million | 312,685 sq km    ";
 
 
     PipeTableEditor utility;
@@ -94,9 +101,9 @@ public class FormatOperationTest {
 
     @Test
     public void formatsTableWithoutOuterPipes() {
-        when(utility.getSelectedText()).thenReturn(new TableText(NOT_FORMATTED_TABLE, new Range(110, 380)));
+        when(utility.getSelectedText()).thenReturn(new TableText(NOT_FORMATTED_TABLE_WITHOUT_OUTER_PIPES, new Range(110, 380)));
 
-        new Format(utility, formatOptions().withoutOuterPipes()).run();
+        new Format(utility, formatOptions().preserveOuterState()).run();
 
         verify(utility).replaceText(FORMATTED_TABLE_WITHOUT_OUTER_PIPES, new Range(110, 380));
     }

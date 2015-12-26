@@ -53,7 +53,7 @@ public class ColumnSplitterTest {
     public void incrementsColumnIndex() {
         ColumnSplitter columnSplitter = new ColumnSplitter("|col1|col2|col3|", '|');
         int index = 0;
-        for(String value : columnSplitter) {
+        for (String value : columnSplitter) {
             assertThat(columnSplitter.currentColumnIndex(), is(index));
             index++;
         }
@@ -65,6 +65,23 @@ public class ColumnSplitterTest {
         columnSplitter.next();
 
         assertThat(columnSplitter.currentColumnStartIndex(), is(5));
+    }
+
+    @Test
+    public void returnsLeadingSpaces() {
+        assertThat(new ColumnSplitter("    |val|val|", '|').getLeadingSpaces(), is(4));
+    }
+
+    @Test
+    public void returnsPresenceLeadingPipe() {
+        assertThat(new ColumnSplitter("    |val|val|", '|').getLeadingPipe(), is(true));
+        assertThat(new ColumnSplitter("    val|val|", '|').getLeadingPipe(), is(false));
+    }
+
+    @Test
+    public void returnsPresenceTrailingPipe() {
+        assertThat(new ColumnSplitter("    |val|val|", '|').getTrailingPipe(), is(true));
+        assertThat(new ColumnSplitter("    |val|val", '|').getTrailingPipe(), is(false));
     }
 
 }

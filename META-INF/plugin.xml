@@ -1,7 +1,7 @@
 <idea-plugin version="2" url="https://github.com/anton-dev-ua/PipeTableFormatter">
     <id>anton_dev_ua.PipeTableFormatter</id>
     <name>Pipe Table Formatter</name>
-    <version>0.4.3-SNAPSHOT</version>
+    <version>0.5.0</version>
     <vendor email="" url="https://github.com/anton-dev-ua/PipeTableFormatter"></vendor>
 
     <description><![CDATA[
@@ -19,26 +19,32 @@
     ]]></description>
 
     <change-notes><![CDATA[
-        <b>Version 0.4.3</b>
+        <b>Version 0.5.0</b>
         <ul>
-            <li></li>
+            <li>Preserves comment in row commented out with "|--"</li>
+            <li>Format Without Outer Pipes action is replaced with Format Preserving Outer State - it preserves indentation and presence/absence of leading/trailing pipes</li>
         </ul>
+        
         <b>Version 0.4.2</b>
         <ul>
             <li>Pipe is treated as primary delimiter - if table contains pipe any other delimiter is ignored  </li>
         </ul>
+        
         <b>Version 0.4.1</b>
         <ul>
             <li>Format All Tables action formats only tables delimited with pipe, ignoring tables delimited with comma and tabulation</li>
         </ul>
+        
         <b>Version 0.4</b>
         <ul>
             <li>New action: format all tables in the text</li>
         </ul>
+        
         <b>Version 0.3.1</b>
         <ul>
             <li>New action: format table without outer pipes</li>
         </ul>
+        
         <b>Version 0.3</b>
         <ul>
             <li>Pipe Table actions are added to editor popup menu</li>
@@ -46,10 +52,12 @@
             <li>New action: auto-select table without formatting</li>
             <li>Bug fixes</li>
         </ul>
+        
         <b>Version 0.2.3</b>
         <ul>
             <li>Fixed bug: plugin crashed when column has zero width (no values in the column)</li>
         </ul>
+        
         <b>Version 0.2.2</b>
         <ul>
             <li>Don't mix delimiters when detecting and parsing table, i.e. if table delimiter is pipe then comma is not treated as a delimiter.</li>
@@ -103,9 +111,9 @@
                     text="Format All"
                     description="Formats table with pipe delimiters">
             </action>
-            <action id="PipeTableFormatter.FormatWithoutOuterPipes" class="pipetableformatter.plugin.PipeTableFormatWithoutOuterPipesAction"
-                    text="Format Without Outer Pipes"
-                    description="Formats table with pipe delimiters, excludes outer pipes">
+            <action id="PipeTableFormatter.FormatPreservingOuterState" class="pipetableformatter.plugin.PipeTableFormatPreservingOuterStateAction"
+                    text="Format Preserving Outer State"
+                    description="Formats table with pipe delimiters, preserves indentation and presence/absence of outer pipes">
             </action>
             <action id="PipeTableFormatter.AddColumnBefore" class="pipetableformatter.plugin.PipeTableAddColumnBeforeAction"
                     text="Add Column Before"

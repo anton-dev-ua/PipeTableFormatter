@@ -27,34 +27,46 @@ public class PipeTableFormatter {
 
         StringBuffer buffer = new StringBuffer();
         for (PipeTable.Row row : table.rows()) {
-            appendOuterPipe(options, buffer, row.isCommented() ? PIPE_COMMENT_START : PIPE);
+            appendFirstPipe(options, buffer, row);
             int columnIndex = 0;
             for (Cell cell : row.columns()) {
                 int width = correctWidthForCommentedRow(columnsMaxLength[columnIndex], row, columnIndex);
                 String formattedValue = padValue(width, cell.getValue());
-                buffer.append(" ").append(formattedValue).append(" ");
+                buffer.append(formattedValue);
                 columnIndex++;
                 appendInternalPipe(buffer, row, columnIndex);
             }
-            appendOuterPipe(options, buffer, row.isCommented() ? PIPE_COMMENT_END : PIPE);
+            appendLastPipe(options, buffer, row);
             buffer.append(row.endOfLine());
         }
         return buffer.toString();
     }
-    
+
     private int correctWidthForCommentedRow(int maxWidth, PipeTable.Row row, int columnIndex) {
         return maxWidth - (row.isCommented() && (columnIndex == 0 || columnIndex == row.size() - 1) ? 2 : 0);
     }
 
-    private void appendOuterPipe(FormatOptions options, StringBuffer buffer, String pipe) {
-        if (options.shouldIncludeOuterPipes()) {
-            buffer.append(pipe);
+    private void appendFirstPipe(FormatOptions options, StringBuffer buffer, PipeTable.Row row) {
+        String pipe = row.isCommented() ? PIPE_COMMENT_START : PIPE;
+        if (options.shouldPreserveOuterState()) {
+            buffer.append(row.getIndentation());
+        }
+        if (options.shouldNotPreserveOuterState() || row.hasLeadingPipe()) {
+            buffer.append(pipe).append(" ");
         }
     }
 
+    private void appendLastPipe(FormatOptions options, StringBuffer buffer, PipeTable.Row row) {
+        String pipe = row.isCommented() ? PIPE_COMMENT_END : PIPE;
+        if (options.shouldNotPreserveOuterState() || row.hasTrailingPipe()) {
+            buffer.append(" ").append(pipe);
+        }
+    }
+
+
     private void appendInternalPipe(StringBuffer buffer, PipeTable.Row row, int columnIndex) {
         if (columnIndex < row.size()) {
-            buffer.append(PIPE);
+            buffer.append(" ").append(PIPE).append(" ");
         }
     }
 

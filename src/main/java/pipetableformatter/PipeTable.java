@@ -3,6 +3,7 @@ package pipetableformatter;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO: make it immutable (use builder?)
 public class PipeTable {
 
     List<Row> table;
@@ -55,10 +56,14 @@ public class PipeTable {
         return table.get(row).isCommented();
     }
 
+    //TODO: make it immutable (use builder?)
     public static class Row {
         List<Cell> row;
         private String endOfLine;
         private boolean commented;
+        private String indentation;
+        private boolean leadingPipe;
+        private boolean trailingPipe;
 
         public Row(List<Cell> columns, String endOfLine) {
             this.endOfLine = endOfLine != null ? endOfLine : "";
@@ -95,6 +100,30 @@ public class PipeTable {
 
         public void setCommented(boolean commented) {
             this.commented = commented;
+        }
+
+        public String getIndentation() {
+            return indentation;
+        }
+
+        public void setIndentation(String indentation) {
+            this.indentation = indentation;
+        }
+
+        public boolean hasLeadingPipe() {
+            return leadingPipe;
+        }
+
+        public boolean hasTrailingPipe() {
+            return trailingPipe;
+        }
+
+        public void setLeadingPipe(boolean leadingPipe) {
+            this.leadingPipe = leadingPipe;
+        }
+
+        public void setTrailingPipe(boolean trailingPipe) {
+            this.trailingPipe = trailingPipe;
         }
     }
 

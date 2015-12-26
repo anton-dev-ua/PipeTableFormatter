@@ -15,6 +15,8 @@ public class ColumnSplitter implements Iterable<String>, Iterator<String> {
     private Character delimiter;
     private int prevStartIndex;
     private int columnIndex;
+    private boolean leadingPipe;
+    private boolean trailingPipe;
 
     public ColumnSplitter(String line, Character delimiter) {
         this.delimiter = delimiter;
@@ -33,13 +35,17 @@ public class ColumnSplitter implements Iterable<String>, Iterator<String> {
         length = line.length();
         if (line.startsWith(PIPE_COMMENT_START)) {
             startIndex = PIPE_COMMENT_START.length();
+            leadingPipe = true;
         } else if (line.startsWith(PIPE)) {
             startIndex = 1;
+            leadingPipe = true;
         }
         if (line.endsWith(PIPE_COMMENT_END)) {
             length -= PIPE_COMMENT_END.length();
+            trailingPipe = true;
         } else if (line.endsWith(PIPE)) {
             length--;
+            trailingPipe = true;
         }
         columnIndex = -1;
     }
@@ -114,5 +120,17 @@ public class ColumnSplitter implements Iterable<String>, Iterator<String> {
 
     public int currentColumnIndex() {
         return columnIndex;
+    }
+
+    public int getLeadingSpaces() {
+        return leadingSpaces;
+    }
+
+    public boolean getLeadingPipe() {
+        return leadingPipe;
+    }
+
+    public boolean getTrailingPipe() {
+        return trailingPipe;
     }
 }

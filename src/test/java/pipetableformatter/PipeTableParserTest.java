@@ -204,4 +204,29 @@ public class PipeTableParserTest {
 
     }
 
+    @Test
+    public void savesOuterStates() {
+        PipeTable pipeTable = new PipeTableParser("" +
+                "    |row1.col1|row1.col2|\n" +
+                "     row2.col1|row2.col2|\n" +
+                "    |row3.col1|row3.col2 ")
+                .parse();
+
+        assertThat(pipeTable.rows()[1].getIndentation(), is("     "));
+        assertThat(pipeTable.rows()[0].hasLeadingPipe(), is(true));
+        assertThat(pipeTable.rows()[0].hasTrailingPipe(), is(true));
+        assertThat(pipeTable.rows()[1].hasLeadingPipe(), is(false));
+        assertThat(pipeTable.rows()[2].hasTrailingPipe(), is(false));
+
+    }
+
+    @Test
+    public void detectsPresenceOfOuterPipeInCommentedRow() {
+        PipeTable pipeTable = new PipeTableParser("|--row2.col1|row2.col2--|").parse();
+
+        assertThat(pipeTable.rows()[0].hasLeadingPipe(), is(true));
+        assertThat(pipeTable.rows()[0].hasTrailingPipe(), is(true));
+
+    }
+
 }

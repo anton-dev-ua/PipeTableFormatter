@@ -2,23 +2,23 @@ package pipetableformatter;
 
 public class FormatOptions {
 
-    private boolean outerPipes = true;
+    private boolean preserveOuterState = false;
 
 
     public static FormatOptions formatOptions() {
         return new FormatOptions();
     }
 
-    public FormatOptions withoutOuterPipes() {
-        outerPipes = false;
+    public FormatOptions preserveOuterState() {
+        preserveOuterState = true;
         return this;
     }
 
-    public boolean shouldIncludeOuterPipes() {
-        return outerPipes;
+    public boolean shouldPreserveOuterState() {
+        return preserveOuterState;
     }
 
-    public boolean shouldNotIncludeOuterPipes() {
-        return !shouldIncludeOuterPipes();
+    public boolean shouldNotPreserveOuterState() {
+        return !preserveOuterState;
     }
 }

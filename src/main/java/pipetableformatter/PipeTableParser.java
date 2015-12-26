@@ -65,13 +65,14 @@ public class PipeTableParser {
     }
 
     private void parseLine(String line, String endOfLine, boolean rowWithCaret) {
-        PipeTable.Row row = new PipeTable.Row(splitForColumns(line, rowWithCaret), endOfLine);
+        PipeTable.Row row = splitForColumns(line, rowWithCaret, endOfLine);
+
         rememberMaxLength(row.size());
-        row.setCommented(line.trim().startsWith("|--"));
+
         tableRows.add(row);
     }
 
-    private List<PipeTable.Cell> splitForColumns(String line, boolean rowWithCaret) {
+    private PipeTable.Row splitForColumns(String line, boolean rowWithCaret, String endOfLine) {
         List<PipeTable.Cell> columns = new ArrayList<PipeTable.Cell>();
         int rowCaretPosition = caretPosition - currentLineStartIndex;
 
@@ -89,7 +90,16 @@ public class PipeTableParser {
         if (rowWithCaret && selectedColumn == -1) {
             selectedColumn = columns.size();
         }
-        return columns;
+        PipeTable.Row row = new PipeTable.Row(columns, endOfLine);
+        row.setCommented(line.trim().startsWith("|--"));
+        if(columnSplitter.getLeadingSpaces() > 0) {
+            row.setIndentation(String.format("%" + columnSplitter.getLeadingSpaces() + "s", " "));
+        } else {
+            row.setIndentation("");
+        }
+        row.setLeadingPipe(columnSplitter.getLeadingPipe());
+        row.setTrailingPipe(columnSplitter.getTrailingPipe());
+        return row;
     }
 
     private void rememberMaxLength(int size) {

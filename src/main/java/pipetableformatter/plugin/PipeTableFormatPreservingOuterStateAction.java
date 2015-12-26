@@ -5,13 +5,13 @@ import pipetableformatter.operation.Format;
 
 import static pipetableformatter.FormatOptions.formatOptions;
 
-public class PipeTableFormatWithoutOuterPipesAction extends AbstractPipeTableFormatAction {
+public class PipeTableFormatPreservingOuterStateAction extends AbstractPipeTableFormatAction {
 
-    public PipeTableFormatWithoutOuterPipesAction() {
+    public PipeTableFormatPreservingOuterStateAction() {
         super(new PipeTableActionHandler() {
             @Override
             protected Runnable action(Editor editor) {
-                return new Format(new IdeaPipeTableEditor(editor), formatOptions().withoutOuterPipes());
+                return new Format(new IdeaPipeTableEditor(editor), formatOptions().preserveOuterState());
             }
         });
     }

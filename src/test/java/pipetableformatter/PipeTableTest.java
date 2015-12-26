@@ -15,13 +15,13 @@ public class PipeTableTest {
     @Before
     public void setUp() {
         pipeTable = aPipeTable()
-                .withRow("row11", "row12", "row13")
-                .withRow("row21", "row22", "row23")
+                .addRow("row11", "row12", "row13")
+                .addRow("row21", "row22", "row23")
                 .build();
 
         expectedTable = aPipeTable()
-                .withRow("row11", "", "row12", "row13")
-                .withRow("row21", "", "row22", "row23")
+                .addRow("row11", "", "row12", "row13")
+                .addRow("row21", "", "row22", "row23")
                 .build();
     }
 

@@ -7,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import pipetableformatter.testsupport.Utils;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -19,6 +18,7 @@ public class PipeTableFormatterFunctionalTest {
     private static final String TEXT_WITH_NOT_FORMATTED_TABLE_WITH_COMMENT = loadFile("input/text-with-not-formatted-table-with-comments.txt");
     private static final String TEXT_WITH_A_FEW_NOT_FORMATTED_TABLE = loadFile("input/text-with-a-few-not-formatted-table.txt");
     private static final String TEXT_WITH_A_PIPE_TABLE_WITH_A_LOT_OF_COMMAS = loadFile("input/text-with-a-pipe-table-with-a-lot-commas.txt");
+    private static final String TEXT_WITH_NOT_FORMATTED_TABLE_WITH_INDENTATION_WITHOUT_OUTER_PIPES = loadFile("input/text-with-not-formatted-table-with-indentation-without-outer-pipes.txt");
     
     private static final String TEXT_WITH_FORMATTED_TABLE = loadFile("expected/text-with-formatted-table.txt");
     private static final String TEXT_WITH_FORMATTED_TABLE_WITH_COMMENT = loadFile("expected/text-with-formatted-table-with-comment.txt");
@@ -26,6 +26,7 @@ public class PipeTableFormatterFunctionalTest {
     private static final String TEXT_WITH_FORMATTED_TABLE_WITHOUT_OUTER_PIPES = loadFile("expected/text-with-formatted-table-without-outer-pipes.txt");
     private static final String TEXT_WITH_ALL_FORMATTED_TABLES = loadFile("expected/text-with-all-formatted-table.txt");
     private static final String TEXT_WITH_A_FORMATTED_PIPE_TABLE_WITH_A_LOT_OF_COMMAS = loadFile("expected/text-with-a-formatted-pipe-table-with-a-lot-commas.txt");
+    private static final String TEXT_WITH_FORMATTED_TABLE_WITH_INDENTATION_WITHOUT_OUTER_PIPES = loadFile("expected/text-with-formatted-table-with-indentation-without-outer-pipes.txt");
 
     private CodeInsightTestFixture myFixture;
 
@@ -96,12 +97,12 @@ public class PipeTableFormatterFunctionalTest {
     }
 
     @Test
-    public void formatsTableWithoutOuterPipes() throws Exception {
-        myFixture.configureByText("test.story", TEXT_WITH_NOT_FORMATTED_TABLE);
+    public void formatsTablePreservingOuterStates() throws Exception {
+        myFixture.configureByText("test.story", TEXT_WITH_NOT_FORMATTED_TABLE_WITH_INDENTATION_WITHOUT_OUTER_PIPES);
 
-        myFixture.performEditorAction("PipeTableFormatter.FormatWithoutOuterPipes");
+        myFixture.performEditorAction("PipeTableFormatter.FormatPreservingOuterState");
 
-        assertThat(textAfterActionApplied(), is(TEXT_WITH_FORMATTED_TABLE_WITHOUT_OUTER_PIPES));
+        assertThat(textAfterActionApplied(), is(TEXT_WITH_FORMATTED_TABLE_WITH_INDENTATION_WITHOUT_OUTER_PIPES));
     }
 
     @Test
