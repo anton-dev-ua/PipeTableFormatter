@@ -67,6 +67,7 @@ public class PipeTableParser {
     private void parseLine(String line, String endOfLine, boolean rowWithCaret) {
         PipeTable.Row row = new PipeTable.Row(splitForColumns(line, rowWithCaret), endOfLine);
         rememberMaxLength(row.size());
+        row.setCommented(line.trim().startsWith("|--"));
         tableRows.add(row);
     }
 

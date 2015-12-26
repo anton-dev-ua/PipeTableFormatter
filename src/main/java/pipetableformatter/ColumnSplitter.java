@@ -4,6 +4,8 @@ import java.util.Iterator;
 
 public class ColumnSplitter implements Iterable<String>, Iterator<String> {
     public static final String PIPE = "|";
+    public static final String PIPE_COMMENT_START = "|--";
+    public static final String PIPE_COMMENT_END = "--|";
     private final int leadingSpaces;
     private String line;
     private int startIndex = 0;
@@ -29,8 +31,16 @@ public class ColumnSplitter implements Iterable<String>, Iterator<String> {
 
     private void init() {
         length = line.length();
-        if (line.startsWith(PIPE)) startIndex = 1;
-        if (line.endsWith(PIPE)) length--;
+        if (line.startsWith(PIPE_COMMENT_START)) {
+            startIndex = PIPE_COMMENT_START.length();
+        } else if (line.startsWith(PIPE)) {
+            startIndex = 1;
+        }
+        if (line.endsWith(PIPE_COMMENT_END)) {
+            length -= PIPE_COMMENT_END.length();
+        } else if (line.endsWith(PIPE)) {
+            length--;
+        }
         columnIndex = -1;
     }
 

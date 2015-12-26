@@ -7,8 +7,8 @@ import java.util.Map;
 
 public class DelimitersCount {
 
-    public static final char PIPE = '|';
-    public static final char[] DEFAULT_DELIMITERS = new char[]{PIPE, ',', '\t'};
+    private static final char PIPE = '|';
+    private static final char[] DEFAULT_DELIMITERS = new char[]{PIPE, ',', '\t'};
 
     private String text;
     private char[] delimiters;

@@ -51,9 +51,14 @@ public class PipeTable {
         this.selectedColumn = selectedColumn;
     }
 
-    static class Row {
+    public boolean isRowCommented(int row) {
+        return table.get(row).isCommented();
+    }
+
+    public static class Row {
         List<Cell> row;
         private String endOfLine;
+        private boolean commented;
 
         public Row(List<Cell> columns, String endOfLine) {
             this.endOfLine = endOfLine != null ? endOfLine : "";
@@ -83,9 +88,17 @@ public class PipeTable {
         public String endOfLine() {
             return endOfLine;
         }
+
+        public boolean isCommented() {
+            return commented;
+        }
+
+        public void setCommented(boolean commented) {
+            this.commented = commented;
+        }
     }
 
-    static class Cell {
+    public static class Cell {
         private String value;
 
         public Cell(String value) {

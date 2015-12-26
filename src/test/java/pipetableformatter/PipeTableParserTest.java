@@ -188,4 +188,20 @@ public class PipeTableParserTest {
         assertThat(pipeTable.getSelectedColumn(), is(5));
     }
 
+    @Test
+    public void detectsCommentedRow() {
+        PipeTable pipeTable = new PipeTableParser("" +
+                "|row1.col1|row1.col2|\n" +
+                "|-- row2.col1|row2.col2--|\n" +
+                "|row3.col1|row3.col2|")
+                .parse();
+        
+        assertThat(pipeTable.isRowCommented(0), is(false));
+        assertThat(pipeTable.isRowCommented(1), is(true));
+        assertThat(pipeTable.getValue(1,0), is("row2.col1"));
+        assertThat(pipeTable.getValue(1,1), is("row2.col2"));
+        assertThat(pipeTable.isRowCommented(2), is(false));
+
+    }
+
 }
