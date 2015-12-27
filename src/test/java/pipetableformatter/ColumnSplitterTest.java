@@ -74,14 +74,14 @@ public class ColumnSplitterTest {
 
     @Test
     public void returnsPresenceLeadingPipe() {
-        assertThat(new ColumnSplitter("    |val|val|", '|').getLeadingPipe(), is(true));
-        assertThat(new ColumnSplitter("    val|val|", '|').getLeadingPipe(), is(false));
+        assertThat(new ColumnSplitter("    |val|val|", '|').hasLeadingPipe(), is(true));
+        assertThat(new ColumnSplitter("    val|val|", '|').hasLeadingPipe(), is(false));
     }
 
     @Test
     public void returnsPresenceTrailingPipe() {
-        assertThat(new ColumnSplitter("    |val|val|", '|').getTrailingPipe(), is(true));
-        assertThat(new ColumnSplitter("    |val|val", '|').getTrailingPipe(), is(false));
+        assertThat(new ColumnSplitter("    |val|val|", '|').hasTrailingPipe(), is(true));
+        assertThat(new ColumnSplitter("    |val|val", '|').hasTrailingPipe(), is(false));
     }
 
 }

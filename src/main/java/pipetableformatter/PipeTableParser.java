@@ -73,32 +73,30 @@ public class PipeTableParser {
     }
 
     private PipeTable.Row splitForColumns(String line, boolean rowWithCaret, String endOfLine) {
-        List<PipeTable.Cell> columns = new ArrayList<PipeTable.Cell>();
+        List<PipeTable.Cell> cells = new ArrayList<PipeTable.Cell>();
         int rowCaretPosition = caretPosition - currentLineStartIndex;
 
-        ColumnSplitter columnSplitter = new ColumnSplitter(line, delimiter);
-        for (String value : columnSplitter) {
-            columns.add(new PipeTable.Cell(value));
+        ColumnSplitter tableRow = new ColumnSplitter(line, delimiter);
+        for (String value : tableRow) {
+            cells.add(new PipeTable.Cell(value));
             if (rowWithCaret) {
-                if (rowCaretPosition >= columnSplitter.currentColumnStartIndex() && rowCaretPosition <= columnSplitter.currentColumnEndIndex()) {
-                    selectedColumn = columnSplitter.currentColumnIndex();
-                } else if (columnSplitter.currentColumnIndex() == 0 && rowCaretPosition < columnSplitter.currentColumnStartIndex()) {
+                if (rowCaretPosition >= tableRow.currentColumnStartIndex() && rowCaretPosition <= tableRow.currentColumnEndIndex()) {
+                    selectedColumn = tableRow.currentColumnIndex();
+                } else if (tableRow.currentColumnIndex() == 0 && rowCaretPosition < tableRow.currentColumnStartIndex()) {
                     selectedColumn = 0;
                 }
             }
         }
         if (rowWithCaret && selectedColumn == -1) {
-            selectedColumn = columns.size();
+            selectedColumn = cells.size();
         }
-        PipeTable.Row row = new PipeTable.Row(columns, endOfLine);
-        row.setCommented(line.trim().startsWith("|--"));
-        if(columnSplitter.getLeadingSpaces() > 0) {
-            row.setIndentation(String.format("%" + columnSplitter.getLeadingSpaces() + "s", " "));
-        } else {
-            row.setIndentation("");
-        }
-        row.setLeadingPipe(columnSplitter.getLeadingPipe());
-        row.setTrailingPipe(columnSplitter.getTrailingPipe());
+        
+        PipeTable.Row row = new PipeTable.Row(cells, endOfLine);
+        row.setCommented(tableRow.isCommented());
+        row.setIndentation(tableRow.getIndentetion());
+        row.setLeadingPipe(tableRow.hasLeadingPipe());
+        row.setTrailingPipe(tableRow.hasTrailingPipe());
+        
         return row;
     }
 
