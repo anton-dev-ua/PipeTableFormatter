@@ -77,21 +77,21 @@ public class PipeTableParserTest {
     @Test
     public void ignoresCommasInsideDoubleQuotes() {
         PipeTable pipeTable = new PipeTableParser(" \"col1val1,col1val2\",column2").parse();
-        assertThat(pipeTable.getValue(0, 0), is("col1val1,col1val2"));
+        assertThat(pipeTable.getValue(0, 0), is("\"col1val1,col1val2\""));
         assertThat(pipeTable.getValue(0, 1), is("column2"));
     }
 
     @Test
     public void ignoresPipeInsideDoubleQuotes() {
         PipeTable pipeTable = new PipeTableParser(" |\"col1val1|col1val2\"|column2|").parse();
-        assertThat(pipeTable.getValue(0, 0), is("col1val1|col1val2"));
+        assertThat(pipeTable.getValue(0, 0), is("\"col1val1|col1val2\""));
         assertThat(pipeTable.getValue(0, 1), is("column2"));
     }
 
     @Test
     public void treatsTwoDoubleQuotesInsideQuotesAsOne() {
         PipeTable pipeTable = new PipeTableParser(" |\"val1\"\"val2\"|column2|").parse();
-        assertThat(pipeTable.getValue(0, 0), is("val1\"val2"));
+        assertThat(pipeTable.getValue(0, 0), is("\"val1\"\"val2\""));
     }
 
     @Test

@@ -93,7 +93,7 @@ public class PipeTableParser {
         
         PipeTable.Row row = new PipeTable.Row(cells, endOfLine);
         row.setCommented(tableRow.isCommented());
-        row.setIndentation(tableRow.getIndentetion());
+        row.setIndentation(tableRow.getIndentation());
         row.setLeadingPipe(tableRow.hasLeadingPipe());
         row.setTrailingPipe(tableRow.hasTrailingPipe());
         
