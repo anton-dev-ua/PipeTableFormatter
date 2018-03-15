@@ -11,7 +11,6 @@ public class ColumnSplitter implements Iterable<String>, Iterator<String> {
     private int startIndex = 0;
     private int length = 0;
     private boolean insideQuoted = false;
-    private boolean quoted = false;
     private Character delimiter;
     private int prevStartIndex;
     private int columnIndex;
@@ -62,7 +61,7 @@ public class ColumnSplitter implements Iterable<String>, Iterator<String> {
         prevStartIndex = startIndex;
         startIndex = endIndex + 1;
         columnIndex++;
-        return openQuotes(value);
+        return value;
     }
 
     private boolean hasMoreChars(int endIndex) {
@@ -75,26 +74,8 @@ public class ColumnSplitter implements Iterable<String>, Iterator<String> {
 
     private void detectQuoted(int index) {
         if (line.charAt(index) == '"') {
-            quoted = true;
             insideQuoted = !insideQuoted;
         }
-    }
-
-    private String openQuotes(String value) {
-        if (quoted) {
-            quoted = false;
-            return replaceTwoQuotesWithOne(removeOpenAndCloseQuotes(value));
-        } else {
-            return value;
-        }
-    }
-
-    private String replaceTwoQuotesWithOne(String value) {
-        return value.replaceAll("\"\"", "\"");
-    }
-
-    private String removeOpenAndCloseQuotes(String value) {
-        return value.replaceAll("(^ *\")|(\" *$)", "");
     }
 
     public int currentColumnStartIndex() {
@@ -128,7 +109,7 @@ public class ColumnSplitter implements Iterable<String>, Iterator<String> {
         return leadingSpaces;
     }
     
-    public String getIndentetion() {
+    public String getIndentation() {
         if(leadingSpaces > 0) {
             return String.format("%" + leadingSpaces + "s", " ");
         } else {
